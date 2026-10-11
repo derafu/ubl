@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Derafu\Ubl\Oasis\Cac;
 
 use Derafu\Ubl\Oasis\Cbc\Numeric;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -26,8 +28,35 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Shareholder Party
  */
 #[XmlType(localName: 'ShareholderPartyType', namespace: Ns::CAC)]
-final class ShareholderParty
+final class ShareholderParty implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'partecipationPercent',
+            'name' => 'PartecipationPercent',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'party',
+            'name' => 'Party',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'PartecipationPercent', namespace: Ns::CBC)]
     private ?Numeric $partecipationPercent = null;
 

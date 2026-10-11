@@ -14,6 +14,8 @@ namespace Derafu\Ubl\Oasis\Cac;
 
 use Derafu\Ubl\Oasis\Cbc\Code;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -27,8 +29,53 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Declaration
  */
 #[XmlType(localName: 'DeclarationType', namespace: Ns::CAC)]
-final class Declaration
+final class Declaration implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'names',
+            'name' => 'Name',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'declarationTypeCode',
+            'name' => 'DeclarationTypeCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'descriptions',
+            'name' => 'Description',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'evidenceSupplieds',
+            'name' => 'EvidenceSupplied',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\EvidenceSupplied',
+            'format' => null,
+        ],
+    ],
+];
+
     /** @var list<Text> */
     #[XmlElement(name: 'Name', namespace: Ns::CBC, type: Text::class)]
     private array $names = [];

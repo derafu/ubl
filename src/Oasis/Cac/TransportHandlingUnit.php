@@ -16,6 +16,8 @@ use Derafu\Ubl\Oasis\Cbc\Code;
 use Derafu\Ubl\Oasis\Cbc\Identifier;
 use Derafu\Ubl\Oasis\Cbc\Quantity;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -30,8 +32,260 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Logistics Unit, Handling Unit, THU
  */
 #[XmlType(localName: 'TransportHandlingUnitType', namespace: Ns::CAC)]
-final class TransportHandlingUnit
+final class TransportHandlingUnit implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'id',
+            'name' => 'ID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'transportHandlingUnitTypeCode',
+            'name' => 'TransportHandlingUnitTypeCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'handlingCode',
+            'name' => 'HandlingCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'handlingInstructionses',
+            'name' => 'HandlingInstructions',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'hazardousRiskIndicator',
+            'name' => 'HazardousRiskIndicator',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'bool',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'totalGoodsItemQuantity',
+            'name' => 'TotalGoodsItemQuantity',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+            'format' => null,
+        ],
+        6 =>
+         [
+            'property' => 'totalPackageQuantity',
+            'name' => 'TotalPackageQuantity',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+            'format' => null,
+        ],
+        7 =>
+         [
+            'property' => 'damageRemarkses',
+            'name' => 'DamageRemarks',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        8 =>
+         [
+            'property' => 'shippingMarkses',
+            'name' => 'ShippingMarks',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        9 =>
+         [
+            'property' => 'traceID',
+            'name' => 'TraceID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        10 =>
+         [
+            'property' => 'handlingUnitDespatchLines',
+            'name' => 'HandlingUnitDespatchLine',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\DespatchLine',
+            'format' => null,
+        ],
+        11 =>
+         [
+            'property' => 'actualPackages',
+            'name' => 'ActualPackage',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Package',
+            'format' => null,
+        ],
+        12 =>
+         [
+            'property' => 'receivedHandlingUnitReceiptLines',
+            'name' => 'ReceivedHandlingUnitReceiptLine',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\ReceiptLine',
+            'format' => null,
+        ],
+        13 =>
+         [
+            'property' => 'transportEquipments',
+            'name' => 'TransportEquipment',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\TransportEquipment',
+            'format' => null,
+        ],
+        14 =>
+         [
+            'property' => 'transportMeanses',
+            'name' => 'TransportMeans',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\TransportMeans',
+            'format' => null,
+        ],
+        15 =>
+         [
+            'property' => 'hazardousGoodsTransits',
+            'name' => 'HazardousGoodsTransit',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\HazardousGoodsTransit',
+            'format' => null,
+        ],
+        16 =>
+         [
+            'property' => 'measurementDimensions',
+            'name' => 'MeasurementDimension',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Dimension',
+            'format' => null,
+        ],
+        17 =>
+         [
+            'property' => 'minimumTemperature',
+            'name' => 'MinimumTemperature',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Temperature',
+            'format' => null,
+        ],
+        18 =>
+         [
+            'property' => 'maximumTemperature',
+            'name' => 'MaximumTemperature',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Temperature',
+            'format' => null,
+        ],
+        19 =>
+         [
+            'property' => 'goodsItems',
+            'name' => 'GoodsItem',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\GoodsItem',
+            'format' => null,
+        ],
+        20 =>
+         [
+            'property' => 'floorSpaceMeasurementDimension',
+            'name' => 'FloorSpaceMeasurementDimension',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Dimension',
+            'format' => null,
+        ],
+        21 =>
+         [
+            'property' => 'palletSpaceMeasurementDimension',
+            'name' => 'PalletSpaceMeasurementDimension',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Dimension',
+            'format' => null,
+        ],
+        22 =>
+         [
+            'property' => 'shipmentDocumentReferences',
+            'name' => 'ShipmentDocumentReference',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+            'format' => null,
+        ],
+        23 =>
+         [
+            'property' => 'statuses',
+            'name' => 'Status',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Status',
+            'format' => null,
+        ],
+        24 =>
+         [
+            'property' => 'customsDeclarations',
+            'name' => 'CustomsDeclaration',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\CustomsDeclaration',
+            'format' => null,
+        ],
+        25 =>
+         [
+            'property' => 'referencedShipments',
+            'name' => 'ReferencedShipment',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Shipment',
+            'format' => null,
+        ],
+        26 =>
+         [
+            'property' => 'packages',
+            'name' => 'Package',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Package',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'ID', namespace: Ns::CBC)]
     private ?Identifier $id = null;
 

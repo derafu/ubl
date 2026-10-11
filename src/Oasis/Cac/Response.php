@@ -16,6 +16,8 @@ use DateTimeImmutable;
 use Derafu\Ubl\Oasis\Cbc\Code;
 use Derafu\Ubl\Oasis\Cbc\Identifier;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -29,8 +31,71 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Response
  */
 #[XmlType(localName: 'ResponseType', namespace: Ns::CAC)]
-final class Response
+final class Response implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'referenceID',
+            'name' => 'ReferenceID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'responseCode',
+            'name' => 'ResponseCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'descriptions',
+            'name' => 'Description',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'effectiveDate',
+            'name' => 'EffectiveDate',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'effectiveTime',
+            'name' => 'EffectiveTime',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => 'H:i:sP',
+        ],
+        5 =>
+         [
+            'property' => 'statuses',
+            'name' => 'Status',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Status',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'ReferenceID', namespace: Ns::CBC)]
     private ?Identifier $referenceID = null;
 

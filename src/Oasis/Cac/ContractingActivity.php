@@ -14,6 +14,8 @@ namespace Derafu\Ubl\Oasis\Cac;
 
 use Derafu\Ubl\Oasis\Cbc\Code;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -27,8 +29,35 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Contracting Activity
  */
 #[XmlType(localName: 'ContractingActivityType', namespace: Ns::CAC)]
-final class ContractingActivity
+final class ContractingActivity implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'activityTypeCode',
+            'name' => 'ActivityTypeCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'activityType',
+            'name' => 'ActivityType',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'ActivityTypeCode', namespace: Ns::CBC)]
     private ?Code $activityTypeCode = null;
 

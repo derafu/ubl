@@ -14,6 +14,8 @@ namespace Derafu\Ubl\Oasis\Cac;
 
 use Derafu\Ubl\Oasis\Cbc\Code;
 use Derafu\Ubl\Oasis\Cbc\Identifier;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -27,8 +29,188 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Party
  */
 #[XmlType(localName: 'PartyType', namespace: Ns::CAC)]
-final class Party
+final class Party implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'markCareIndicator',
+            'name' => 'MarkCareIndicator',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'bool',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'markAttentionIndicator',
+            'name' => 'MarkAttentionIndicator',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'bool',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'websiteURI',
+            'name' => 'WebsiteURI',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'logoReferenceID',
+            'name' => 'LogoReferenceID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'endpointID',
+            'name' => 'EndpointID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'industryClassificationCode',
+            'name' => 'IndustryClassificationCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        6 =>
+         [
+            'property' => 'partyIdentifications',
+            'name' => 'PartyIdentification',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\PartyIdentification',
+            'format' => null,
+        ],
+        7 =>
+         [
+            'property' => 'partyNames',
+            'name' => 'PartyName',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\PartyName',
+            'format' => null,
+        ],
+        8 =>
+         [
+            'property' => 'language',
+            'name' => 'Language',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Language',
+            'format' => null,
+        ],
+        9 =>
+         [
+            'property' => 'postalAddress',
+            'name' => 'PostalAddress',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Address',
+            'format' => null,
+        ],
+        10 =>
+         [
+            'property' => 'physicalLocation',
+            'name' => 'PhysicalLocation',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Location',
+            'format' => null,
+        ],
+        11 =>
+         [
+            'property' => 'partyTaxSchemes',
+            'name' => 'PartyTaxScheme',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\PartyTaxScheme',
+            'format' => null,
+        ],
+        12 =>
+         [
+            'property' => 'partyLegalEntities',
+            'name' => 'PartyLegalEntity',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\PartyLegalEntity',
+            'format' => null,
+        ],
+        13 =>
+         [
+            'property' => 'contact',
+            'name' => 'Contact',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Contact',
+            'format' => null,
+        ],
+        14 =>
+         [
+            'property' => 'persons',
+            'name' => 'Person',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Person',
+            'format' => null,
+        ],
+        15 =>
+         [
+            'property' => 'agentParty',
+            'name' => 'AgentParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+            'format' => null,
+        ],
+        16 =>
+         [
+            'property' => 'serviceProviderParties',
+            'name' => 'ServiceProviderParty',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\ServiceProviderParty',
+            'format' => null,
+        ],
+        17 =>
+         [
+            'property' => 'powerOfAttorneys',
+            'name' => 'PowerOfAttorney',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\PowerOfAttorney',
+            'format' => null,
+        ],
+        18 =>
+         [
+            'property' => 'financialAccount',
+            'name' => 'FinancialAccount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\FinancialAccount',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'MarkCareIndicator', namespace: Ns::CBC)]
     private ?bool $markCareIndicator = null;
 

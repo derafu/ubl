@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 /**
  * (Re)generates Derafu\Ubl\Oasis\{Cbc,Cac,Doc,Enum} from the official OASIS UBL XSD, with
- * xterr/php-ubl-generator. Downloads the XSD into a local cache under var/ if not already
- * there.
+ * xterr/php-ubl-generator. Downloads the XSD into resources/xsd/<version>/ if not already
+ * there, and generates from that same committed copy.
  *
  * Run with: composer run generate-oasis (which also runs tools/patch-oasis.php and
  * composer phpcs-fix afterwards).
@@ -22,12 +22,12 @@ declare(strict_types=1);
 const UBL_VERSION = '2.1';
 
 $rootDir = dirname(__DIR__);
-$cacheDir = "$rootDir/var/oasis-ubl-" . UBL_VERSION;
+$schemaDir = "$rootDir/resources/xsd/" . UBL_VERSION;
 $zipUrl = 'https://docs.oasis-open.org/ubl/os-UBL-' . UBL_VERSION . '/UBL-' . UBL_VERSION . '.zip';
 $zipFile = "$rootDir/var/UBL-" . UBL_VERSION . '.zip';
 $outputDir = "$rootDir/src/Oasis";
 
-if (!is_dir("$cacheDir/xsd")) {
+if (!is_dir($schemaDir)) {
     fwrite(STDOUT, "Fetching $zipUrl ...\n");
 
     if (!is_dir("$rootDir/var")) {
@@ -44,7 +44,6 @@ if (!is_dir("$cacheDir/xsd")) {
     ]);
     $ok = curl_exec($curl);
     $error = curl_error($curl);
-    curl_close($curl);
     fclose($file);
 
     if (!$ok) {
@@ -59,13 +58,37 @@ if (!is_dir("$cacheDir/xsd")) {
         exit(1);
     }
 
-    mkdir($cacheDir, 0775, true);
-    // Only the schemas are needed to generate the model.
+    mkdir($schemaDir, 0775, true);
+    // Only the schemas are needed to generate the model, extracted without the zip's own
+    // leading xsd/ directory so resources/xsd/<version>/ holds their contents directly.
     for ($i = 0; $i < $zip->numFiles; $i++) {
         $entry = $zip->getNameIndex($i);
-        if ($entry !== false && str_starts_with($entry, 'xsd/')) {
-            $zip->extractTo($cacheDir, $entry);
+        if ($entry === false || !str_starts_with($entry, 'xsd/')) {
+            continue;
         }
+
+        $relative = substr($entry, strlen('xsd/'));
+        if ($relative === '') {
+            continue;
+        }
+
+        $target = "$schemaDir/$relative";
+        if (str_ends_with($entry, '/')) {
+            mkdir($target, 0775, true);
+            continue;
+        }
+
+        if (!is_dir(dirname($target))) {
+            mkdir(dirname($target), 0775, true);
+        }
+
+        $contents = $zip->getFromIndex($i);
+        if ($contents === false) {
+            fwrite(STDERR, "Could not read zip entry: $entry\n");
+            exit(1);
+        }
+
+        file_put_contents($target, $contents);
     }
     $zip->close();
     unlink($zipFile);
@@ -75,7 +98,7 @@ $generator = "$rootDir/vendor/bin/php-ubl-generator";
 $command = sprintf(
     '%s --schema-dir=%s --schema-version=%s --namespace=%s --output-dir=%s --force',
     escapeshellarg($generator),
-    escapeshellarg("$cacheDir/xsd"),
+    escapeshellarg($schemaDir),
     escapeshellarg(UBL_VERSION),
     escapeshellarg('Derafu\\Ubl\\Oasis'),
     escapeshellarg($outputDir)

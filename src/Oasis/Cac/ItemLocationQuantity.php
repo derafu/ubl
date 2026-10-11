@@ -15,6 +15,8 @@ namespace Derafu\Ubl\Oasis\Cac;
 use Derafu\Ubl\Oasis\Cbc\Measure;
 use Derafu\Ubl\Oasis\Cbc\Quantity;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -28,8 +30,125 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Item Location Quantity
  */
 #[XmlType(localName: 'ItemLocationQuantityType', namespace: Ns::CAC)]
-final class ItemLocationQuantity
+final class ItemLocationQuantity implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'leadTimeMeasure',
+            'name' => 'LeadTimeMeasure',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Measure',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'minimumQuantity',
+            'name' => 'MinimumQuantity',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'maximumQuantity',
+            'name' => 'MaximumQuantity',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'hazardousRiskIndicator',
+            'name' => 'HazardousRiskIndicator',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'bool',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'tradingRestrictionses',
+            'name' => 'TradingRestrictions',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'applicableTerritoryAddresses',
+            'name' => 'ApplicableTerritoryAddress',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Address',
+            'format' => null,
+        ],
+        6 =>
+         [
+            'property' => 'price',
+            'name' => 'Price',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Price',
+            'format' => null,
+        ],
+        7 =>
+         [
+            'property' => 'deliveryUnits',
+            'name' => 'DeliveryUnit',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\DeliveryUnit',
+            'format' => null,
+        ],
+        8 =>
+         [
+            'property' => 'applicableTaxCategories',
+            'name' => 'ApplicableTaxCategory',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\TaxCategory',
+            'format' => null,
+        ],
+        9 =>
+         [
+            'property' => 'package',
+            'name' => 'Package',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Package',
+            'format' => null,
+        ],
+        10 =>
+         [
+            'property' => 'allowanceCharges',
+            'name' => 'AllowanceCharge',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\AllowanceCharge',
+            'format' => null,
+        ],
+        11 =>
+         [
+            'property' => 'dependentPriceReference',
+            'name' => 'DependentPriceReference',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\DependentPriceReference',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'LeadTimeMeasure', namespace: Ns::CBC)]
     private ?Measure $leadTimeMeasure = null;
 

@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Derafu\Ubl\Oasis\Cac;
 
 use Derafu\Ubl\Oasis\Cbc\Identifier;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -26,8 +28,26 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Road Transport
  */
 #[XmlType(localName: 'RoadTransportType', namespace: Ns::CAC)]
-final class RoadTransport
+final class RoadTransport implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'licensePlateID',
+            'name' => 'LicensePlateID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'LicensePlateID', namespace: Ns::CBC, required: true)]
     private Identifier $licensePlateID;
 

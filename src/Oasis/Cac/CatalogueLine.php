@@ -17,6 +17,8 @@ use Derafu\Ubl\Oasis\Cbc\Identifier;
 use Derafu\Ubl\Oasis\Cbc\Numeric;
 use Derafu\Ubl\Oasis\Cbc\Quantity;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -30,8 +32,296 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Catalogue Line
  */
 #[XmlType(localName: 'CatalogueLineType', namespace: Ns::CAC)]
-final class CatalogueLine
+final class CatalogueLine implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'id',
+            'name' => 'ID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'actionCode',
+            'name' => 'ActionCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'lifeCycleStatusCode',
+            'name' => 'LifeCycleStatusCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'contractSubdivision',
+            'name' => 'ContractSubdivision',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'notes',
+            'name' => 'Note',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'orderableIndicator',
+            'name' => 'OrderableIndicator',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'bool',
+            'format' => null,
+        ],
+        6 =>
+         [
+            'property' => 'orderableUnit',
+            'name' => 'OrderableUnit',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        7 =>
+         [
+            'property' => 'contentUnitQuantity',
+            'name' => 'ContentUnitQuantity',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+            'format' => null,
+        ],
+        8 =>
+         [
+            'property' => 'orderQuantityIncrementNumeric',
+            'name' => 'OrderQuantityIncrementNumeric',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
+            'format' => null,
+        ],
+        9 =>
+         [
+            'property' => 'minimumOrderQuantity',
+            'name' => 'MinimumOrderQuantity',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+            'format' => null,
+        ],
+        10 =>
+         [
+            'property' => 'maximumOrderQuantity',
+            'name' => 'MaximumOrderQuantity',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+            'format' => null,
+        ],
+        11 =>
+         [
+            'property' => 'warrantyInformations',
+            'name' => 'WarrantyInformation',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        12 =>
+         [
+            'property' => 'packLevelCode',
+            'name' => 'PackLevelCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        13 =>
+         [
+            'property' => 'contractorCustomerParty',
+            'name' => 'ContractorCustomerParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\CustomerParty',
+            'format' => null,
+        ],
+        14 =>
+         [
+            'property' => 'sellerSupplierParty',
+            'name' => 'SellerSupplierParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\SupplierParty',
+            'format' => null,
+        ],
+        15 =>
+         [
+            'property' => 'warrantyParty',
+            'name' => 'WarrantyParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+            'format' => null,
+        ],
+        16 =>
+         [
+            'property' => 'warrantyValidityPeriod',
+            'name' => 'WarrantyValidityPeriod',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Period',
+            'format' => null,
+        ],
+        17 =>
+         [
+            'property' => 'lineValidityPeriod',
+            'name' => 'LineValidityPeriod',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Period',
+            'format' => null,
+        ],
+        18 =>
+         [
+            'property' => 'itemComparisons',
+            'name' => 'ItemComparison',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\ItemComparison',
+            'format' => null,
+        ],
+        19 =>
+         [
+            'property' => 'componentRelatedItems',
+            'name' => 'ComponentRelatedItem',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\RelatedItem',
+            'format' => null,
+        ],
+        20 =>
+         [
+            'property' => 'accessoryRelatedItems',
+            'name' => 'AccessoryRelatedItem',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\RelatedItem',
+            'format' => null,
+        ],
+        21 =>
+         [
+            'property' => 'requiredRelatedItems',
+            'name' => 'RequiredRelatedItem',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\RelatedItem',
+            'format' => null,
+        ],
+        22 =>
+         [
+            'property' => 'replacementRelatedItems',
+            'name' => 'ReplacementRelatedItem',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\RelatedItem',
+            'format' => null,
+        ],
+        23 =>
+         [
+            'property' => 'complementaryRelatedItems',
+            'name' => 'ComplementaryRelatedItem',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\RelatedItem',
+            'format' => null,
+        ],
+        24 =>
+         [
+            'property' => 'replacedRelatedItems',
+            'name' => 'ReplacedRelatedItem',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\RelatedItem',
+            'format' => null,
+        ],
+        25 =>
+         [
+            'property' => 'requiredItemLocationQuantities',
+            'name' => 'RequiredItemLocationQuantity',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\ItemLocationQuantity',
+            'format' => null,
+        ],
+        26 =>
+         [
+            'property' => 'documentReferences',
+            'name' => 'DocumentReference',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+            'format' => null,
+        ],
+        27 =>
+         [
+            'property' => 'item',
+            'name' => 'Item',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Item',
+            'format' => null,
+        ],
+        28 =>
+         [
+            'property' => 'keywordItemProperties',
+            'name' => 'KeywordItemProperty',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\ItemProperty',
+            'format' => null,
+        ],
+        29 =>
+         [
+            'property' => 'callForTendersLineReference',
+            'name' => 'CallForTendersLineReference',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\LineReference',
+            'format' => null,
+        ],
+        30 =>
+         [
+            'property' => 'callForTendersDocumentReference',
+            'name' => 'CallForTendersDocumentReference',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'ID', namespace: Ns::CBC, required: true)]
     private Identifier $id;
 

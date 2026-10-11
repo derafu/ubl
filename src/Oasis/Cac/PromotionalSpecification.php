@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Derafu\Ubl\Oasis\Cac;
 
 use Derafu\Ubl\Oasis\Cbc\Identifier;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -26,8 +28,44 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Promotional Specification
  */
 #[XmlType(localName: 'PromotionalSpecificationType', namespace: Ns::CAC)]
-final class PromotionalSpecification
+final class PromotionalSpecification implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'specificationID',
+            'name' => 'SpecificationID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'promotionalEventLineItems',
+            'name' => 'PromotionalEventLineItem',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\PromotionalEventLineItem',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'eventTactics',
+            'name' => 'EventTactic',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\EventTactic',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'SpecificationID', namespace: Ns::CBC)]
     private ?Identifier $specificationID = null;
 

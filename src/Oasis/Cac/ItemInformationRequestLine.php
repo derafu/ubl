@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Derafu\Ubl\Oasis\Cac;
 
 use Derafu\Ubl\Oasis\Cbc\Code;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -26,8 +28,71 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Item Information Request Line
  */
 #[XmlType(localName: 'ItemInformationRequestLineType', namespace: Ns::CAC)]
-final class ItemInformationRequestLine
+final class ItemInformationRequestLine implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'timeFrequencyCode',
+            'name' => 'TimeFrequencyCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'supplyChainActivityTypeCode',
+            'name' => 'SupplyChainActivityTypeCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'forecastTypeCode',
+            'name' => 'ForecastTypeCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'performanceMetricTypeCode',
+            'name' => 'PerformanceMetricTypeCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'periods',
+            'name' => 'Period',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Period',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'salesItems',
+            'name' => 'SalesItem',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\SalesItem',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'TimeFrequencyCode', namespace: Ns::CBC)]
     private ?Code $timeFrequencyCode = null;
 

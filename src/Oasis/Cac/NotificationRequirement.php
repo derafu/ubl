@@ -14,6 +14,8 @@ namespace Derafu\Ubl\Oasis\Cac;
 
 use Derafu\Ubl\Oasis\Cbc\Code;
 use Derafu\Ubl\Oasis\Cbc\Measure;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -27,8 +29,71 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Notification Requirement
  */
 #[XmlType(localName: 'NotificationRequirementType', namespace: Ns::CAC)]
-final class NotificationRequirement
+final class NotificationRequirement implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'notificationTypeCode',
+            'name' => 'NotificationTypeCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'postEventNotificationDurationMeasure',
+            'name' => 'PostEventNotificationDurationMeasure',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Measure',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'preEventNotificationDurationMeasure',
+            'name' => 'PreEventNotificationDurationMeasure',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Measure',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'notifyParties',
+            'name' => 'NotifyParty',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'notificationPeriods',
+            'name' => 'NotificationPeriod',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Period',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'notificationLocations',
+            'name' => 'NotificationLocation',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Location',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'NotificationTypeCode', namespace: Ns::CBC, required: true)]
     private Code $notificationTypeCode;
 

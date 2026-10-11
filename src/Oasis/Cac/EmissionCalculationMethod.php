@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Derafu\Ubl\Oasis\Cac;
 
 use Derafu\Ubl\Oasis\Cbc\Code;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -26,8 +28,53 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Emission Calculation Method
  */
 #[XmlType(localName: 'EmissionCalculationMethodType', namespace: Ns::CAC)]
-final class EmissionCalculationMethod
+final class EmissionCalculationMethod implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'calculationMethodCode',
+            'name' => 'CalculationMethodCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'fullnessIndicationCode',
+            'name' => 'FullnessIndicationCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'measurementFromLocation',
+            'name' => 'MeasurementFromLocation',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Location',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'measurementToLocation',
+            'name' => 'MeasurementToLocation',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Location',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'CalculationMethodCode', namespace: Ns::CBC)]
     private ?Code $calculationMethodCode = null;
 

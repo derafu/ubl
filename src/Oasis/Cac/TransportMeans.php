@@ -15,6 +15,8 @@ namespace Derafu\Ubl\Oasis\Cac;
 use Derafu\Ubl\Oasis\Cbc\Code;
 use Derafu\Ubl\Oasis\Cbc\Identifier;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -29,8 +31,134 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Conveyance
  */
 #[XmlType(localName: 'TransportMeansType', namespace: Ns::CAC)]
-final class TransportMeans
+final class TransportMeans implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'journeyID',
+            'name' => 'JourneyID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'registrationNationalityID',
+            'name' => 'RegistrationNationalityID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'registrationNationalities',
+            'name' => 'RegistrationNationality',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'directionCode',
+            'name' => 'DirectionCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'transportMeansTypeCode',
+            'name' => 'TransportMeansTypeCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'tradeServiceCode',
+            'name' => 'TradeServiceCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        6 =>
+         [
+            'property' => 'stowage',
+            'name' => 'Stowage',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Stowage',
+            'format' => null,
+        ],
+        7 =>
+         [
+            'property' => 'airTransport',
+            'name' => 'AirTransport',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\AirTransport',
+            'format' => null,
+        ],
+        8 =>
+         [
+            'property' => 'roadTransport',
+            'name' => 'RoadTransport',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\RoadTransport',
+            'format' => null,
+        ],
+        9 =>
+         [
+            'property' => 'railTransport',
+            'name' => 'RailTransport',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\RailTransport',
+            'format' => null,
+        ],
+        10 =>
+         [
+            'property' => 'maritimeTransport',
+            'name' => 'MaritimeTransport',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\MaritimeTransport',
+            'format' => null,
+        ],
+        11 =>
+         [
+            'property' => 'ownerParty',
+            'name' => 'OwnerParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+            'format' => null,
+        ],
+        12 =>
+         [
+            'property' => 'measurementDimensions',
+            'name' => 'MeasurementDimension',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Dimension',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'JourneyID', namespace: Ns::CBC)]
     private ?Identifier $journeyID = null;
 

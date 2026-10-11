@@ -21,6 +21,8 @@ use Derafu\Ubl\Oasis\Cac\TenderResult;
 use Derafu\Ubl\Oasis\Cac\UBLExtensions;
 use Derafu\Ubl\Oasis\Cbc\Identifier;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlRoot;
@@ -39,8 +41,197 @@ use Xterr\UBL\Xml\Mapping\XmlType;
     namespace: 'urn:oasis:names:specification:ubl:schema:xsd:UnawardedNotification-2',
 )]
 #[XmlRoot(localName: 'UnawardedNotification', namespace: 'urn:oasis:names:specification:ubl:schema:xsd:UnawardedNotification-2')]
-final class UnawardedNotification
+final class UnawardedNotification implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'ublExtensions',
+            'name' => 'UBLExtensions',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\UBLExtensions',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'ublVersionID',
+            'name' => 'UBLVersionID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'customizationID',
+            'name' => 'CustomizationID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'profileID',
+            'name' => 'ProfileID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'profileExecutionID',
+            'name' => 'ProfileExecutionID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'id',
+            'name' => 'ID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        6 =>
+         [
+            'property' => 'copyIndicator',
+            'name' => 'CopyIndicator',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'bool',
+            'format' => null,
+        ],
+        7 =>
+         [
+            'property' => 'uuid',
+            'name' => 'UUID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        8 =>
+         [
+            'property' => 'contractFolderID',
+            'name' => 'ContractFolderID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        9 =>
+         [
+            'property' => 'issueDate',
+            'name' => 'IssueDate',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => null,
+        ],
+        10 =>
+         [
+            'property' => 'issueTime',
+            'name' => 'IssueTime',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => 'H:i:sP',
+        ],
+        11 =>
+         [
+            'property' => 'contractNames',
+            'name' => 'ContractName',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        12 =>
+         [
+            'property' => 'notes',
+            'name' => 'Note',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        13 =>
+         [
+            'property' => 'signatures',
+            'name' => 'Signature',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Signature',
+            'format' => null,
+        ],
+        14 =>
+         [
+            'property' => 'senderParty',
+            'name' => 'SenderParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+            'format' => null,
+        ],
+        15 =>
+         [
+            'property' => 'receiverParty',
+            'name' => 'ReceiverParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+            'format' => null,
+        ],
+        16 =>
+         [
+            'property' => 'minutesDocumentReference',
+            'name' => 'MinutesDocumentReference',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+            'format' => null,
+        ],
+        17 =>
+         [
+            'property' => 'additionalDocumentReferences',
+            'name' => 'AdditionalDocumentReference',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+            'format' => null,
+        ],
+        18 =>
+         [
+            'property' => 'tenderResults',
+            'name' => 'TenderResult',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\TenderResult',
+            'format' => null,
+        ],
+        19 =>
+         [
+            'property' => 'appealTerms',
+            'name' => 'AppealTerms',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\AppealTerms',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'UBLExtensions', namespace: Ns::EXT)]
     private ?UBLExtensions $ublExtensions = null;
 

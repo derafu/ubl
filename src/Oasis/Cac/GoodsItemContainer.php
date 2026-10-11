@@ -14,6 +14,8 @@ namespace Derafu\Ubl\Oasis\Cac;
 
 use Derafu\Ubl\Oasis\Cbc\Identifier;
 use Derafu\Ubl\Oasis\Cbc\Quantity;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -27,8 +29,44 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Goods Item Container
  */
 #[XmlType(localName: 'GoodsItemContainerType', namespace: Ns::CAC)]
-final class GoodsItemContainer
+final class GoodsItemContainer implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'id',
+            'name' => 'ID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'quantity',
+            'name' => 'Quantity',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'transportEquipments',
+            'name' => 'TransportEquipment',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\TransportEquipment',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'ID', namespace: Ns::CBC, required: true)]
     private Identifier $id;
 

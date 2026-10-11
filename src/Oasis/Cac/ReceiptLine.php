@@ -17,6 +17,8 @@ use Derafu\Ubl\Oasis\Cbc\Code;
 use Derafu\Ubl\Oasis\Cbc\Identifier;
 use Derafu\Ubl\Oasis\Cbc\Quantity;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -30,8 +32,197 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Receipt Line
  */
 #[XmlType(localName: 'ReceiptLineType', namespace: Ns::CAC)]
-final class ReceiptLine
+final class ReceiptLine implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'id',
+            'name' => 'ID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'uuid',
+            'name' => 'UUID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'notes',
+            'name' => 'Note',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'receivedQuantity',
+            'name' => 'ReceivedQuantity',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'shortQuantity',
+            'name' => 'ShortQuantity',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'shortageActionCode',
+            'name' => 'ShortageActionCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        6 =>
+         [
+            'property' => 'rejectedQuantity',
+            'name' => 'RejectedQuantity',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+            'format' => null,
+        ],
+        7 =>
+         [
+            'property' => 'rejectReasonCode',
+            'name' => 'RejectReasonCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        8 =>
+         [
+            'property' => 'rejectReasons',
+            'name' => 'RejectReason',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        9 =>
+         [
+            'property' => 'rejectActionCode',
+            'name' => 'RejectActionCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        10 =>
+         [
+            'property' => 'quantityDiscrepancyCode',
+            'name' => 'QuantityDiscrepancyCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        11 =>
+         [
+            'property' => 'oversupplyQuantity',
+            'name' => 'OversupplyQuantity',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+            'format' => null,
+        ],
+        12 =>
+         [
+            'property' => 'receivedDate',
+            'name' => 'ReceivedDate',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => null,
+        ],
+        13 =>
+         [
+            'property' => 'timingComplaintCode',
+            'name' => 'TimingComplaintCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        14 =>
+         [
+            'property' => 'timingComplaint',
+            'name' => 'TimingComplaint',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        15 =>
+         [
+            'property' => 'orderLineReference',
+            'name' => 'OrderLineReference',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\OrderLineReference',
+            'format' => null,
+        ],
+        16 =>
+         [
+            'property' => 'despatchLineReferences',
+            'name' => 'DespatchLineReference',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\LineReference',
+            'format' => null,
+        ],
+        17 =>
+         [
+            'property' => 'documentReferences',
+            'name' => 'DocumentReference',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+            'format' => null,
+        ],
+        18 =>
+         [
+            'property' => 'items',
+            'name' => 'Item',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Item',
+            'format' => null,
+        ],
+        19 =>
+         [
+            'property' => 'shipments',
+            'name' => 'Shipment',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Shipment',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'ID', namespace: Ns::CBC, required: true)]
     private Identifier $id;
 

@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Derafu\Ubl\Oasis\Cac;
 
 use Derafu\Ubl\Oasis\Cbc\Identifier;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -26,8 +28,53 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Catalogue Pricing Update Line
  */
 #[XmlType(localName: 'CataloguePricingUpdateLineType', namespace: Ns::CAC)]
-final class CataloguePricingUpdateLine
+final class CataloguePricingUpdateLine implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'id',
+            'name' => 'ID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'contractorCustomerParty',
+            'name' => 'ContractorCustomerParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\CustomerParty',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'sellerSupplierParty',
+            'name' => 'SellerSupplierParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\SupplierParty',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'requiredItemLocationQuantities',
+            'name' => 'RequiredItemLocationQuantity',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\ItemLocationQuantity',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'ID', namespace: Ns::CBC, required: true)]
     private Identifier $id;
 

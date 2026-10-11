@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Derafu\Ubl\Oasis\Cac;
 
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -25,8 +27,35 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Ordered Shipment
  */
 #[XmlType(localName: 'OrderedShipmentType', namespace: Ns::CAC)]
-final class OrderedShipment
+final class OrderedShipment implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'shipment',
+            'name' => 'Shipment',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Shipment',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'packages',
+            'name' => 'Package',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Package',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'Shipment', namespace: Ns::CAC, required: true)]
     private Shipment $shipment;
 

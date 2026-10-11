@@ -17,6 +17,8 @@ use Derafu\Ubl\Oasis\Cbc\Code;
 use Derafu\Ubl\Oasis\Cbc\Identifier;
 use Derafu\Ubl\Oasis\Cbc\Numeric;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -30,8 +32,80 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Work Phase Reference
  */
 #[XmlType(localName: 'WorkPhaseReferenceType', namespace: Ns::CAC)]
-final class WorkPhaseReference
+final class WorkPhaseReference implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'id',
+            'name' => 'ID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'workPhaseCode',
+            'name' => 'WorkPhaseCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'workPhases',
+            'name' => 'WorkPhase',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'progressPercent',
+            'name' => 'ProgressPercent',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'startDate',
+            'name' => 'StartDate',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'endDate',
+            'name' => 'EndDate',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => null,
+        ],
+        6 =>
+         [
+            'property' => 'workOrderDocumentReferences',
+            'name' => 'WorkOrderDocumentReference',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'ID', namespace: Ns::CBC)]
     private ?Identifier $id = null;
 

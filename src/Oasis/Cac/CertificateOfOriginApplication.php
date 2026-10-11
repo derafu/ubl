@@ -15,6 +15,8 @@ namespace Derafu\Ubl\Oasis\Cac;
 use Derafu\Ubl\Oasis\Cbc\Code;
 use Derafu\Ubl\Oasis\Cbc\Identifier;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -28,8 +30,161 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Certificate Of Origin Application
  */
 #[XmlType(localName: 'CertificateOfOriginApplicationType', namespace: Ns::CAC)]
-final class CertificateOfOriginApplication
+final class CertificateOfOriginApplication implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'referenceID',
+            'name' => 'ReferenceID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'certificateType',
+            'name' => 'CertificateType',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'applicationStatusCode',
+            'name' => 'ApplicationStatusCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'originalJobID',
+            'name' => 'OriginalJobID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'previousJobID',
+            'name' => 'PreviousJobID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'remarkses',
+            'name' => 'Remarks',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        6 =>
+         [
+            'property' => 'shipment',
+            'name' => 'Shipment',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Shipment',
+            'format' => null,
+        ],
+        7 =>
+         [
+            'property' => 'endorserParties',
+            'name' => 'EndorserParty',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\EndorserParty',
+            'format' => null,
+        ],
+        8 =>
+         [
+            'property' => 'preparationParty',
+            'name' => 'PreparationParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+            'format' => null,
+        ],
+        9 =>
+         [
+            'property' => 'issuerParty',
+            'name' => 'IssuerParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+            'format' => null,
+        ],
+        10 =>
+         [
+            'property' => 'exporterParty',
+            'name' => 'ExporterParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+            'format' => null,
+        ],
+        11 =>
+         [
+            'property' => 'importerParty',
+            'name' => 'ImporterParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+            'format' => null,
+        ],
+        12 =>
+         [
+            'property' => 'issuingCountry',
+            'name' => 'IssuingCountry',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Country',
+            'format' => null,
+        ],
+        13 =>
+         [
+            'property' => 'documentDistributions',
+            'name' => 'DocumentDistribution',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentDistribution',
+            'format' => null,
+        ],
+        14 =>
+         [
+            'property' => 'supportingDocumentReferences',
+            'name' => 'SupportingDocumentReference',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+            'format' => null,
+        ],
+        15 =>
+         [
+            'property' => 'signatures',
+            'name' => 'Signature',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Signature',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'ReferenceID', namespace: Ns::CBC, required: true)]
     private Identifier $referenceID;
 

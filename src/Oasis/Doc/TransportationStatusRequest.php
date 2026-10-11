@@ -23,6 +23,8 @@ use Derafu\Ubl\Oasis\Cac\UBLExtensions;
 use Derafu\Ubl\Oasis\Cbc\Code;
 use Derafu\Ubl\Oasis\Cbc\Identifier;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlRoot;
@@ -44,8 +46,233 @@ use Xterr\UBL\Xml\Mapping\XmlType;
     localName: 'TransportationStatusRequest',
     namespace: 'urn:oasis:names:specification:ubl:schema:xsd:TransportationStatusRequest-2',
 )]
-final class TransportationStatusRequest
+final class TransportationStatusRequest implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'ublExtensions',
+            'name' => 'UBLExtensions',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\UBLExtensions',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'ublVersionID',
+            'name' => 'UBLVersionID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'customizationID',
+            'name' => 'CustomizationID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'profileID',
+            'name' => 'ProfileID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'profileExecutionID',
+            'name' => 'ProfileExecutionID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'id',
+            'name' => 'ID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        6 =>
+         [
+            'property' => 'carrierAssignedID',
+            'name' => 'CarrierAssignedID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        7 =>
+         [
+            'property' => 'uuid',
+            'name' => 'UUID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        8 =>
+         [
+            'property' => 'issueDate',
+            'name' => 'IssueDate',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => null,
+        ],
+        9 =>
+         [
+            'property' => 'issueTime',
+            'name' => 'IssueTime',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => 'H:i:sP',
+        ],
+        10 =>
+         [
+            'property' => 'name',
+            'name' => 'Name',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        11 =>
+         [
+            'property' => 'descriptions',
+            'name' => 'Description',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        12 =>
+         [
+            'property' => 'notes',
+            'name' => 'Note',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        13 =>
+         [
+            'property' => 'shippingOrderID',
+            'name' => 'ShippingOrderID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        14 =>
+         [
+            'property' => 'otherInstruction',
+            'name' => 'OtherInstruction',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        15 =>
+         [
+            'property' => 'transportationStatusTypeCode',
+            'name' => 'TransportationStatusTypeCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        16 =>
+         [
+            'property' => 'senderParty',
+            'name' => 'SenderParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+            'format' => null,
+        ],
+        17 =>
+         [
+            'property' => 'receiverParty',
+            'name' => 'ReceiverParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+            'format' => null,
+        ],
+        18 =>
+         [
+            'property' => 'transportExecutionPlanDocumentReference',
+            'name' => 'TransportExecutionPlanDocumentReference',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+            'format' => null,
+        ],
+        19 =>
+         [
+            'property' => 'consignments',
+            'name' => 'Consignment',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Consignment',
+            'format' => null,
+        ],
+        20 =>
+         [
+            'property' => 'documentReferences',
+            'name' => 'DocumentReference',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+            'format' => null,
+        ],
+        21 =>
+         [
+            'property' => 'signatures',
+            'name' => 'Signature',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Signature',
+            'format' => null,
+        ],
+        22 =>
+         [
+            'property' => 'requestedStatusLocations',
+            'name' => 'RequestedStatusLocation',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Location',
+            'format' => null,
+        ],
+        23 =>
+         [
+            'property' => 'requestedStatusPeriods',
+            'name' => 'RequestedStatusPeriod',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Period',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'UBLExtensions', namespace: Ns::EXT)]
     private ?UBLExtensions $ublExtensions = null;
 

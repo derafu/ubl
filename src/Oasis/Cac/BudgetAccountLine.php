@@ -14,6 +14,8 @@ namespace Derafu\Ubl\Oasis\Cac;
 
 use Derafu\Ubl\Oasis\Cbc\Amount;
 use Derafu\Ubl\Oasis\Cbc\Identifier;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -27,8 +29,44 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Budget Account Line
  */
 #[XmlType(localName: 'BudgetAccountLineType', namespace: Ns::CAC)]
-final class BudgetAccountLine
+final class BudgetAccountLine implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'id',
+            'name' => 'ID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'totalAmount',
+            'name' => 'TotalAmount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'budgetAccounts',
+            'name' => 'BudgetAccount',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\BudgetAccount',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'ID', namespace: Ns::CBC)]
     private ?Identifier $id = null;
 

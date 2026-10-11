@@ -33,6 +33,8 @@ use Derafu\Ubl\Oasis\Cbc\Code;
 use Derafu\Ubl\Oasis\Cbc\Identifier;
 use Derafu\Ubl\Oasis\Cbc\Numeric;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlRoot;
@@ -49,8 +51,287 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  */
 #[XmlType(localName: 'QuotationType', namespace: 'urn:oasis:names:specification:ubl:schema:xsd:Quotation-2')]
 #[XmlRoot(localName: 'Quotation', namespace: 'urn:oasis:names:specification:ubl:schema:xsd:Quotation-2')]
-final class Quotation
+final class Quotation implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'ublExtensions',
+            'name' => 'UBLExtensions',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\UBLExtensions',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'ublVersionID',
+            'name' => 'UBLVersionID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'customizationID',
+            'name' => 'CustomizationID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'profileID',
+            'name' => 'ProfileID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'profileExecutionID',
+            'name' => 'ProfileExecutionID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'id',
+            'name' => 'ID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        6 =>
+         [
+            'property' => 'copyIndicator',
+            'name' => 'CopyIndicator',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'bool',
+            'format' => null,
+        ],
+        7 =>
+         [
+            'property' => 'uuid',
+            'name' => 'UUID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        8 =>
+         [
+            'property' => 'issueDate',
+            'name' => 'IssueDate',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => null,
+        ],
+        9 =>
+         [
+            'property' => 'issueTime',
+            'name' => 'IssueTime',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => 'H:i:sP',
+        ],
+        10 =>
+         [
+            'property' => 'notes',
+            'name' => 'Note',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        11 =>
+         [
+            'property' => 'pricingCurrencyCode',
+            'name' => 'PricingCurrencyCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        12 =>
+         [
+            'property' => 'lineCountNumeric',
+            'name' => 'LineCountNumeric',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
+            'format' => null,
+        ],
+        13 =>
+         [
+            'property' => 'validityPeriod',
+            'name' => 'ValidityPeriod',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Period',
+            'format' => null,
+        ],
+        14 =>
+         [
+            'property' => 'requestForQuotationDocumentReference',
+            'name' => 'RequestForQuotationDocumentReference',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+            'format' => null,
+        ],
+        15 =>
+         [
+            'property' => 'additionalDocumentReferences',
+            'name' => 'AdditionalDocumentReference',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+            'format' => null,
+        ],
+        16 =>
+         [
+            'property' => 'contracts',
+            'name' => 'Contract',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Contract',
+            'format' => null,
+        ],
+        17 =>
+         [
+            'property' => 'signatures',
+            'name' => 'Signature',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Signature',
+            'format' => null,
+        ],
+        18 =>
+         [
+            'property' => 'sellerSupplierParty',
+            'name' => 'SellerSupplierParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\SupplierParty',
+            'format' => null,
+        ],
+        19 =>
+         [
+            'property' => 'buyerCustomerParty',
+            'name' => 'BuyerCustomerParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\CustomerParty',
+            'format' => null,
+        ],
+        20 =>
+         [
+            'property' => 'originatorCustomerParty',
+            'name' => 'OriginatorCustomerParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\CustomerParty',
+            'format' => null,
+        ],
+        21 =>
+         [
+            'property' => 'deliveries',
+            'name' => 'Delivery',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Delivery',
+            'format' => null,
+        ],
+        22 =>
+         [
+            'property' => 'deliveryTerms',
+            'name' => 'DeliveryTerms',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\DeliveryTerms',
+            'format' => null,
+        ],
+        23 =>
+         [
+            'property' => 'paymentMeans',
+            'name' => 'PaymentMeans',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\PaymentMeans',
+            'format' => null,
+        ],
+        24 =>
+         [
+            'property' => 'transactionConditions',
+            'name' => 'TransactionConditions',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\TransactionConditions',
+            'format' => null,
+        ],
+        25 =>
+         [
+            'property' => 'allowanceCharges',
+            'name' => 'AllowanceCharge',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\AllowanceCharge',
+            'format' => null,
+        ],
+        26 =>
+         [
+            'property' => 'destinationCountry',
+            'name' => 'DestinationCountry',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Country',
+            'format' => null,
+        ],
+        27 =>
+         [
+            'property' => 'taxTotals',
+            'name' => 'TaxTotal',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\TaxTotal',
+            'format' => null,
+        ],
+        28 =>
+         [
+            'property' => 'quotedMonetaryTotal',
+            'name' => 'QuotedMonetaryTotal',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\MonetaryTotal',
+            'format' => null,
+        ],
+        29 =>
+         [
+            'property' => 'quotationLines',
+            'name' => 'QuotationLine',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\QuotationLine',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'UBLExtensions', namespace: Ns::EXT)]
     private ?UBLExtensions $ublExtensions = null;
 

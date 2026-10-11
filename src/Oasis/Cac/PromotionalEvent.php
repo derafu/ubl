@@ -14,6 +14,8 @@ namespace Derafu\Ubl\Oasis\Cac;
 
 use DateTimeImmutable;
 use Derafu\Ubl\Oasis\Cbc\Code;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -27,8 +29,62 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Promotional Event
  */
 #[XmlType(localName: 'PromotionalEventType', namespace: Ns::CAC)]
-final class PromotionalEvent
+final class PromotionalEvent implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'promotionalEventTypeCode',
+            'name' => 'PromotionalEventTypeCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'submissionDate',
+            'name' => 'SubmissionDate',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'firstShipmentAvailibilityDate',
+            'name' => 'FirstShipmentAvailibilityDate',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'latestProposalAcceptanceDate',
+            'name' => 'LatestProposalAcceptanceDate',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'promotionalSpecifications',
+            'name' => 'PromotionalSpecification',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\PromotionalSpecification',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'PromotionalEventTypeCode', namespace: Ns::CBC, required: true)]
     private Code $promotionalEventTypeCode;
 

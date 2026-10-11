@@ -15,6 +15,8 @@ namespace Derafu\Ubl\Oasis\Cac;
 use Derafu\Ubl\Oasis\Cbc\Code;
 use Derafu\Ubl\Oasis\Cbc\Identifier;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -28,8 +30,98 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Financial Account
  */
 #[XmlType(localName: 'FinancialAccountType', namespace: Ns::CAC)]
-final class FinancialAccount
+final class FinancialAccount implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'id',
+            'name' => 'ID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'name',
+            'name' => 'Name',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'aliasName',
+            'name' => 'AliasName',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'accountTypeCode',
+            'name' => 'AccountTypeCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'accountFormatCode',
+            'name' => 'AccountFormatCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'currencyCode',
+            'name' => 'CurrencyCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        6 =>
+         [
+            'property' => 'paymentNotes',
+            'name' => 'PaymentNote',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        7 =>
+         [
+            'property' => 'financialInstitutionBranch',
+            'name' => 'FinancialInstitutionBranch',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Branch',
+            'format' => null,
+        ],
+        8 =>
+         [
+            'property' => 'country',
+            'name' => 'Country',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Country',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'ID', namespace: Ns::CBC)]
     private ?Identifier $id = null;
 

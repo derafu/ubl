@@ -14,6 +14,8 @@ namespace Derafu\Ubl\Oasis\Cac;
 
 use Derafu\Ubl\Oasis\Cbc\Code;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -27,8 +29,116 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Awarding Terms
  */
 #[XmlType(localName: 'AwardingTermsType', namespace: Ns::CAC)]
-final class AwardingTerms
+final class AwardingTerms implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'weightingAlgorithmCode',
+            'name' => 'WeightingAlgorithmCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'descriptions',
+            'name' => 'Description',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'technicalCommitteeDescriptions',
+            'name' => 'TechnicalCommitteeDescription',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'lowTendersDescriptions',
+            'name' => 'LowTendersDescription',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'prizeIndicator',
+            'name' => 'PrizeIndicator',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'bool',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'prizeDescriptions',
+            'name' => 'PrizeDescription',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        6 =>
+         [
+            'property' => 'paymentDescriptions',
+            'name' => 'PaymentDescription',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        7 =>
+         [
+            'property' => 'followupContractIndicator',
+            'name' => 'FollowupContractIndicator',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'bool',
+            'format' => null,
+        ],
+        8 =>
+         [
+            'property' => 'bindingOnBuyerIndicator',
+            'name' => 'BindingOnBuyerIndicator',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'bool',
+            'format' => null,
+        ],
+        9 =>
+         [
+            'property' => 'awardingCriterions',
+            'name' => 'AwardingCriterion',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\AwardingCriterion',
+            'format' => null,
+        ],
+        10 =>
+         [
+            'property' => 'technicalCommitteePersons',
+            'name' => 'TechnicalCommitteePerson',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Person',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'WeightingAlgorithmCode', namespace: Ns::CBC)]
     private ?Code $weightingAlgorithmCode = null;
 

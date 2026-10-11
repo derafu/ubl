@@ -17,6 +17,8 @@ use Derafu\Ubl\Oasis\Cbc\Code;
 use Derafu\Ubl\Oasis\Cbc\Numeric;
 use Derafu\Ubl\Oasis\Cbc\Quantity;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -30,8 +32,107 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Price
  */
 #[XmlType(localName: 'PriceType', namespace: Ns::CAC)]
-final class Price
+final class Price implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'priceAmount',
+            'name' => 'PriceAmount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'baseQuantity',
+            'name' => 'BaseQuantity',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'priceChangeReasons',
+            'name' => 'PriceChangeReason',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'priceTypeCode',
+            'name' => 'PriceTypeCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'priceType',
+            'name' => 'PriceType',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'orderableUnitFactorRate',
+            'name' => 'OrderableUnitFactorRate',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
+            'format' => null,
+        ],
+        6 =>
+         [
+            'property' => 'validityPeriods',
+            'name' => 'ValidityPeriod',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Period',
+            'format' => null,
+        ],
+        7 =>
+         [
+            'property' => 'priceList',
+            'name' => 'PriceList',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\PriceList',
+            'format' => null,
+        ],
+        8 =>
+         [
+            'property' => 'allowanceCharges',
+            'name' => 'AllowanceCharge',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\AllowanceCharge',
+            'format' => null,
+        ],
+        9 =>
+         [
+            'property' => 'pricingExchangeRate',
+            'name' => 'PricingExchangeRate',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\ExchangeRate',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'PriceAmount', namespace: Ns::CBC, required: true)]
     private Amount $priceAmount;
 

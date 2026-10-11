@@ -14,6 +14,8 @@ namespace Derafu\Ubl\Oasis\Cac;
 
 use Derafu\Ubl\Oasis\Cbc\Quantity;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -27,8 +29,53 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Event Tactic
  */
 #[XmlType(localName: 'EventTacticType', namespace: Ns::CAC)]
-final class EventTactic
+final class EventTactic implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'comment',
+            'name' => 'Comment',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'quantity',
+            'name' => 'Quantity',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'eventTacticEnumeration',
+            'name' => 'EventTacticEnumeration',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\EventTacticEnumeration',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'period',
+            'name' => 'Period',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Period',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'Comment', namespace: Ns::CBC)]
     private ?Text $comment = null;
 

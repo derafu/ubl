@@ -32,6 +32,8 @@ use Derafu\Ubl\Oasis\Cbc\Code;
 use Derafu\Ubl\Oasis\Cbc\Identifier;
 use Derafu\Ubl\Oasis\Cbc\Numeric;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlRoot;
@@ -47,8 +49,377 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  */
 #[XmlType(localName: 'ReminderType', namespace: 'urn:oasis:names:specification:ubl:schema:xsd:Reminder-2')]
 #[XmlRoot(localName: 'Reminder', namespace: 'urn:oasis:names:specification:ubl:schema:xsd:Reminder-2')]
-final class Reminder
+final class Reminder implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'ublExtensions',
+            'name' => 'UBLExtensions',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\UBLExtensions',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'ublVersionID',
+            'name' => 'UBLVersionID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'customizationID',
+            'name' => 'CustomizationID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'profileID',
+            'name' => 'ProfileID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'profileExecutionID',
+            'name' => 'ProfileExecutionID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'id',
+            'name' => 'ID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        6 =>
+         [
+            'property' => 'copyIndicator',
+            'name' => 'CopyIndicator',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'bool',
+            'format' => null,
+        ],
+        7 =>
+         [
+            'property' => 'uuid',
+            'name' => 'UUID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        8 =>
+         [
+            'property' => 'issueDate',
+            'name' => 'IssueDate',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => null,
+        ],
+        9 =>
+         [
+            'property' => 'issueTime',
+            'name' => 'IssueTime',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => 'H:i:sP',
+        ],
+        10 =>
+         [
+            'property' => 'reminderTypeCode',
+            'name' => 'ReminderTypeCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        11 =>
+         [
+            'property' => 'reminderSequenceNumeric',
+            'name' => 'ReminderSequenceNumeric',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
+            'format' => null,
+        ],
+        12 =>
+         [
+            'property' => 'notes',
+            'name' => 'Note',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        13 =>
+         [
+            'property' => 'taxPointDate',
+            'name' => 'TaxPointDate',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => null,
+        ],
+        14 =>
+         [
+            'property' => 'documentCurrencyCode',
+            'name' => 'DocumentCurrencyCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        15 =>
+         [
+            'property' => 'taxCurrencyCode',
+            'name' => 'TaxCurrencyCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        16 =>
+         [
+            'property' => 'pricingCurrencyCode',
+            'name' => 'PricingCurrencyCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        17 =>
+         [
+            'property' => 'paymentCurrencyCode',
+            'name' => 'PaymentCurrencyCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        18 =>
+         [
+            'property' => 'paymentAlternativeCurrencyCode',
+            'name' => 'PaymentAlternativeCurrencyCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        19 =>
+         [
+            'property' => 'accountingCostCode',
+            'name' => 'AccountingCostCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        20 =>
+         [
+            'property' => 'accountingCost',
+            'name' => 'AccountingCost',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        21 =>
+         [
+            'property' => 'lineCountNumeric',
+            'name' => 'LineCountNumeric',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
+            'format' => null,
+        ],
+        22 =>
+         [
+            'property' => 'reminderPeriods',
+            'name' => 'ReminderPeriod',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Period',
+            'format' => null,
+        ],
+        23 =>
+         [
+            'property' => 'additionalDocumentReferences',
+            'name' => 'AdditionalDocumentReference',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+            'format' => null,
+        ],
+        24 =>
+         [
+            'property' => 'signatures',
+            'name' => 'Signature',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Signature',
+            'format' => null,
+        ],
+        25 =>
+         [
+            'property' => 'accountingSupplierParty',
+            'name' => 'AccountingSupplierParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\SupplierParty',
+            'format' => null,
+        ],
+        26 =>
+         [
+            'property' => 'accountingCustomerParty',
+            'name' => 'AccountingCustomerParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\CustomerParty',
+            'format' => null,
+        ],
+        27 =>
+         [
+            'property' => 'payeeParty',
+            'name' => 'PayeeParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+            'format' => null,
+        ],
+        28 =>
+         [
+            'property' => 'taxRepresentativeParty',
+            'name' => 'TaxRepresentativeParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+            'format' => null,
+        ],
+        29 =>
+         [
+            'property' => 'paymentMeanses',
+            'name' => 'PaymentMeans',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\PaymentMeans',
+            'format' => null,
+        ],
+        30 =>
+         [
+            'property' => 'paymentTermses',
+            'name' => 'PaymentTerms',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\PaymentTerms',
+            'format' => null,
+        ],
+        31 =>
+         [
+            'property' => 'prepaidPayments',
+            'name' => 'PrepaidPayment',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Payment',
+            'format' => null,
+        ],
+        32 =>
+         [
+            'property' => 'allowanceCharges',
+            'name' => 'AllowanceCharge',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\AllowanceCharge',
+            'format' => null,
+        ],
+        33 =>
+         [
+            'property' => 'taxExchangeRate',
+            'name' => 'TaxExchangeRate',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\ExchangeRate',
+            'format' => null,
+        ],
+        34 =>
+         [
+            'property' => 'pricingExchangeRate',
+            'name' => 'PricingExchangeRate',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\ExchangeRate',
+            'format' => null,
+        ],
+        35 =>
+         [
+            'property' => 'paymentExchangeRate',
+            'name' => 'PaymentExchangeRate',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\ExchangeRate',
+            'format' => null,
+        ],
+        36 =>
+         [
+            'property' => 'paymentAlternativeExchangeRate',
+            'name' => 'PaymentAlternativeExchangeRate',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\ExchangeRate',
+            'format' => null,
+        ],
+        37 =>
+         [
+            'property' => 'taxTotals',
+            'name' => 'TaxTotal',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\TaxTotal',
+            'format' => null,
+        ],
+        38 =>
+         [
+            'property' => 'legalMonetaryTotal',
+            'name' => 'LegalMonetaryTotal',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\MonetaryTotal',
+            'format' => null,
+        ],
+        39 =>
+         [
+            'property' => 'reminderLines',
+            'name' => 'ReminderLine',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\ReminderLine',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'UBLExtensions', namespace: Ns::EXT)]
     private ?UBLExtensions $ublExtensions = null;
 

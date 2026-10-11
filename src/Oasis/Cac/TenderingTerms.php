@@ -18,6 +18,8 @@ use Derafu\Ubl\Oasis\Cbc\Code;
 use Derafu\Ubl\Oasis\Cbc\Identifier;
 use Derafu\Ubl\Oasis\Cbc\Quantity;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -31,8 +33,404 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Tendering Terms
  */
 #[XmlType(localName: 'TenderingTermsType', namespace: Ns::CAC)]
-final class TenderingTerms
+final class TenderingTerms implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'awardingMethodTypeCode',
+            'name' => 'AwardingMethodTypeCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'priceEvaluationCode',
+            'name' => 'PriceEvaluationCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'maximumVariantQuantity',
+            'name' => 'MaximumVariantQuantity',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'variantConstraintIndicator',
+            'name' => 'VariantConstraintIndicator',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'bool',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'acceptedVariantsDescriptions',
+            'name' => 'AcceptedVariantsDescription',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'priceRevisionFormulaDescriptions',
+            'name' => 'PriceRevisionFormulaDescription',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        6 =>
+         [
+            'property' => 'fundingProgramCode',
+            'name' => 'FundingProgramCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        7 =>
+         [
+            'property' => 'fundingPrograms',
+            'name' => 'FundingProgram',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        8 =>
+         [
+            'property' => 'maximumAdvertisementAmount',
+            'name' => 'MaximumAdvertisementAmount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+            'format' => null,
+        ],
+        9 =>
+         [
+            'property' => 'notes',
+            'name' => 'Note',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        10 =>
+         [
+            'property' => 'paymentFrequencyCode',
+            'name' => 'PaymentFrequencyCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        11 =>
+         [
+            'property' => 'economicOperatorRegistryURI',
+            'name' => 'EconomicOperatorRegistryURI',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        12 =>
+         [
+            'property' => 'requiredCurriculaIndicator',
+            'name' => 'RequiredCurriculaIndicator',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'bool',
+            'format' => null,
+        ],
+        13 =>
+         [
+            'property' => 'otherConditionsIndicator',
+            'name' => 'OtherConditionsIndicator',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'bool',
+            'format' => null,
+        ],
+        14 =>
+         [
+            'property' => 'additionalConditionses',
+            'name' => 'AdditionalConditions',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        15 =>
+         [
+            'property' => 'latestSecurityClearanceDate',
+            'name' => 'LatestSecurityClearanceDate',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => null,
+        ],
+        16 =>
+         [
+            'property' => 'documentationFeeAmount',
+            'name' => 'DocumentationFeeAmount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+            'format' => null,
+        ],
+        17 =>
+         [
+            'property' => 'penaltyClauses',
+            'name' => 'PenaltyClause',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Clause',
+            'format' => null,
+        ],
+        18 =>
+         [
+            'property' => 'requiredFinancialGuarantees',
+            'name' => 'RequiredFinancialGuarantee',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\FinancialGuarantee',
+            'format' => null,
+        ],
+        19 =>
+         [
+            'property' => 'procurementLegislationDocumentReference',
+            'name' => 'ProcurementLegislationDocumentReference',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+            'format' => null,
+        ],
+        20 =>
+         [
+            'property' => 'fiscalLegislationDocumentReference',
+            'name' => 'FiscalLegislationDocumentReference',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+            'format' => null,
+        ],
+        21 =>
+         [
+            'property' => 'environmentalLegislationDocumentReference',
+            'name' => 'EnvironmentalLegislationDocumentReference',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+            'format' => null,
+        ],
+        22 =>
+         [
+            'property' => 'employmentLegislationDocumentReference',
+            'name' => 'EmploymentLegislationDocumentReference',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+            'format' => null,
+        ],
+        23 =>
+         [
+            'property' => 'contractualDocumentReferences',
+            'name' => 'ContractualDocumentReference',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+            'format' => null,
+        ],
+        24 =>
+         [
+            'property' => 'callForTendersDocumentReference',
+            'name' => 'CallForTendersDocumentReference',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+            'format' => null,
+        ],
+        25 =>
+         [
+            'property' => 'warrantyValidityPeriod',
+            'name' => 'WarrantyValidityPeriod',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Period',
+            'format' => null,
+        ],
+        26 =>
+         [
+            'property' => 'paymentTermses',
+            'name' => 'PaymentTerms',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\PaymentTerms',
+            'format' => null,
+        ],
+        27 =>
+         [
+            'property' => 'tendererQualificationRequests',
+            'name' => 'TendererQualificationRequest',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\TendererQualificationRequest',
+            'format' => null,
+        ],
+        28 =>
+         [
+            'property' => 'allowedSubcontractTermses',
+            'name' => 'AllowedSubcontractTerms',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\SubcontractTerms',
+            'format' => null,
+        ],
+        29 =>
+         [
+            'property' => 'tenderPreparations',
+            'name' => 'TenderPreparation',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\TenderPreparation',
+            'format' => null,
+        ],
+        30 =>
+         [
+            'property' => 'contractExecutionRequirements',
+            'name' => 'ContractExecutionRequirement',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\ContractExecutionRequirement',
+            'format' => null,
+        ],
+        31 =>
+         [
+            'property' => 'awardingTerms',
+            'name' => 'AwardingTerms',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\AwardingTerms',
+            'format' => null,
+        ],
+        32 =>
+         [
+            'property' => 'additionalInformationParty',
+            'name' => 'AdditionalInformationParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+            'format' => null,
+        ],
+        33 =>
+         [
+            'property' => 'documentProviderParty',
+            'name' => 'DocumentProviderParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+            'format' => null,
+        ],
+        34 =>
+         [
+            'property' => 'tenderRecipientParty',
+            'name' => 'TenderRecipientParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+            'format' => null,
+        ],
+        35 =>
+         [
+            'property' => 'contractResponsibleParty',
+            'name' => 'ContractResponsibleParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+            'format' => null,
+        ],
+        36 =>
+         [
+            'property' => 'tenderEvaluationParties',
+            'name' => 'TenderEvaluationParty',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+            'format' => null,
+        ],
+        37 =>
+         [
+            'property' => 'tenderValidityPeriod',
+            'name' => 'TenderValidityPeriod',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Period',
+            'format' => null,
+        ],
+        38 =>
+         [
+            'property' => 'contractAcceptancePeriod',
+            'name' => 'ContractAcceptancePeriod',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Period',
+            'format' => null,
+        ],
+        39 =>
+         [
+            'property' => 'appealTerms',
+            'name' => 'AppealTerms',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\AppealTerms',
+            'format' => null,
+        ],
+        40 =>
+         [
+            'property' => 'languages',
+            'name' => 'Language',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Language',
+            'format' => null,
+        ],
+        41 =>
+         [
+            'property' => 'budgetAccountLines',
+            'name' => 'BudgetAccountLine',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\BudgetAccountLine',
+            'format' => null,
+        ],
+        42 =>
+         [
+            'property' => 'replacedNoticeDocumentReference',
+            'name' => 'ReplacedNoticeDocumentReference',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'AwardingMethodTypeCode', namespace: Ns::CBC)]
     private ?Code $awardingMethodTypeCode = null;
 

@@ -14,6 +14,8 @@ namespace Derafu\Ubl\Oasis\Cac;
 
 use DateTimeImmutable;
 use Derafu\Ubl\Oasis\Cbc\Identifier;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -28,8 +30,98 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Collection
  */
 #[XmlType(localName: 'PickupType', namespace: Ns::CAC)]
-final class Pickup
+final class Pickup implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'id',
+            'name' => 'ID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'actualPickupDate',
+            'name' => 'ActualPickupDate',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'actualPickupTime',
+            'name' => 'ActualPickupTime',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => 'H:i:sP',
+        ],
+        3 =>
+         [
+            'property' => 'earliestPickupDate',
+            'name' => 'EarliestPickupDate',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'earliestPickupTime',
+            'name' => 'EarliestPickupTime',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => 'H:i:sP',
+        ],
+        5 =>
+         [
+            'property' => 'latestPickupDate',
+            'name' => 'LatestPickupDate',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => null,
+        ],
+        6 =>
+         [
+            'property' => 'latestPickupTime',
+            'name' => 'LatestPickupTime',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => 'H:i:sP',
+        ],
+        7 =>
+         [
+            'property' => 'pickupLocation',
+            'name' => 'PickupLocation',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Location',
+            'format' => null,
+        ],
+        8 =>
+         [
+            'property' => 'pickupParty',
+            'name' => 'PickupParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'ID', namespace: Ns::CBC)]
     private ?Identifier $id = null;
 

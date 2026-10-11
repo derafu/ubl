@@ -14,6 +14,8 @@ namespace Derafu\Ubl\Oasis\Cac;
 
 use Derafu\Ubl\Oasis\Cbc\Code;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -27,8 +29,62 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Tenderer Requirement
  */
 #[XmlType(localName: 'TendererRequirementType', namespace: Ns::CAC)]
-final class TendererRequirement
+final class TendererRequirement implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'names',
+            'name' => 'Name',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'tendererRequirementTypeCode',
+            'name' => 'TendererRequirementTypeCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'descriptions',
+            'name' => 'Description',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'legalReference',
+            'name' => 'LegalReference',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'suggestedEvidences',
+            'name' => 'SuggestedEvidence',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Evidence',
+            'format' => null,
+        ],
+    ],
+];
+
     /** @var list<Text> */
     #[XmlElement(name: 'Name', namespace: Ns::CBC, type: Text::class)]
     private array $names = [];

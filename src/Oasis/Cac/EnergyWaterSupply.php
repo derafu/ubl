@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Derafu\Ubl\Oasis\Cac;
 
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -25,8 +27,53 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Energy Water Supply
  */
 #[XmlType(localName: 'EnergyWaterSupplyType', namespace: Ns::CAC)]
-final class EnergyWaterSupply
+final class EnergyWaterSupply implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'consumptionReports',
+            'name' => 'ConsumptionReport',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\ConsumptionReport',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'energyTaxReports',
+            'name' => 'EnergyTaxReport',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\EnergyTaxReport',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'consumptionAverages',
+            'name' => 'ConsumptionAverage',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\ConsumptionAverage',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'energyWaterConsumptionCorrections',
+            'name' => 'EnergyWaterConsumptionCorrection',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\ConsumptionCorrection',
+            'format' => null,
+        ],
+    ],
+];
+
     /** @var list<ConsumptionReport> */
     #[XmlElement(name: 'ConsumptionReport', namespace: Ns::CAC, type: ConsumptionReport::class)]
     private array $consumptionReports = [];

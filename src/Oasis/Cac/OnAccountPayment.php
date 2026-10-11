@@ -14,6 +14,8 @@ namespace Derafu\Ubl\Oasis\Cac;
 
 use Derafu\Ubl\Oasis\Cbc\Quantity;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -27,8 +29,44 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  On Account Payment
  */
 #[XmlType(localName: 'OnAccountPaymentType', namespace: Ns::CAC)]
-final class OnAccountPayment
+final class OnAccountPayment implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'estimatedConsumedQuantity',
+            'name' => 'EstimatedConsumedQuantity',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'notes',
+            'name' => 'Note',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'paymentTermses',
+            'name' => 'PaymentTerms',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\PaymentTerms',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'EstimatedConsumedQuantity', namespace: Ns::CBC, required: true)]
     private Quantity $estimatedConsumedQuantity;
 

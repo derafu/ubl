@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Derafu\Ubl\Oasis\Cac;
 
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -25,8 +27,89 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Billing Reference
  */
 #[XmlType(localName: 'BillingReferenceType', namespace: Ns::CAC)]
-final class BillingReference
+final class BillingReference implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'invoiceDocumentReference',
+            'name' => 'InvoiceDocumentReference',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'selfBilledInvoiceDocumentReference',
+            'name' => 'SelfBilledInvoiceDocumentReference',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'creditNoteDocumentReference',
+            'name' => 'CreditNoteDocumentReference',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'selfBilledCreditNoteDocumentReference',
+            'name' => 'SelfBilledCreditNoteDocumentReference',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'debitNoteDocumentReference',
+            'name' => 'DebitNoteDocumentReference',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'reminderDocumentReference',
+            'name' => 'ReminderDocumentReference',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+            'format' => null,
+        ],
+        6 =>
+         [
+            'property' => 'additionalDocumentReference',
+            'name' => 'AdditionalDocumentReference',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+            'format' => null,
+        ],
+        7 =>
+         [
+            'property' => 'billingReferenceLines',
+            'name' => 'BillingReferenceLine',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\BillingReferenceLine',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'InvoiceDocumentReference', namespace: Ns::CAC)]
     private ?DocumentReference $invoiceDocumentReference = null;
 

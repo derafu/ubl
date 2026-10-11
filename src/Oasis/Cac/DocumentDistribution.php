@@ -14,6 +14,8 @@ namespace Derafu\Ubl\Oasis\Cac;
 
 use Derafu\Ubl\Oasis\Cbc\Numeric;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -27,8 +29,44 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Document Distribution
  */
 #[XmlType(localName: 'DocumentDistributionType', namespace: Ns::CAC)]
-final class DocumentDistribution
+final class DocumentDistribution implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'printQualifier',
+            'name' => 'PrintQualifier',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'maximumCopiesNumeric',
+            'name' => 'MaximumCopiesNumeric',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'party',
+            'name' => 'Party',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'PrintQualifier', namespace: Ns::CBC, required: true)]
     private Text $printQualifier;
 

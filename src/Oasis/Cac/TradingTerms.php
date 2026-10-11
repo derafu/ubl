@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Derafu\Ubl\Oasis\Cac;
 
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -26,8 +28,44 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Trading Terms
  */
 #[XmlType(localName: 'TradingTermsType', namespace: Ns::CAC)]
-final class TradingTerms
+final class TradingTerms implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'informations',
+            'name' => 'Information',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'reference',
+            'name' => 'Reference',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'applicableAddress',
+            'name' => 'ApplicableAddress',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Address',
+            'format' => null,
+        ],
+    ],
+];
+
     /** @var list<Text> */
     #[XmlElement(name: 'Information', namespace: Ns::CBC, type: Text::class)]
     private array $informations = [];

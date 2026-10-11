@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Derafu\Ubl\Oasis\Cac;
 
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -25,8 +27,62 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Document Response
  */
 #[XmlType(localName: 'DocumentResponseType', namespace: Ns::CAC)]
-final class DocumentResponse
+final class DocumentResponse implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'response',
+            'name' => 'Response',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Response',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'documentReferences',
+            'name' => 'DocumentReference',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'issuerParty',
+            'name' => 'IssuerParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'recipientParty',
+            'name' => 'RecipientParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'lineResponses',
+            'name' => 'LineResponse',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\LineResponse',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'Response', namespace: Ns::CAC, required: true)]
     private Response $response;
 

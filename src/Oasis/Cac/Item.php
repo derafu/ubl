@@ -15,6 +15,8 @@ namespace Derafu\Ubl\Oasis\Cac;
 use Derafu\Ubl\Oasis\Cbc\Numeric;
 use Derafu\Ubl\Oasis\Cbc\Quantity;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -29,8 +31,287 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  article, product, goods item
  */
 #[XmlType(localName: 'ItemType', namespace: Ns::CAC)]
-final class Item
+final class Item implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'descriptions',
+            'name' => 'Description',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'packQuantity',
+            'name' => 'PackQuantity',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'packSizeNumeric',
+            'name' => 'PackSizeNumeric',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'catalogueIndicator',
+            'name' => 'CatalogueIndicator',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'bool',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'name',
+            'name' => 'Name',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'hazardousRiskIndicator',
+            'name' => 'HazardousRiskIndicator',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'bool',
+            'format' => null,
+        ],
+        6 =>
+         [
+            'property' => 'additionalInformations',
+            'name' => 'AdditionalInformation',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        7 =>
+         [
+            'property' => 'keywords',
+            'name' => 'Keyword',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        8 =>
+         [
+            'property' => 'brandNames',
+            'name' => 'BrandName',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        9 =>
+         [
+            'property' => 'modelNames',
+            'name' => 'ModelName',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        10 =>
+         [
+            'property' => 'buyersItemIdentification',
+            'name' => 'BuyersItemIdentification',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\ItemIdentification',
+            'format' => null,
+        ],
+        11 =>
+         [
+            'property' => 'sellersItemIdentification',
+            'name' => 'SellersItemIdentification',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\ItemIdentification',
+            'format' => null,
+        ],
+        12 =>
+         [
+            'property' => 'manufacturersItemIdentifications',
+            'name' => 'ManufacturersItemIdentification',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\ItemIdentification',
+            'format' => null,
+        ],
+        13 =>
+         [
+            'property' => 'standardItemIdentification',
+            'name' => 'StandardItemIdentification',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\ItemIdentification',
+            'format' => null,
+        ],
+        14 =>
+         [
+            'property' => 'catalogueItemIdentification',
+            'name' => 'CatalogueItemIdentification',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\ItemIdentification',
+            'format' => null,
+        ],
+        15 =>
+         [
+            'property' => 'additionalItemIdentifications',
+            'name' => 'AdditionalItemIdentification',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\ItemIdentification',
+            'format' => null,
+        ],
+        16 =>
+         [
+            'property' => 'catalogueDocumentReference',
+            'name' => 'CatalogueDocumentReference',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+            'format' => null,
+        ],
+        17 =>
+         [
+            'property' => 'itemSpecificationDocumentReferences',
+            'name' => 'ItemSpecificationDocumentReference',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+            'format' => null,
+        ],
+        18 =>
+         [
+            'property' => 'originCountry',
+            'name' => 'OriginCountry',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Country',
+            'format' => null,
+        ],
+        19 =>
+         [
+            'property' => 'commodityClassifications',
+            'name' => 'CommodityClassification',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\CommodityClassification',
+            'format' => null,
+        ],
+        20 =>
+         [
+            'property' => 'transactionConditionses',
+            'name' => 'TransactionConditions',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\TransactionConditions',
+            'format' => null,
+        ],
+        21 =>
+         [
+            'property' => 'hazardousItems',
+            'name' => 'HazardousItem',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\HazardousItem',
+            'format' => null,
+        ],
+        22 =>
+         [
+            'property' => 'classifiedTaxCategories',
+            'name' => 'ClassifiedTaxCategory',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\TaxCategory',
+            'format' => null,
+        ],
+        23 =>
+         [
+            'property' => 'additionalItemProperties',
+            'name' => 'AdditionalItemProperty',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\ItemProperty',
+            'format' => null,
+        ],
+        24 =>
+         [
+            'property' => 'manufacturerParties',
+            'name' => 'ManufacturerParty',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+            'format' => null,
+        ],
+        25 =>
+         [
+            'property' => 'informationContentProviderParty',
+            'name' => 'InformationContentProviderParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+            'format' => null,
+        ],
+        26 =>
+         [
+            'property' => 'originAddresses',
+            'name' => 'OriginAddress',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Address',
+            'format' => null,
+        ],
+        27 =>
+         [
+            'property' => 'itemInstances',
+            'name' => 'ItemInstance',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\ItemInstance',
+            'format' => null,
+        ],
+        28 =>
+         [
+            'property' => 'certificates',
+            'name' => 'Certificate',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Certificate',
+            'format' => null,
+        ],
+        29 =>
+         [
+            'property' => 'dimensions',
+            'name' => 'Dimension',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Dimension',
+            'format' => null,
+        ],
+    ],
+];
+
     /** @var list<Text> */
     #[XmlElement(name: 'Description', namespace: Ns::CBC, type: Text::class)]
     private array $descriptions = [];

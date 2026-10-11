@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Derafu\Ubl\Oasis\Cac;
 
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -25,8 +27,35 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Line Response
  */
 #[XmlType(localName: 'LineResponseType', namespace: Ns::CAC)]
-final class LineResponse
+final class LineResponse implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'lineReference',
+            'name' => 'LineReference',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\LineReference',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'responses',
+            'name' => 'Response',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Response',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'LineReference', namespace: Ns::CAC, required: true)]
     private LineReference $lineReference;
 

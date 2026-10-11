@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Derafu\Ubl\Oasis\Cac;
 
 use Derafu\Ubl\Oasis\Cbc\Numeric;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -26,8 +28,44 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Dependent Price Reference
  */
 #[XmlType(localName: 'DependentPriceReferenceType', namespace: Ns::CAC)]
-final class DependentPriceReference
+final class DependentPriceReference implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'percent',
+            'name' => 'Percent',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'locationAddress',
+            'name' => 'LocationAddress',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Address',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'dependentLineReference',
+            'name' => 'DependentLineReference',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\LineReference',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'Percent', namespace: Ns::CBC)]
     private ?Numeric $percent = null;
 

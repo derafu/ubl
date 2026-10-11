@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Derafu\Ubl\Oasis\Cac;
 
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -22,8 +24,26 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  * A container for all extensions present in the document.
  */
 #[XmlType(localName: 'UBLExtensionsType', namespace: Ns::EXT)]
-final class UBLExtensions
+final class UBLExtensions implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'ublExtensions',
+            'name' => 'UBLExtension',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\UBLExtension',
+            'format' => null,
+        ],
+    ],
+];
+
     /** @var list<UBLExtension> */
     #[XmlElement(name: 'UBLExtension', namespace: Ns::EXT, type: UBLExtension::class, required: true)]
     private array $ublExtensions = [];

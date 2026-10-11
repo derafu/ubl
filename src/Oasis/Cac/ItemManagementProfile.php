@@ -15,6 +15,8 @@ namespace Derafu\Ubl\Oasis\Cac;
 use Derafu\Ubl\Oasis\Cbc\Numeric;
 use Derafu\Ubl\Oasis\Cbc\Quantity;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -28,8 +30,107 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Item Management Profile
  */
 #[XmlType(localName: 'ItemManagementProfileType', namespace: Ns::CAC)]
-final class ItemManagementProfile
+final class ItemManagementProfile implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'frozenPeriodDaysNumeric',
+            'name' => 'FrozenPeriodDaysNumeric',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'minimumInventoryQuantity',
+            'name' => 'MinimumInventoryQuantity',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'multipleOrderQuantity',
+            'name' => 'MultipleOrderQuantity',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'orderIntervalDaysNumeric',
+            'name' => 'OrderIntervalDaysNumeric',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'replenishmentOwnerDescriptions',
+            'name' => 'ReplenishmentOwnerDescription',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'targetServicePercent',
+            'name' => 'TargetServicePercent',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
+            'format' => null,
+        ],
+        6 =>
+         [
+            'property' => 'targetInventoryQuantity',
+            'name' => 'TargetInventoryQuantity',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+            'format' => null,
+        ],
+        7 =>
+         [
+            'property' => 'effectivePeriod',
+            'name' => 'EffectivePeriod',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Period',
+            'format' => null,
+        ],
+        8 =>
+         [
+            'property' => 'item',
+            'name' => 'Item',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Item',
+            'format' => null,
+        ],
+        9 =>
+         [
+            'property' => 'itemLocationQuantity',
+            'name' => 'ItemLocationQuantity',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\ItemLocationQuantity',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'FrozenPeriodDaysNumeric', namespace: Ns::CBC)]
     private ?Numeric $frozenPeriodDaysNumeric = null;
 

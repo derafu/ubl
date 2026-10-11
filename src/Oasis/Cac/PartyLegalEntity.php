@@ -17,6 +17,8 @@ use Derafu\Ubl\Oasis\Cbc\Amount;
 use Derafu\Ubl\Oasis\Cbc\Code;
 use Derafu\Ubl\Oasis\Cbc\Identifier;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -30,8 +32,143 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Party Legal Entity
  */
 #[XmlType(localName: 'PartyLegalEntityType', namespace: Ns::CAC)]
-final class PartyLegalEntity
+final class PartyLegalEntity implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'registrationName',
+            'name' => 'RegistrationName',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'companyID',
+            'name' => 'CompanyID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'registrationDate',
+            'name' => 'RegistrationDate',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'registrationExpirationDate',
+            'name' => 'RegistrationExpirationDate',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'companyLegalFormCode',
+            'name' => 'CompanyLegalFormCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'companyLegalForm',
+            'name' => 'CompanyLegalForm',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        6 =>
+         [
+            'property' => 'soleProprietorshipIndicator',
+            'name' => 'SoleProprietorshipIndicator',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'bool',
+            'format' => null,
+        ],
+        7 =>
+         [
+            'property' => 'companyLiquidationStatusCode',
+            'name' => 'CompanyLiquidationStatusCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        8 =>
+         [
+            'property' => 'corporateStockAmount',
+            'name' => 'CorporateStockAmount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+            'format' => null,
+        ],
+        9 =>
+         [
+            'property' => 'fullyPaidSharesIndicator',
+            'name' => 'FullyPaidSharesIndicator',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'bool',
+            'format' => null,
+        ],
+        10 =>
+         [
+            'property' => 'registrationAddress',
+            'name' => 'RegistrationAddress',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Address',
+            'format' => null,
+        ],
+        11 =>
+         [
+            'property' => 'corporateRegistrationScheme',
+            'name' => 'CorporateRegistrationScheme',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\CorporateRegistrationScheme',
+            'format' => null,
+        ],
+        12 =>
+         [
+            'property' => 'headOfficeParty',
+            'name' => 'HeadOfficeParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+            'format' => null,
+        ],
+        13 =>
+         [
+            'property' => 'shareholderParties',
+            'name' => 'ShareholderParty',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\ShareholderParty',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'RegistrationName', namespace: Ns::CBC)]
     private ?Text $registrationName = null;
 

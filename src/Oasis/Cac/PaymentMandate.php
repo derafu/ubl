@@ -16,6 +16,8 @@ use Derafu\Ubl\Oasis\Cbc\Amount;
 use Derafu\Ubl\Oasis\Cbc\Code;
 use Derafu\Ubl\Oasis\Cbc\Identifier;
 use Derafu\Ubl\Oasis\Cbc\Numeric;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -29,8 +31,107 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Payment Mandate
  */
 #[XmlType(localName: 'PaymentMandateType', namespace: Ns::CAC)]
-final class PaymentMandate
+final class PaymentMandate implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'id',
+            'name' => 'ID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'mandateTypeCode',
+            'name' => 'MandateTypeCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'maximumPaymentInstructionsNumeric',
+            'name' => 'MaximumPaymentInstructionsNumeric',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'maximumPaidAmount',
+            'name' => 'MaximumPaidAmount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'signatureID',
+            'name' => 'SignatureID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'payerParty',
+            'name' => 'PayerParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+            'format' => null,
+        ],
+        6 =>
+         [
+            'property' => 'payerFinancialAccount',
+            'name' => 'PayerFinancialAccount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\FinancialAccount',
+            'format' => null,
+        ],
+        7 =>
+         [
+            'property' => 'validityPeriod',
+            'name' => 'ValidityPeriod',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Period',
+            'format' => null,
+        ],
+        8 =>
+         [
+            'property' => 'paymentReversalPeriod',
+            'name' => 'PaymentReversalPeriod',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Period',
+            'format' => null,
+        ],
+        9 =>
+         [
+            'property' => 'clauses',
+            'name' => 'Clause',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Clause',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'ID', namespace: Ns::CBC)]
     private ?Identifier $id = null;
 

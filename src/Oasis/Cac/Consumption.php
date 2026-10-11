@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Derafu\Ubl\Oasis\Cac;
 
 use Derafu\Ubl\Oasis\Cbc\Code;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -26,8 +28,80 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Consumption
  */
 #[XmlType(localName: 'ConsumptionType', namespace: Ns::CAC)]
-final class Consumption
+final class Consumption implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'utilityStatementTypeCode',
+            'name' => 'UtilityStatementTypeCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'mainPeriod',
+            'name' => 'MainPeriod',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Period',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'allowanceCharges',
+            'name' => 'AllowanceCharge',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\AllowanceCharge',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'taxTotals',
+            'name' => 'TaxTotal',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\TaxTotal',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'energyWaterSupply',
+            'name' => 'EnergyWaterSupply',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\EnergyWaterSupply',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'telecommunicationsSupply',
+            'name' => 'TelecommunicationsSupply',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\TelecommunicationsSupply',
+            'format' => null,
+        ],
+        6 =>
+         [
+            'property' => 'legalMonetaryTotal',
+            'name' => 'LegalMonetaryTotal',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\MonetaryTotal',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'UtilityStatementTypeCode', namespace: Ns::CBC)]
     private ?Code $utilityStatementTypeCode = null;
 

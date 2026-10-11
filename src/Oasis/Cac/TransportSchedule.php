@@ -15,6 +15,8 @@ namespace Derafu\Ubl\Oasis\Cac;
 use DateTimeImmutable;
 use Derafu\Ubl\Oasis\Cbc\Numeric;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -28,8 +30,125 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Transport Schedule
  */
 #[XmlType(localName: 'TransportScheduleType', namespace: Ns::CAC)]
-final class TransportSchedule
+final class TransportSchedule implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'sequenceNumeric',
+            'name' => 'SequenceNumeric',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'referenceDate',
+            'name' => 'ReferenceDate',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'referenceTime',
+            'name' => 'ReferenceTime',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => 'H:i:sP',
+        ],
+        3 =>
+         [
+            'property' => 'reliabilityPercent',
+            'name' => 'ReliabilityPercent',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'remarkses',
+            'name' => 'Remarks',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'statusLocation',
+            'name' => 'StatusLocation',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Location',
+            'format' => null,
+        ],
+        6 =>
+         [
+            'property' => 'actualArrivalTransportEvent',
+            'name' => 'ActualArrivalTransportEvent',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\TransportEvent',
+            'format' => null,
+        ],
+        7 =>
+         [
+            'property' => 'actualDepartureTransportEvent',
+            'name' => 'ActualDepartureTransportEvent',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\TransportEvent',
+            'format' => null,
+        ],
+        8 =>
+         [
+            'property' => 'estimatedDepartureTransportEvent',
+            'name' => 'EstimatedDepartureTransportEvent',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\TransportEvent',
+            'format' => null,
+        ],
+        9 =>
+         [
+            'property' => 'estimatedArrivalTransportEvent',
+            'name' => 'EstimatedArrivalTransportEvent',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\TransportEvent',
+            'format' => null,
+        ],
+        10 =>
+         [
+            'property' => 'plannedDepartureTransportEvent',
+            'name' => 'PlannedDepartureTransportEvent',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\TransportEvent',
+            'format' => null,
+        ],
+        11 =>
+         [
+            'property' => 'plannedArrivalTransportEvent',
+            'name' => 'PlannedArrivalTransportEvent',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\TransportEvent',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'SequenceNumeric', namespace: Ns::CBC, required: true)]
     private Numeric $sequenceNumeric;
 

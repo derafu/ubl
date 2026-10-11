@@ -16,6 +16,8 @@ use DateTimeImmutable;
 use Derafu\Ubl\Oasis\Cbc\Code;
 use Derafu\Ubl\Oasis\Cbc\Measure;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -29,8 +31,80 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Period
  */
 #[XmlType(localName: 'PeriodType', namespace: Ns::CAC)]
-final class Period
+final class Period implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'startDate',
+            'name' => 'StartDate',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'startTime',
+            'name' => 'StartTime',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => 'H:i:sP',
+        ],
+        2 =>
+         [
+            'property' => 'endDate',
+            'name' => 'EndDate',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'endTime',
+            'name' => 'EndTime',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => 'H:i:sP',
+        ],
+        4 =>
+         [
+            'property' => 'durationMeasure',
+            'name' => 'DurationMeasure',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Measure',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'descriptionCodes',
+            'name' => 'DescriptionCode',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        6 =>
+         [
+            'property' => 'descriptions',
+            'name' => 'Description',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'StartDate', namespace: Ns::CBC)]
     private ?DateTimeImmutable $startDate = null;
 

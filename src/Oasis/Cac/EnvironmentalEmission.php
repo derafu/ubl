@@ -15,6 +15,8 @@ namespace Derafu\Ubl\Oasis\Cac;
 use Derafu\Ubl\Oasis\Cbc\Code;
 use Derafu\Ubl\Oasis\Cbc\Measure;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -28,8 +30,53 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Environmental Emission
  */
 #[XmlType(localName: 'EnvironmentalEmissionType', namespace: Ns::CAC)]
-final class EnvironmentalEmission
+final class EnvironmentalEmission implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'environmentalEmissionTypeCode',
+            'name' => 'EnvironmentalEmissionTypeCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'valueMeasure',
+            'name' => 'ValueMeasure',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Measure',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'descriptions',
+            'name' => 'Description',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'emissionCalculationMethods',
+            'name' => 'EmissionCalculationMethod',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\EmissionCalculationMethod',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'EnvironmentalEmissionTypeCode', namespace: Ns::CBC, required: true)]
     private Code $environmentalEmissionTypeCode;
 

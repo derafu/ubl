@@ -18,6 +18,8 @@ use Derafu\Ubl\Oasis\Cbc\Code;
 use Derafu\Ubl\Oasis\Cbc\Identifier;
 use Derafu\Ubl\Oasis\Cbc\Quantity;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -31,8 +33,206 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Telecommunications Service
  */
 #[XmlType(localName: 'TelecommunicationsServiceType', namespace: Ns::CAC)]
-final class TelecommunicationsService
+final class TelecommunicationsService implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'id',
+            'name' => 'ID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'callDate',
+            'name' => 'CallDate',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'callTime',
+            'name' => 'CallTime',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => 'H:i:sP',
+        ],
+        3 =>
+         [
+            'property' => 'serviceNumberCalled',
+            'name' => 'ServiceNumberCalled',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'telecommunicationsServiceCategory',
+            'name' => 'TelecommunicationsServiceCategory',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'telecommunicationsServiceCategoryCode',
+            'name' => 'TelecommunicationsServiceCategoryCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        6 =>
+         [
+            'property' => 'movieTitle',
+            'name' => 'MovieTitle',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        7 =>
+         [
+            'property' => 'roamingPartnerName',
+            'name' => 'RoamingPartnerName',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        8 =>
+         [
+            'property' => 'payPerView',
+            'name' => 'PayPerView',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        9 =>
+         [
+            'property' => 'quantity',
+            'name' => 'Quantity',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+            'format' => null,
+        ],
+        10 =>
+         [
+            'property' => 'telecommunicationsServiceCall',
+            'name' => 'TelecommunicationsServiceCall',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        11 =>
+         [
+            'property' => 'telecommunicationsServiceCallCode',
+            'name' => 'TelecommunicationsServiceCallCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        12 =>
+         [
+            'property' => 'callBaseAmount',
+            'name' => 'CallBaseAmount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+            'format' => null,
+        ],
+        13 =>
+         [
+            'property' => 'callExtensionAmount',
+            'name' => 'CallExtensionAmount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+            'format' => null,
+        ],
+        14 =>
+         [
+            'property' => 'price',
+            'name' => 'Price',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Price',
+            'format' => null,
+        ],
+        15 =>
+         [
+            'property' => 'country',
+            'name' => 'Country',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Country',
+            'format' => null,
+        ],
+        16 =>
+         [
+            'property' => 'exchangeRates',
+            'name' => 'ExchangeRate',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\ExchangeRate',
+            'format' => null,
+        ],
+        17 =>
+         [
+            'property' => 'allowanceCharges',
+            'name' => 'AllowanceCharge',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\AllowanceCharge',
+            'format' => null,
+        ],
+        18 =>
+         [
+            'property' => 'taxTotals',
+            'name' => 'TaxTotal',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\TaxTotal',
+            'format' => null,
+        ],
+        19 =>
+         [
+            'property' => 'callDuties',
+            'name' => 'CallDuty',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Duty',
+            'format' => null,
+        ],
+        20 =>
+         [
+            'property' => 'timeDuties',
+            'name' => 'TimeDuty',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Duty',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'ID', namespace: Ns::CBC)]
     private ?Identifier $id = null;
 

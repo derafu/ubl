@@ -17,6 +17,8 @@ use Derafu\Ubl\Oasis\Cbc\Code;
 use Derafu\Ubl\Oasis\Cbc\Identifier;
 use Derafu\Ubl\Oasis\Cbc\Quantity;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -30,8 +32,305 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Line Item
  */
 #[XmlType(localName: 'LineItemType', namespace: Ns::CAC)]
-final class LineItem
+final class LineItem implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'id',
+            'name' => 'ID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'salesOrderID',
+            'name' => 'SalesOrderID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'uuid',
+            'name' => 'UUID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'notes',
+            'name' => 'Note',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'lineStatusCode',
+            'name' => 'LineStatusCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'quantity',
+            'name' => 'Quantity',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+            'format' => null,
+        ],
+        6 =>
+         [
+            'property' => 'lineExtensionAmount',
+            'name' => 'LineExtensionAmount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+            'format' => null,
+        ],
+        7 =>
+         [
+            'property' => 'totalTaxAmount',
+            'name' => 'TotalTaxAmount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+            'format' => null,
+        ],
+        8 =>
+         [
+            'property' => 'minimumQuantity',
+            'name' => 'MinimumQuantity',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+            'format' => null,
+        ],
+        9 =>
+         [
+            'property' => 'maximumQuantity',
+            'name' => 'MaximumQuantity',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+            'format' => null,
+        ],
+        10 =>
+         [
+            'property' => 'minimumBackorderQuantity',
+            'name' => 'MinimumBackorderQuantity',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+            'format' => null,
+        ],
+        11 =>
+         [
+            'property' => 'maximumBackorderQuantity',
+            'name' => 'MaximumBackorderQuantity',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+            'format' => null,
+        ],
+        12 =>
+         [
+            'property' => 'inspectionMethodCode',
+            'name' => 'InspectionMethodCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        13 =>
+         [
+            'property' => 'partialDeliveryIndicator',
+            'name' => 'PartialDeliveryIndicator',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'bool',
+            'format' => null,
+        ],
+        14 =>
+         [
+            'property' => 'backOrderAllowedIndicator',
+            'name' => 'BackOrderAllowedIndicator',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'bool',
+            'format' => null,
+        ],
+        15 =>
+         [
+            'property' => 'accountingCostCode',
+            'name' => 'AccountingCostCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        16 =>
+         [
+            'property' => 'accountingCost',
+            'name' => 'AccountingCost',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        17 =>
+         [
+            'property' => 'warrantyInformations',
+            'name' => 'WarrantyInformation',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        18 =>
+         [
+            'property' => 'deliveries',
+            'name' => 'Delivery',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Delivery',
+            'format' => null,
+        ],
+        19 =>
+         [
+            'property' => 'deliveryTerms',
+            'name' => 'DeliveryTerms',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\DeliveryTerms',
+            'format' => null,
+        ],
+        20 =>
+         [
+            'property' => 'originatorParty',
+            'name' => 'OriginatorParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+            'format' => null,
+        ],
+        21 =>
+         [
+            'property' => 'orderedShipments',
+            'name' => 'OrderedShipment',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\OrderedShipment',
+            'format' => null,
+        ],
+        22 =>
+         [
+            'property' => 'pricingReference',
+            'name' => 'PricingReference',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\PricingReference',
+            'format' => null,
+        ],
+        23 =>
+         [
+            'property' => 'allowanceCharges',
+            'name' => 'AllowanceCharge',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\AllowanceCharge',
+            'format' => null,
+        ],
+        24 =>
+         [
+            'property' => 'price',
+            'name' => 'Price',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Price',
+            'format' => null,
+        ],
+        25 =>
+         [
+            'property' => 'item',
+            'name' => 'Item',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Item',
+            'format' => null,
+        ],
+        26 =>
+         [
+            'property' => 'subLineItems',
+            'name' => 'SubLineItem',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\LineItem',
+            'format' => null,
+        ],
+        27 =>
+         [
+            'property' => 'warrantyValidityPeriod',
+            'name' => 'WarrantyValidityPeriod',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Period',
+            'format' => null,
+        ],
+        28 =>
+         [
+            'property' => 'warrantyParty',
+            'name' => 'WarrantyParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+            'format' => null,
+        ],
+        29 =>
+         [
+            'property' => 'taxTotals',
+            'name' => 'TaxTotal',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\TaxTotal',
+            'format' => null,
+        ],
+        30 =>
+         [
+            'property' => 'itemPriceExtension',
+            'name' => 'ItemPriceExtension',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\PriceExtension',
+            'format' => null,
+        ],
+        31 =>
+         [
+            'property' => 'lineReferences',
+            'name' => 'LineReference',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\LineReference',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'ID', namespace: Ns::CBC, required: true)]
     private Identifier $id;
 

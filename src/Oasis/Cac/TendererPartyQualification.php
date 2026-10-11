@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Derafu\Ubl\Oasis\Cac;
 
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -25,8 +27,44 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Tenderer Party Qualification
  */
 #[XmlType(localName: 'TendererPartyQualificationType', namespace: Ns::CAC)]
-final class TendererPartyQualification
+final class TendererPartyQualification implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'interestedProcurementProjectLots',
+            'name' => 'InterestedProcurementProjectLot',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\ProcurementProjectLot',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'mainQualifyingParty',
+            'name' => 'MainQualifyingParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\QualifyingParty',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'additionalQualifyingParties',
+            'name' => 'AdditionalQualifyingParty',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\QualifyingParty',
+            'format' => null,
+        ],
+    ],
+];
+
     /** @var list<ProcurementProjectLot> */
     #[XmlElement(name: 'InterestedProcurementProjectLot', namespace: Ns::CAC, type: ProcurementProjectLot::class)]
     private array $interestedProcurementProjectLots = [];

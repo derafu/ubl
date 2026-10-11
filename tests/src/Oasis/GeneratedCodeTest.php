@@ -48,6 +48,26 @@ final class GeneratedCodeTest extends TestCase
     }
 
     #[Test]
+    public function everyGeneratedClassIsArraySerializable(): void
+    {
+        $this->assertNoFileMatches(
+            '/^final class \w+\n\{\n/m',
+            'is still missing ArraySerializableTrait',
+            ['/Xml/', '/Enum/']
+        );
+    }
+
+    #[Test]
+    public function everyGeneratedClassHasPrecomputedArrayMetadata(): void
+    {
+        $this->assertNoFileMatches(
+            '/use ArraySerializableTrait;\n\n(?!    private const ARRAY_METADATA)/',
+            'is still missing ARRAY_METADATA (ArraySerializableTrait would have to reflect it at runtime instead)',
+            ['/Xml/', '/Enum/']
+        );
+    }
+
+    #[Test]
     public function documentRegistryGuardsItsRegexMatch(): void
     {
         $source = file_get_contents(self::oasisDir() . '/Xml/DocumentRegistry.php');
@@ -60,17 +80,23 @@ final class GeneratedCodeTest extends TestCase
         );
     }
 
-    private function assertNoFileMatches(string $pattern, string $message): void
+    /**
+     * @param list<string> $excludePaths Path substrings of files this does not apply to.
+     */
+    private function assertNoFileMatches(string $pattern, string $message, array $excludePaths = []): void
     {
         foreach (self::oasisFiles() as $file) {
-            $source = file_get_contents($file->getPathname());
+            $path = $file->getPathname();
+            foreach ($excludePaths as $exclude) {
+                if (str_contains($path, $exclude)) {
+                    continue 2;
+                }
+            }
+
+            $source = file_get_contents($path);
             $this->assertNotFalse($source);
 
-            $this->assertSame(
-                0,
-                preg_match($pattern, $source),
-                $file->getPathname() . ': ' . $message
-            );
+            $this->assertSame(0, preg_match($pattern, $source), $path . ': ' . $message);
         }
     }
 

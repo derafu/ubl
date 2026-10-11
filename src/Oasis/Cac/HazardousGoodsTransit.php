@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Derafu\Ubl\Oasis\Cac;
 
 use Derafu\Ubl\Oasis\Cbc\Code;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -26,8 +28,80 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Hazardous Goods Transit
  */
 #[XmlType(localName: 'HazardousGoodsTransitType', namespace: Ns::CAC)]
-final class HazardousGoodsTransit
+final class HazardousGoodsTransit implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'transportEmergencyCardCode',
+            'name' => 'TransportEmergencyCardCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'packingCriteriaCode',
+            'name' => 'PackingCriteriaCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'hazardousRegulationCode',
+            'name' => 'HazardousRegulationCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'inhalationToxicityZoneCode',
+            'name' => 'InhalationToxicityZoneCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'transportAuthorizationCode',
+            'name' => 'TransportAuthorizationCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'maximumTemperature',
+            'name' => 'MaximumTemperature',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Temperature',
+            'format' => null,
+        ],
+        6 =>
+         [
+            'property' => 'minimumTemperature',
+            'name' => 'MinimumTemperature',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Temperature',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'TransportEmergencyCardCode', namespace: Ns::CBC)]
     private ?Code $transportEmergencyCardCode = null;
 

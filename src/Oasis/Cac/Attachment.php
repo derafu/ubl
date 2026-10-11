@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Derafu\Ubl\Oasis\Cac;
 
 use Derafu\Ubl\Oasis\Cbc\BinaryObject;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -26,8 +28,35 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Attachment
  */
 #[XmlType(localName: 'AttachmentType', namespace: Ns::CAC)]
-final class Attachment
+final class Attachment implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'embeddedDocumentBinaryObject',
+            'name' => 'EmbeddedDocumentBinaryObject',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\BinaryObject',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'externalReference',
+            'name' => 'ExternalReference',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\ExternalReference',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'EmbeddedDocumentBinaryObject', namespace: Ns::CBC)]
     private ?BinaryObject $embeddedDocumentBinaryObject = null;
 

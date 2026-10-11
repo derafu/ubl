@@ -15,6 +15,8 @@ namespace Derafu\Ubl\Oasis\Cac;
 use DateTimeImmutable;
 use Derafu\Ubl\Oasis\Cbc\Code;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -28,8 +30,71 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Qualification Resolution
  */
 #[XmlType(localName: 'QualificationResolutionType', namespace: Ns::CAC)]
-final class QualificationResolution
+final class QualificationResolution implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'admissionCode',
+            'name' => 'AdmissionCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'exclusionReasons',
+            'name' => 'ExclusionReason',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'resolutions',
+            'name' => 'Resolution',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'resolutionDate',
+            'name' => 'ResolutionDate',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'resolutionTime',
+            'name' => 'ResolutionTime',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => 'H:i:sP',
+        ],
+        5 =>
+         [
+            'property' => 'procurementProjectLot',
+            'name' => 'ProcurementProjectLot',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\ProcurementProjectLot',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'AdmissionCode', namespace: Ns::CBC, required: true)]
     private Code $admissionCode;
 

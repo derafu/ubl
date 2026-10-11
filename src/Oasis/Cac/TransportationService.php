@@ -17,6 +17,8 @@ use Derafu\Ubl\Oasis\Cbc\Code;
 use Derafu\Ubl\Oasis\Cbc\Identifier;
 use Derafu\Ubl\Oasis\Cbc\Numeric;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -30,8 +32,224 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Transportation Service
  */
 #[XmlType(localName: 'TransportationServiceType', namespace: Ns::CAC)]
-final class TransportationService
+final class TransportationService implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'transportServiceCode',
+            'name' => 'TransportServiceCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'tariffClassCode',
+            'name' => 'TariffClassCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'priority',
+            'name' => 'Priority',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'freightRateClassCode',
+            'name' => 'FreightRateClassCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'transportationServiceDescriptions',
+            'name' => 'TransportationServiceDescription',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'transportationServiceDetailsURI',
+            'name' => 'TransportationServiceDetailsURI',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        6 =>
+         [
+            'property' => 'nominationDate',
+            'name' => 'NominationDate',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => null,
+        ],
+        7 =>
+         [
+            'property' => 'nominationTime',
+            'name' => 'NominationTime',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => 'H:i:sP',
+        ],
+        8 =>
+         [
+            'property' => 'name',
+            'name' => 'Name',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        9 =>
+         [
+            'property' => 'sequenceNumeric',
+            'name' => 'SequenceNumeric',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
+            'format' => null,
+        ],
+        10 =>
+         [
+            'property' => 'transportEquipments',
+            'name' => 'TransportEquipment',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\TransportEquipment',
+            'format' => null,
+        ],
+        11 =>
+         [
+            'property' => 'supportedTransportEquipments',
+            'name' => 'SupportedTransportEquipment',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\TransportEquipment',
+            'format' => null,
+        ],
+        12 =>
+         [
+            'property' => 'unsupportedTransportEquipments',
+            'name' => 'UnsupportedTransportEquipment',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\TransportEquipment',
+            'format' => null,
+        ],
+        13 =>
+         [
+            'property' => 'commodityClassifications',
+            'name' => 'CommodityClassification',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\CommodityClassification',
+            'format' => null,
+        ],
+        14 =>
+         [
+            'property' => 'supportedCommodityClassifications',
+            'name' => 'SupportedCommodityClassification',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\CommodityClassification',
+            'format' => null,
+        ],
+        15 =>
+         [
+            'property' => 'unsupportedCommodityClassifications',
+            'name' => 'UnsupportedCommodityClassification',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\CommodityClassification',
+            'format' => null,
+        ],
+        16 =>
+         [
+            'property' => 'totalCapacityDimension',
+            'name' => 'TotalCapacityDimension',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Dimension',
+            'format' => null,
+        ],
+        17 =>
+         [
+            'property' => 'shipmentStages',
+            'name' => 'ShipmentStage',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\ShipmentStage',
+            'format' => null,
+        ],
+        18 =>
+         [
+            'property' => 'transportEvents',
+            'name' => 'TransportEvent',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\TransportEvent',
+            'format' => null,
+        ],
+        19 =>
+         [
+            'property' => 'responsibleTransportServiceProviderParty',
+            'name' => 'ResponsibleTransportServiceProviderParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+            'format' => null,
+        ],
+        20 =>
+         [
+            'property' => 'environmentalEmissions',
+            'name' => 'EnvironmentalEmission',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\EnvironmentalEmission',
+            'format' => null,
+        ],
+        21 =>
+         [
+            'property' => 'estimatedDurationPeriod',
+            'name' => 'EstimatedDurationPeriod',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Period',
+            'format' => null,
+        ],
+        22 =>
+         [
+            'property' => 'scheduledServiceFrequencies',
+            'name' => 'ScheduledServiceFrequency',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\ServiceFrequency',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'TransportServiceCode', namespace: Ns::CBC, required: true)]
     private Code $transportServiceCode;
 

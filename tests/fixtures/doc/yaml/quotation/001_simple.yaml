@@ -1,0 +1,37 @@
+# The simplest Quotation that UBL 2.1 itself requires: `IssueDate`, `SellerSupplierParty`,
+# `QuotedMonetaryTotal` and at least one `QuotationLine` are the only elements `Quotation`
+# marks `required: true` (see src/Oasis/Doc/Quotation.php), and none of their own children are
+# required either except `LineItem.ID`, `LineItem.Item` and an `Amount`'s `currencyID`. UBL does
+# not even require a buyer. A document with nothing else (no name, no price) would not read as
+# an actual quotation though, so the few optional fields that make this one meaningful are kept
+# too: `Quotation.ID`, the seller's and the item's `Name`, and the line's `Price`.
+#
+# Keys are the UBL element and attribute names, the same ones
+# `Derafu\Ubl\Trait\ArraySerializableTrait::fromArray()` reads, e.g.
+# `Quotation::fromArray(Yaml::parseFile(...)['Quotation'])`. A value with no attributes is a
+# plain scalar (`ID`, `IssueDate`, `Name`); a value that has one, like an amount's currency,
+# needs the `@value`/`@attributes` form.
+
+Quotation:
+  ID: '1'
+  IssueDate: '2026-01-15'
+  SellerSupplierParty:
+    Party:
+      PartyName:
+        - Name: Acme Corp
+  QuotedMonetaryTotal:
+    PayableAmount:
+      '@value': '100'
+      '@attributes':
+        currencyID: EUR
+  QuotationLine:
+    - ID: '1'
+      LineItem:
+        ID: '1'
+        Item:
+          Name: Widget
+        Price:
+          PriceAmount:
+            '@value': '100'
+            '@attributes':
+              currencyID: EUR

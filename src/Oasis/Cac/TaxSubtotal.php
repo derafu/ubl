@@ -16,6 +16,8 @@ use Derafu\Ubl\Oasis\Cbc\Amount;
 use Derafu\Ubl\Oasis\Cbc\Measure;
 use Derafu\Ubl\Oasis\Cbc\Numeric;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -29,8 +31,107 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Tax Subtotal
  */
 #[XmlType(localName: 'TaxSubtotalType', namespace: Ns::CAC)]
-final class TaxSubtotal
+final class TaxSubtotal implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'taxableAmount',
+            'name' => 'TaxableAmount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'taxAmount',
+            'name' => 'TaxAmount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'calculationSequenceNumeric',
+            'name' => 'CalculationSequenceNumeric',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'transactionCurrencyTaxAmount',
+            'name' => 'TransactionCurrencyTaxAmount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'percent',
+            'name' => 'Percent',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'baseUnitMeasure',
+            'name' => 'BaseUnitMeasure',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Measure',
+            'format' => null,
+        ],
+        6 =>
+         [
+            'property' => 'perUnitAmount',
+            'name' => 'PerUnitAmount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+            'format' => null,
+        ],
+        7 =>
+         [
+            'property' => 'tierRange',
+            'name' => 'TierRange',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        8 =>
+         [
+            'property' => 'tierRatePercent',
+            'name' => 'TierRatePercent',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
+            'format' => null,
+        ],
+        9 =>
+         [
+            'property' => 'taxCategory',
+            'name' => 'TaxCategory',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\TaxCategory',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'TaxableAmount', namespace: Ns::CBC)]
     private ?Amount $taxableAmount = null;
 

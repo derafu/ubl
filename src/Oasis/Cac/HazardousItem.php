@@ -17,6 +17,8 @@ use Derafu\Ubl\Oasis\Cbc\Identifier;
 use Derafu\Ubl\Oasis\Cbc\Measure;
 use Derafu\Ubl\Oasis\Cbc\Quantity;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -30,8 +32,224 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Hazardous Item
  */
 #[XmlType(localName: 'HazardousItemType', namespace: Ns::CAC)]
-final class HazardousItem
+final class HazardousItem implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'id',
+            'name' => 'ID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'placardNotation',
+            'name' => 'PlacardNotation',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'placardEndorsement',
+            'name' => 'PlacardEndorsement',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'additionalInformations',
+            'name' => 'AdditionalInformation',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'undgCode',
+            'name' => 'UNDGCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'emergencyProceduresCode',
+            'name' => 'EmergencyProceduresCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        6 =>
+         [
+            'property' => 'medicalFirstAidGuideCode',
+            'name' => 'MedicalFirstAidGuideCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        7 =>
+         [
+            'property' => 'technicalName',
+            'name' => 'TechnicalName',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        8 =>
+         [
+            'property' => 'categoryName',
+            'name' => 'CategoryName',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        9 =>
+         [
+            'property' => 'hazardousCategoryCode',
+            'name' => 'HazardousCategoryCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        10 =>
+         [
+            'property' => 'upperOrangeHazardPlacardID',
+            'name' => 'UpperOrangeHazardPlacardID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        11 =>
+         [
+            'property' => 'lowerOrangeHazardPlacardID',
+            'name' => 'LowerOrangeHazardPlacardID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        12 =>
+         [
+            'property' => 'markingID',
+            'name' => 'MarkingID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        13 =>
+         [
+            'property' => 'hazardClassID',
+            'name' => 'HazardClassID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        14 =>
+         [
+            'property' => 'netWeightMeasure',
+            'name' => 'NetWeightMeasure',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Measure',
+            'format' => null,
+        ],
+        15 =>
+         [
+            'property' => 'netVolumeMeasure',
+            'name' => 'NetVolumeMeasure',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Measure',
+            'format' => null,
+        ],
+        16 =>
+         [
+            'property' => 'quantity',
+            'name' => 'Quantity',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+            'format' => null,
+        ],
+        17 =>
+         [
+            'property' => 'contactParty',
+            'name' => 'ContactParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+            'format' => null,
+        ],
+        18 =>
+         [
+            'property' => 'secondaryHazards',
+            'name' => 'SecondaryHazard',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\SecondaryHazard',
+            'format' => null,
+        ],
+        19 =>
+         [
+            'property' => 'hazardousGoodsTransits',
+            'name' => 'HazardousGoodsTransit',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\HazardousGoodsTransit',
+            'format' => null,
+        ],
+        20 =>
+         [
+            'property' => 'emergencyTemperature',
+            'name' => 'EmergencyTemperature',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Temperature',
+            'format' => null,
+        ],
+        21 =>
+         [
+            'property' => 'flashpointTemperature',
+            'name' => 'FlashpointTemperature',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Temperature',
+            'format' => null,
+        ],
+        22 =>
+         [
+            'property' => 'additionalTemperatures',
+            'name' => 'AdditionalTemperature',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Temperature',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'ID', namespace: Ns::CBC)]
     private ?Identifier $id = null;
 

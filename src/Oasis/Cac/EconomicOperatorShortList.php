@@ -14,6 +14,8 @@ namespace Derafu\Ubl\Oasis\Cac;
 
 use Derafu\Ubl\Oasis\Cbc\Quantity;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -27,8 +29,62 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Economic Operator Short List
  */
 #[XmlType(localName: 'EconomicOperatorShortListType', namespace: Ns::CAC)]
-final class EconomicOperatorShortList
+final class EconomicOperatorShortList implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'limitationDescriptions',
+            'name' => 'LimitationDescription',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'expectedQuantity',
+            'name' => 'ExpectedQuantity',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'maximumQuantity',
+            'name' => 'MaximumQuantity',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'minimumQuantity',
+            'name' => 'MinimumQuantity',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'preSelectedParties',
+            'name' => 'PreSelectedParty',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+            'format' => null,
+        ],
+    ],
+];
+
     /** @var list<Text> */
     #[XmlElement(name: 'LimitationDescription', namespace: Ns::CBC, type: Text::class)]
     private array $limitationDescriptions = [];

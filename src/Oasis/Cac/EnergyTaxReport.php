@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Derafu\Ubl\Oasis\Cac;
 
 use Derafu\Ubl\Oasis\Cbc\Amount;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -26,8 +28,53 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Energy Tax Report
  */
 #[XmlType(localName: 'EnergyTaxReportType', namespace: Ns::CAC)]
-final class EnergyTaxReport
+final class EnergyTaxReport implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'taxEnergyAmount',
+            'name' => 'TaxEnergyAmount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'taxEnergyOnAccountAmount',
+            'name' => 'TaxEnergyOnAccountAmount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'taxEnergyBalanceAmount',
+            'name' => 'TaxEnergyBalanceAmount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'taxScheme',
+            'name' => 'TaxScheme',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\TaxScheme',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'TaxEnergyAmount', namespace: Ns::CBC)]
     private ?Amount $taxEnergyAmount = null;
 

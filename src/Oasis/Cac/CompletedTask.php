@@ -14,6 +14,8 @@ namespace Derafu\Ubl\Oasis\Cac;
 
 use Derafu\Ubl\Oasis\Cbc\Amount;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -27,8 +29,80 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Completed Task
  */
 #[XmlType(localName: 'CompletedTaskType', namespace: Ns::CAC)]
-final class CompletedTask
+final class CompletedTask implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'annualAverageAmount',
+            'name' => 'AnnualAverageAmount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'totalTaskAmount',
+            'name' => 'TotalTaskAmount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'partyCapacityAmount',
+            'name' => 'PartyCapacityAmount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'descriptions',
+            'name' => 'Description',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'evidenceSupplieds',
+            'name' => 'EvidenceSupplied',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\EvidenceSupplied',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'period',
+            'name' => 'Period',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Period',
+            'format' => null,
+        ],
+        6 =>
+         [
+            'property' => 'recipientCustomerParty',
+            'name' => 'RecipientCustomerParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\CustomerParty',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'AnnualAverageAmount', namespace: Ns::CBC)]
     private ?Amount $annualAverageAmount = null;
 

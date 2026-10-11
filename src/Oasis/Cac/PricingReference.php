@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Derafu\Ubl\Oasis\Cac;
 
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -25,8 +27,35 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Pricing Reference
  */
 #[XmlType(localName: 'PricingReferenceType', namespace: Ns::CAC)]
-final class PricingReference
+final class PricingReference implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'originalItemLocationQuantity',
+            'name' => 'OriginalItemLocationQuantity',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\ItemLocationQuantity',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'alternativeConditionPrices',
+            'name' => 'AlternativeConditionPrice',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Price',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'OriginalItemLocationQuantity', namespace: Ns::CAC)]
     private ?ItemLocationQuantity $originalItemLocationQuantity = null;
 

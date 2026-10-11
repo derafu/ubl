@@ -14,6 +14,8 @@ namespace Derafu\Ubl\Oasis\Cac;
 
 use Derafu\Ubl\Oasis\Cbc\Identifier;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -27,8 +29,80 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Supplier Party
  */
 #[XmlType(localName: 'SupplierPartyType', namespace: Ns::CAC)]
-final class SupplierParty
+final class SupplierParty implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'customerAssignedAccountID',
+            'name' => 'CustomerAssignedAccountID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'additionalAccountIDs',
+            'name' => 'AdditionalAccountID',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'dataSendingCapability',
+            'name' => 'DataSendingCapability',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'party',
+            'name' => 'Party',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'despatchContact',
+            'name' => 'DespatchContact',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Contact',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'accountingContact',
+            'name' => 'AccountingContact',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Contact',
+            'format' => null,
+        ],
+        6 =>
+         [
+            'property' => 'sellerContact',
+            'name' => 'SellerContact',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Contact',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'CustomerAssignedAccountID', namespace: Ns::CBC)]
     private ?Identifier $customerAssignedAccountID = null;
 

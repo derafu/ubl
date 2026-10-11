@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Derafu\Ubl\Oasis\Cac;
 
 use Derafu\Ubl\Oasis\Cbc\Amount;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -26,8 +28,62 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Tax Total
  */
 #[XmlType(localName: 'TaxTotalType', namespace: Ns::CAC)]
-final class TaxTotal
+final class TaxTotal implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'taxAmount',
+            'name' => 'TaxAmount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'roundingAmount',
+            'name' => 'RoundingAmount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'taxEvidenceIndicator',
+            'name' => 'TaxEvidenceIndicator',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'bool',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'taxIncludedIndicator',
+            'name' => 'TaxIncludedIndicator',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'bool',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'taxSubtotals',
+            'name' => 'TaxSubtotal',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\TaxSubtotal',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'TaxAmount', namespace: Ns::CBC, required: true)]
     private Amount $taxAmount;
 

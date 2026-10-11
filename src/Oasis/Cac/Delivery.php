@@ -15,6 +15,8 @@ namespace Derafu\Ubl\Oasis\Cac;
 use DateTimeImmutable;
 use Derafu\Ubl\Oasis\Cbc\Identifier;
 use Derafu\Ubl\Oasis\Cbc\Quantity;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -28,8 +30,233 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Delivery
  */
 #[XmlType(localName: 'DeliveryType', namespace: Ns::CAC)]
-final class Delivery
+final class Delivery implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'id',
+            'name' => 'ID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'quantity',
+            'name' => 'Quantity',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'minimumQuantity',
+            'name' => 'MinimumQuantity',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'maximumQuantity',
+            'name' => 'MaximumQuantity',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'actualDeliveryDate',
+            'name' => 'ActualDeliveryDate',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'actualDeliveryTime',
+            'name' => 'ActualDeliveryTime',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => 'H:i:sP',
+        ],
+        6 =>
+         [
+            'property' => 'latestDeliveryDate',
+            'name' => 'LatestDeliveryDate',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => null,
+        ],
+        7 =>
+         [
+            'property' => 'latestDeliveryTime',
+            'name' => 'LatestDeliveryTime',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => 'H:i:sP',
+        ],
+        8 =>
+         [
+            'property' => 'releaseID',
+            'name' => 'ReleaseID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        9 =>
+         [
+            'property' => 'trackingID',
+            'name' => 'TrackingID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        10 =>
+         [
+            'property' => 'deliveryAddress',
+            'name' => 'DeliveryAddress',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Address',
+            'format' => null,
+        ],
+        11 =>
+         [
+            'property' => 'deliveryLocation',
+            'name' => 'DeliveryLocation',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Location',
+            'format' => null,
+        ],
+        12 =>
+         [
+            'property' => 'alternativeDeliveryLocation',
+            'name' => 'AlternativeDeliveryLocation',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Location',
+            'format' => null,
+        ],
+        13 =>
+         [
+            'property' => 'requestedDeliveryPeriod',
+            'name' => 'RequestedDeliveryPeriod',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Period',
+            'format' => null,
+        ],
+        14 =>
+         [
+            'property' => 'promisedDeliveryPeriod',
+            'name' => 'PromisedDeliveryPeriod',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Period',
+            'format' => null,
+        ],
+        15 =>
+         [
+            'property' => 'estimatedDeliveryPeriod',
+            'name' => 'EstimatedDeliveryPeriod',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Period',
+            'format' => null,
+        ],
+        16 =>
+         [
+            'property' => 'carrierParty',
+            'name' => 'CarrierParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+            'format' => null,
+        ],
+        17 =>
+         [
+            'property' => 'deliveryParty',
+            'name' => 'DeliveryParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+            'format' => null,
+        ],
+        18 =>
+         [
+            'property' => 'notifyParties',
+            'name' => 'NotifyParty',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+            'format' => null,
+        ],
+        19 =>
+         [
+            'property' => 'despatch',
+            'name' => 'Despatch',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Despatch',
+            'format' => null,
+        ],
+        20 =>
+         [
+            'property' => 'deliveryTermses',
+            'name' => 'DeliveryTerms',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\DeliveryTerms',
+            'format' => null,
+        ],
+        21 =>
+         [
+            'property' => 'minimumDeliveryUnit',
+            'name' => 'MinimumDeliveryUnit',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\DeliveryUnit',
+            'format' => null,
+        ],
+        22 =>
+         [
+            'property' => 'maximumDeliveryUnit',
+            'name' => 'MaximumDeliveryUnit',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\DeliveryUnit',
+            'format' => null,
+        ],
+        23 =>
+         [
+            'property' => 'shipment',
+            'name' => 'Shipment',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Shipment',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'ID', namespace: Ns::CBC)]
     private ?Identifier $id = null;
 

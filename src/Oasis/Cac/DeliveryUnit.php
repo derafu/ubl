@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Derafu\Ubl\Oasis\Cac;
 
 use Derafu\Ubl\Oasis\Cbc\Quantity;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -26,8 +28,44 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Delivery Unit
  */
 #[XmlType(localName: 'DeliveryUnitType', namespace: Ns::CAC)]
-final class DeliveryUnit
+final class DeliveryUnit implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'batchQuantity',
+            'name' => 'BatchQuantity',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'consumerUnitQuantity',
+            'name' => 'ConsumerUnitQuantity',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'hazardousRiskIndicator',
+            'name' => 'HazardousRiskIndicator',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'bool',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'BatchQuantity', namespace: Ns::CBC, required: true)]
     private Quantity $batchQuantity;
 

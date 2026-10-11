@@ -14,6 +14,8 @@ namespace Derafu\Ubl\Oasis\Cac;
 
 use Derafu\Ubl\Oasis\Cbc\Identifier;
 use Derafu\Ubl\Oasis\Cbc\Numeric;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -27,8 +29,71 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Transportation Segment
  */
 #[XmlType(localName: 'TransportationSegmentType', namespace: Ns::CAC)]
-final class TransportationSegment
+final class TransportationSegment implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'sequenceNumeric',
+            'name' => 'SequenceNumeric',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'transportExecutionPlanReferenceID',
+            'name' => 'TransportExecutionPlanReferenceID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'transportationService',
+            'name' => 'TransportationService',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\TransportationService',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'transportServiceProviderParty',
+            'name' => 'TransportServiceProviderParty',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'referencedConsignment',
+            'name' => 'ReferencedConsignment',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Consignment',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'shipmentStages',
+            'name' => 'ShipmentStage',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\ShipmentStage',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'SequenceNumeric', namespace: Ns::CBC, required: true)]
     private Numeric $sequenceNumeric;
 

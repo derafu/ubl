@@ -15,6 +15,8 @@ namespace Derafu\Ubl\Oasis\Cac;
 use Derafu\Ubl\Oasis\Cbc\Amount;
 use Derafu\Ubl\Oasis\Cbc\Code;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -28,8 +30,71 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Telecommunications Supply
  */
 #[XmlType(localName: 'TelecommunicationsSupplyType', namespace: Ns::CAC)]
-final class TelecommunicationsSupply
+final class TelecommunicationsSupply implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'telecommunicationsSupplyType',
+            'name' => 'TelecommunicationsSupplyType',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'telecommunicationsSupplyTypeCode',
+            'name' => 'TelecommunicationsSupplyTypeCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'privacyCode',
+            'name' => 'PrivacyCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'descriptions',
+            'name' => 'Description',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'totalAmount',
+            'name' => 'TotalAmount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'telecommunicationsSupplyLines',
+            'name' => 'TelecommunicationsSupplyLine',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\TelecommunicationsSupplyLine',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'TelecommunicationsSupplyType', namespace: Ns::CBC)]
     private ?Text $telecommunicationsSupplyType = null;
 

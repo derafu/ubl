@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Derafu\Ubl\Oasis\Cac;
 
 use Derafu\Ubl\Oasis\Cbc\Quantity;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -26,8 +28,62 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Sales Item
  */
 #[XmlType(localName: 'SalesItemType', namespace: Ns::CAC)]
-final class SalesItem
+final class SalesItem implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'quantity',
+            'name' => 'Quantity',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'activityProperties',
+            'name' => 'ActivityProperty',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\ActivityProperty',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'taxExclusivePrices',
+            'name' => 'TaxExclusivePrice',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Price',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'taxInclusivePrices',
+            'name' => 'TaxInclusivePrice',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Price',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'item',
+            'name' => 'Item',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\Item',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'Quantity', namespace: Ns::CBC, required: true)]
     private Quantity $quantity;
 

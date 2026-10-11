@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Derafu\Ubl\Oasis\Cac;
 
 use Derafu\Ubl\Oasis\Cbc\Amount;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -26,8 +28,98 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Monetary Total
  */
 #[XmlType(localName: 'MonetaryTotalType', namespace: Ns::CAC)]
-final class MonetaryTotal
+final class MonetaryTotal implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'lineExtensionAmount',
+            'name' => 'LineExtensionAmount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'taxExclusiveAmount',
+            'name' => 'TaxExclusiveAmount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'taxInclusiveAmount',
+            'name' => 'TaxInclusiveAmount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'allowanceTotalAmount',
+            'name' => 'AllowanceTotalAmount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'chargeTotalAmount',
+            'name' => 'ChargeTotalAmount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'prepaidAmount',
+            'name' => 'PrepaidAmount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+            'format' => null,
+        ],
+        6 =>
+         [
+            'property' => 'payableRoundingAmount',
+            'name' => 'PayableRoundingAmount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+            'format' => null,
+        ],
+        7 =>
+         [
+            'property' => 'payableAmount',
+            'name' => 'PayableAmount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+            'format' => null,
+        ],
+        8 =>
+         [
+            'property' => 'payableAlternativeAmount',
+            'name' => 'PayableAlternativeAmount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'LineExtensionAmount', namespace: Ns::CBC)]
     private ?Amount $lineExtensionAmount = null;
 

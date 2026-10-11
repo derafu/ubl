@@ -14,6 +14,8 @@ namespace Derafu\Ubl\Oasis\Cac;
 
 use Derafu\Ubl\Oasis\Cbc\Amount;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -27,8 +29,89 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Requested Tender Total
  */
 #[XmlType(localName: 'RequestedTenderTotalType', namespace: Ns::CAC)]
-final class RequestedTenderTotal
+final class RequestedTenderTotal implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'estimatedOverallContractAmount',
+            'name' => 'EstimatedOverallContractAmount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'totalAmount',
+            'name' => 'TotalAmount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'taxIncludedIndicator',
+            'name' => 'TaxIncludedIndicator',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'bool',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'minimumAmount',
+            'name' => 'MinimumAmount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'maximumAmount',
+            'name' => 'MaximumAmount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'monetaryScopes',
+            'name' => 'MonetaryScope',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        6 =>
+         [
+            'property' => 'averageSubsequentContractAmount',
+            'name' => 'AverageSubsequentContractAmount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+            'format' => null,
+        ],
+        7 =>
+         [
+            'property' => 'applicableTaxCategories',
+            'name' => 'ApplicableTaxCategory',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\TaxCategory',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'EstimatedOverallContractAmount', namespace: Ns::CBC)]
     private ?Amount $estimatedOverallContractAmount = null;
 

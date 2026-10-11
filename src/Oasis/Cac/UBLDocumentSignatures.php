@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Derafu\Ubl\Oasis\Cac;
 
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -25,8 +27,26 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  UBL Document Signatures
  */
 #[XmlType(localName: 'UBLDocumentSignaturesType', namespace: Ns::SIG)]
-final class UBLDocumentSignatures
+final class UBLDocumentSignatures implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'signatureInformations',
+            'name' => 'SignatureInformation',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\SignatureInformation',
+            'format' => null,
+        ],
+    ],
+];
+
     /** @var list<SignatureInformation> */
     #[XmlElement(name: 'SignatureInformation', namespace: Ns::SAC, type: SignatureInformation::class, required: true)]
     private array $signatureInformations = [];

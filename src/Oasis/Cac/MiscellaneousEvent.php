@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Derafu\Ubl\Oasis\Cac;
 
 use Derafu\Ubl\Oasis\Cbc\Code;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -26,8 +28,35 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Miscellaneous Event
  */
 #[XmlType(localName: 'MiscellaneousEventType', namespace: Ns::CAC)]
-final class MiscellaneousEvent
+final class MiscellaneousEvent implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'miscellaneousEventTypeCode',
+            'name' => 'MiscellaneousEventTypeCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'eventLineItems',
+            'name' => 'EventLineItem',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\EventLineItem',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'MiscellaneousEventTypeCode', namespace: Ns::CBC, required: true)]
     private Code $miscellaneousEventTypeCode;
 

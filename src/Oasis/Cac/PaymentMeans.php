@@ -16,6 +16,8 @@ use DateTimeImmutable;
 use Derafu\Ubl\Oasis\Cbc\Code;
 use Derafu\Ubl\Oasis\Cbc\Identifier;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -29,8 +31,134 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Payment Means
  */
 #[XmlType(localName: 'PaymentMeansType', namespace: Ns::CAC)]
-final class PaymentMeans
+final class PaymentMeans implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'id',
+            'name' => 'ID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'paymentMeansCode',
+            'name' => 'PaymentMeansCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'paymentDueDate',
+            'name' => 'PaymentDueDate',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'DateTimeImmutable',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'paymentChannelCode',
+            'name' => 'PaymentChannelCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'instructionID',
+            'name' => 'InstructionID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'instructionNotes',
+            'name' => 'InstructionNote',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        6 =>
+         [
+            'property' => 'paymentIDs',
+            'name' => 'PaymentID',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        7 =>
+         [
+            'property' => 'cardAccount',
+            'name' => 'CardAccount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\CardAccount',
+            'format' => null,
+        ],
+        8 =>
+         [
+            'property' => 'payerFinancialAccount',
+            'name' => 'PayerFinancialAccount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\FinancialAccount',
+            'format' => null,
+        ],
+        9 =>
+         [
+            'property' => 'payeeFinancialAccount',
+            'name' => 'PayeeFinancialAccount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\FinancialAccount',
+            'format' => null,
+        ],
+        10 =>
+         [
+            'property' => 'creditAccount',
+            'name' => 'CreditAccount',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\CreditAccount',
+            'format' => null,
+        ],
+        11 =>
+         [
+            'property' => 'paymentMandate',
+            'name' => 'PaymentMandate',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\PaymentMandate',
+            'format' => null,
+        ],
+        12 =>
+         [
+            'property' => 'tradeFinancing',
+            'name' => 'TradeFinancing',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cac\TradeFinancing',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'ID', namespace: Ns::CBC)]
     private ?Identifier $id = null;
 

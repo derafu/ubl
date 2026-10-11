@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Derafu\Ubl\Oasis\Cac;
 
 use Derafu\Ubl\Oasis\Cbc\Code;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -26,8 +28,26 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Service Frequency
  */
 #[XmlType(localName: 'ServiceFrequencyType', namespace: Ns::CAC)]
-final class ServiceFrequency
+final class ServiceFrequency implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'weekDayCode',
+            'name' => 'WeekDayCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'WeekDayCode', namespace: Ns::CBC, required: true)]
     private Code $weekDayCode;
 

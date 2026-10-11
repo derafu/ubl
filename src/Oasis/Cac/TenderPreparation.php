@@ -15,6 +15,8 @@ namespace Derafu\Ubl\Oasis\Cac;
 use Derafu\Ubl\Oasis\Cbc\Code;
 use Derafu\Ubl\Oasis\Cbc\Identifier;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Trait\ArraySerializableTrait;
+use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
@@ -28,8 +30,71 @@ use Xterr\UBL\Xml\Mapping\XmlType;
  *  Tender Preparation
  */
 #[XmlType(localName: 'TenderPreparationType', namespace: Ns::CAC)]
-final class TenderPreparation
+final class TenderPreparation implements JsonSerializable
 {
+    use ArraySerializableTrait;
+
+    private const ARRAY_METADATA =  [
+    'isValueType' => false,
+    'properties' =>
+     [
+        0 =>
+         [
+            'property' => 'tenderEnvelopeID',
+            'name' => 'TenderEnvelopeID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        1 =>
+         [
+            'property' => 'tenderEnvelopeTypeCode',
+            'name' => 'TenderEnvelopeTypeCode',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+            'format' => null,
+        ],
+        2 =>
+         [
+            'property' => 'descriptions',
+            'name' => 'Description',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+            'format' => null,
+        ],
+        3 =>
+         [
+            'property' => 'openTenderID',
+            'name' => 'OpenTenderID',
+            'kind' => 'element',
+            'list' => false,
+            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+            'format' => null,
+        ],
+        4 =>
+         [
+            'property' => 'procurementProjectLots',
+            'name' => 'ProcurementProjectLot',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\ProcurementProjectLot',
+            'format' => null,
+        ],
+        5 =>
+         [
+            'property' => 'documentTenderRequirements',
+            'name' => 'DocumentTenderRequirement',
+            'kind' => 'element',
+            'list' => true,
+            'item' => 'Derafu\Ubl\Oasis\Cac\TenderRequirement',
+            'format' => null,
+        ],
+    ],
+];
+
     #[XmlElement(name: 'TenderEnvelopeID', namespace: Ns::CBC, required: true)]
     private Identifier $tenderEnvelopeID;
 
