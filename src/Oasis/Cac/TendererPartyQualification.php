@@ -31,39 +31,35 @@ final class TendererPartyQualification implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'interestedProcurementProjectLots',
-            'name' => 'InterestedProcurementProjectLot',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\ProcurementProjectLot',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'interestedProcurementProjectLots',
+                'name' => 'InterestedProcurementProjectLot',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\ProcurementProjectLot',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'mainQualifyingParty',
+                'name' => 'MainQualifyingParty',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\QualifyingParty',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'additionalQualifyingParties',
+                'name' => 'AdditionalQualifyingParty',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\QualifyingParty',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'mainQualifyingParty',
-            'name' => 'MainQualifyingParty',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\QualifyingParty',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'additionalQualifyingParties',
-            'name' => 'AdditionalQualifyingParty',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\QualifyingParty',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     /** @var list<ProcurementProjectLot> */
     #[XmlElement(name: 'InterestedProcurementProjectLot', namespace: Ns::CAC, type: ProcurementProjectLot::class)]

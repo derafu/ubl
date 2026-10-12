@@ -33,39 +33,35 @@ final class BudgetAccount implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'id',
-            'name' => 'ID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'id',
+                'name' => 'ID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'budgetYearNumeric',
+                'name' => 'BudgetYearNumeric',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'requiredClassificationScheme',
+                'name' => 'RequiredClassificationScheme',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\ClassificationScheme',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'budgetYearNumeric',
-            'name' => 'BudgetYearNumeric',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'requiredClassificationScheme',
-            'name' => 'RequiredClassificationScheme',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\ClassificationScheme',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'ID', namespace: Ns::CBC)]
     private ?Identifier $id = null;

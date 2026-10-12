@@ -35,75 +35,67 @@ final class AwardingCriterionResponse implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'id',
-            'name' => 'ID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'id',
+                'name' => 'ID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'awardingCriterionID',
+                'name' => 'AwardingCriterionID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'awardingCriterionDescriptions',
+                'name' => 'AwardingCriterionDescription',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'descriptions',
+                'name' => 'Description',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'quantity',
+                'name' => 'Quantity',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'amount',
+                'name' => 'Amount',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+                'format' => null,
+            ],
+            6 => [
+                'property' => 'subordinateAwardingCriterionResponses',
+                'name' => 'SubordinateAwardingCriterionResponse',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\AwardingCriterionResponse',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'awardingCriterionID',
-            'name' => 'AwardingCriterionID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'awardingCriterionDescriptions',
-            'name' => 'AwardingCriterionDescription',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'descriptions',
-            'name' => 'Description',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'quantity',
-            'name' => 'Quantity',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'amount',
-            'name' => 'Amount',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
-            'format' => null,
-        ],
-        6 =>
-         [
-            'property' => 'subordinateAwardingCriterionResponses',
-            'name' => 'SubordinateAwardingCriterionResponse',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\AwardingCriterionResponse',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'ID', namespace: Ns::CBC)]
     private ?Identifier $id = null;

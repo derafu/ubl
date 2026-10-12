@@ -34,102 +34,91 @@ final class CatalogueReference implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'id',
-            'name' => 'ID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'id',
+                'name' => 'ID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'uuid',
+                'name' => 'UUID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'issueDate',
+                'name' => 'IssueDate',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'issueTime',
+                'name' => 'IssueTime',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => 'H:i:sP',
+            ],
+            4 => [
+                'property' => 'revisionDate',
+                'name' => 'RevisionDate',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'revisionTime',
+                'name' => 'RevisionTime',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => 'H:i:sP',
+            ],
+            6 => [
+                'property' => 'notes',
+                'name' => 'Note',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            7 => [
+                'property' => 'descriptions',
+                'name' => 'Description',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            8 => [
+                'property' => 'versionID',
+                'name' => 'VersionID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            9 => [
+                'property' => 'previousVersionID',
+                'name' => 'PreviousVersionID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'uuid',
-            'name' => 'UUID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'issueDate',
-            'name' => 'IssueDate',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'issueTime',
-            'name' => 'IssueTime',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => 'H:i:sP',
-        ],
-        4 =>
-         [
-            'property' => 'revisionDate',
-            'name' => 'RevisionDate',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'revisionTime',
-            'name' => 'RevisionTime',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => 'H:i:sP',
-        ],
-        6 =>
-         [
-            'property' => 'notes',
-            'name' => 'Note',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        7 =>
-         [
-            'property' => 'descriptions',
-            'name' => 'Description',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        8 =>
-         [
-            'property' => 'versionID',
-            'name' => 'VersionID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-        9 =>
-         [
-            'property' => 'previousVersionID',
-            'name' => 'PreviousVersionID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'ID', namespace: Ns::CBC, required: true)]
     private Identifier $id;

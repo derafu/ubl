@@ -34,75 +34,67 @@ final class Certificate implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'id',
-            'name' => 'ID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'id',
+                'name' => 'ID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'certificateTypeCode',
+                'name' => 'CertificateTypeCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'certificateType',
+                'name' => 'CertificateType',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'remarkses',
+                'name' => 'Remarks',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'issuerParty',
+                'name' => 'IssuerParty',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'documentReferences',
+                'name' => 'DocumentReference',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+                'format' => null,
+            ],
+            6 => [
+                'property' => 'signatures',
+                'name' => 'Signature',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Signature',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'certificateTypeCode',
-            'name' => 'CertificateTypeCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'certificateType',
-            'name' => 'CertificateType',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'remarkses',
-            'name' => 'Remarks',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'issuerParty',
-            'name' => 'IssuerParty',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'documentReferences',
-            'name' => 'DocumentReference',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
-            'format' => null,
-        ],
-        6 =>
-         [
-            'property' => 'signatures',
-            'name' => 'Signature',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Signature',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'ID', namespace: Ns::CBC, required: true)]
     private Identifier $id;

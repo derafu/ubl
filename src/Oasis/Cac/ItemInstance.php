@@ -33,84 +33,75 @@ final class ItemInstance implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'productTraceID',
-            'name' => 'ProductTraceID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'productTraceID',
+                'name' => 'ProductTraceID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'manufactureDate',
+                'name' => 'ManufactureDate',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'manufactureTime',
+                'name' => 'ManufactureTime',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => 'H:i:sP',
+            ],
+            3 => [
+                'property' => 'bestBeforeDate',
+                'name' => 'BestBeforeDate',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'registrationID',
+                'name' => 'RegistrationID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'serialID',
+                'name' => 'SerialID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            6 => [
+                'property' => 'additionalItemProperties',
+                'name' => 'AdditionalItemProperty',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\ItemProperty',
+                'format' => null,
+            ],
+            7 => [
+                'property' => 'lotIdentification',
+                'name' => 'LotIdentification',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\LotIdentification',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'manufactureDate',
-            'name' => 'ManufactureDate',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'manufactureTime',
-            'name' => 'ManufactureTime',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => 'H:i:sP',
-        ],
-        3 =>
-         [
-            'property' => 'bestBeforeDate',
-            'name' => 'BestBeforeDate',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'registrationID',
-            'name' => 'RegistrationID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'serialID',
-            'name' => 'SerialID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-        6 =>
-         [
-            'property' => 'additionalItemProperties',
-            'name' => 'AdditionalItemProperty',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\ItemProperty',
-            'format' => null,
-        ],
-        7 =>
-         [
-            'property' => 'lotIdentification',
-            'name' => 'LotIdentification',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\LotIdentification',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'ProductTraceID', namespace: Ns::CBC)]
     private ?Identifier $productTraceID = null;

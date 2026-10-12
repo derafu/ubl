@@ -34,57 +34,51 @@ final class MeterProperty implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'name',
-            'name' => 'Name',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'name',
+                'name' => 'Name',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'nameCode',
+                'name' => 'NameCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'value',
+                'name' => 'Value',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'valueQuantity',
+                'name' => 'ValueQuantity',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'valueQualifiers',
+                'name' => 'ValueQualifier',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'nameCode',
-            'name' => 'NameCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'value',
-            'name' => 'Value',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'valueQuantity',
-            'name' => 'ValueQuantity',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'valueQualifiers',
-            'name' => 'ValueQualifier',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'Name', namespace: Ns::CBC)]
     private ?Text $name = null;

@@ -33,39 +33,35 @@ final class LotIdentification implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'lotNumberID',
-            'name' => 'LotNumberID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'lotNumberID',
+                'name' => 'LotNumberID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'expiryDate',
+                'name' => 'ExpiryDate',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'additionalItemProperties',
+                'name' => 'AdditionalItemProperty',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\ItemProperty',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'expiryDate',
-            'name' => 'ExpiryDate',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'additionalItemProperties',
-            'name' => 'AdditionalItemProperty',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\ItemProperty',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'LotNumberID', namespace: Ns::CBC)]
     private ?Identifier $lotNumberID = null;

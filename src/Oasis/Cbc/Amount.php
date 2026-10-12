@@ -27,39 +27,35 @@ final class Amount implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => true,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'value',
-            'name' => null,
-            'kind' => 'value',
-            'list' => false,
-            'item' => null,
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => true,
+        'properties' => [
+            0 => [
+                'property' => 'value',
+                'name' => null,
+                'kind' => 'value',
+                'list' => false,
+                'item' => null,
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'currencyID',
+                'name' => 'currencyID',
+                'kind' => 'attribute',
+                'list' => false,
+                'item' => null,
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'currencyCodeListVersionID',
+                'name' => 'currencyCodeListVersionID',
+                'kind' => 'attribute',
+                'list' => false,
+                'item' => null,
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'currencyID',
-            'name' => 'currencyID',
-            'kind' => 'attribute',
-            'list' => false,
-            'item' => null,
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'currencyCodeListVersionID',
-            'name' => 'currencyCodeListVersionID',
-            'kind' => 'attribute',
-            'list' => false,
-            'item' => null,
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlValue]
     private ?string $value = null;

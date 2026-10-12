@@ -26,21 +26,19 @@ final class ExtensionContent implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'any',
-            'name' => 'any',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'string',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'any',
+                'name' => 'any',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'string',
+                'format' => null,
+            ],
         ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'any', namespace: '')]
     private ?string $any = null;

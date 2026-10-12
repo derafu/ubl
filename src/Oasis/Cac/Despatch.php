@@ -34,183 +34,163 @@ final class Despatch implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'id',
-            'name' => 'ID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'id',
+                'name' => 'ID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'requestedDespatchDate',
+                'name' => 'RequestedDespatchDate',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'requestedDespatchTime',
+                'name' => 'RequestedDespatchTime',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => 'H:i:sP',
+            ],
+            3 => [
+                'property' => 'estimatedDespatchDate',
+                'name' => 'EstimatedDespatchDate',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'estimatedDespatchTime',
+                'name' => 'EstimatedDespatchTime',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => 'H:i:sP',
+            ],
+            5 => [
+                'property' => 'actualDespatchDate',
+                'name' => 'ActualDespatchDate',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => null,
+            ],
+            6 => [
+                'property' => 'actualDespatchTime',
+                'name' => 'ActualDespatchTime',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => 'H:i:sP',
+            ],
+            7 => [
+                'property' => 'guaranteedDespatchDate',
+                'name' => 'GuaranteedDespatchDate',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => null,
+            ],
+            8 => [
+                'property' => 'guaranteedDespatchTime',
+                'name' => 'GuaranteedDespatchTime',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => 'H:i:sP',
+            ],
+            9 => [
+                'property' => 'releaseID',
+                'name' => 'ReleaseID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            10 => [
+                'property' => 'instructionses',
+                'name' => 'Instructions',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            11 => [
+                'property' => 'despatchAddress',
+                'name' => 'DespatchAddress',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Address',
+                'format' => null,
+            ],
+            12 => [
+                'property' => 'despatchLocation',
+                'name' => 'DespatchLocation',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Location',
+                'format' => null,
+            ],
+            13 => [
+                'property' => 'despatchParty',
+                'name' => 'DespatchParty',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+                'format' => null,
+            ],
+            14 => [
+                'property' => 'carrierParty',
+                'name' => 'CarrierParty',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+                'format' => null,
+            ],
+            15 => [
+                'property' => 'notifyParties',
+                'name' => 'NotifyParty',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+                'format' => null,
+            ],
+            16 => [
+                'property' => 'contact',
+                'name' => 'Contact',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Contact',
+                'format' => null,
+            ],
+            17 => [
+                'property' => 'estimatedDespatchPeriod',
+                'name' => 'EstimatedDespatchPeriod',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Period',
+                'format' => null,
+            ],
+            18 => [
+                'property' => 'requestedDespatchPeriod',
+                'name' => 'RequestedDespatchPeriod',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Period',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'requestedDespatchDate',
-            'name' => 'RequestedDespatchDate',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'requestedDespatchTime',
-            'name' => 'RequestedDespatchTime',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => 'H:i:sP',
-        ],
-        3 =>
-         [
-            'property' => 'estimatedDespatchDate',
-            'name' => 'EstimatedDespatchDate',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'estimatedDespatchTime',
-            'name' => 'EstimatedDespatchTime',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => 'H:i:sP',
-        ],
-        5 =>
-         [
-            'property' => 'actualDespatchDate',
-            'name' => 'ActualDespatchDate',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => null,
-        ],
-        6 =>
-         [
-            'property' => 'actualDespatchTime',
-            'name' => 'ActualDespatchTime',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => 'H:i:sP',
-        ],
-        7 =>
-         [
-            'property' => 'guaranteedDespatchDate',
-            'name' => 'GuaranteedDespatchDate',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => null,
-        ],
-        8 =>
-         [
-            'property' => 'guaranteedDespatchTime',
-            'name' => 'GuaranteedDespatchTime',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => 'H:i:sP',
-        ],
-        9 =>
-         [
-            'property' => 'releaseID',
-            'name' => 'ReleaseID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-        10 =>
-         [
-            'property' => 'instructionses',
-            'name' => 'Instructions',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        11 =>
-         [
-            'property' => 'despatchAddress',
-            'name' => 'DespatchAddress',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Address',
-            'format' => null,
-        ],
-        12 =>
-         [
-            'property' => 'despatchLocation',
-            'name' => 'DespatchLocation',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Location',
-            'format' => null,
-        ],
-        13 =>
-         [
-            'property' => 'despatchParty',
-            'name' => 'DespatchParty',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
-            'format' => null,
-        ],
-        14 =>
-         [
-            'property' => 'carrierParty',
-            'name' => 'CarrierParty',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
-            'format' => null,
-        ],
-        15 =>
-         [
-            'property' => 'notifyParties',
-            'name' => 'NotifyParty',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
-            'format' => null,
-        ],
-        16 =>
-         [
-            'property' => 'contact',
-            'name' => 'Contact',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Contact',
-            'format' => null,
-        ],
-        17 =>
-         [
-            'property' => 'estimatedDespatchPeriod',
-            'name' => 'EstimatedDespatchPeriod',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Period',
-            'format' => null,
-        ],
-        18 =>
-         [
-            'property' => 'requestedDespatchPeriod',
-            'name' => 'RequestedDespatchPeriod',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Period',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'ID', namespace: Ns::CBC)]
     private ?Identifier $id = null;

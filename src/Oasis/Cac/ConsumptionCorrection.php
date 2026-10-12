@@ -35,120 +35,107 @@ final class ConsumptionCorrection implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'correctionType',
-            'name' => 'CorrectionType',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'correctionType',
+                'name' => 'CorrectionType',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'correctionTypeCode',
+                'name' => 'CorrectionTypeCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'meterNumber',
+                'name' => 'MeterNumber',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'gasPressureQuantity',
+                'name' => 'GasPressureQuantity',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'actualTemperatureReductionQuantity',
+                'name' => 'ActualTemperatureReductionQuantity',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'normalTemperatureReductionQuantity',
+                'name' => 'NormalTemperatureReductionQuantity',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+                'format' => null,
+            ],
+            6 => [
+                'property' => 'differenceTemperatureReductionQuantity',
+                'name' => 'DifferenceTemperatureReductionQuantity',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+                'format' => null,
+            ],
+            7 => [
+                'property' => 'descriptions',
+                'name' => 'Description',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            8 => [
+                'property' => 'correctionUnitAmount',
+                'name' => 'CorrectionUnitAmount',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+                'format' => null,
+            ],
+            9 => [
+                'property' => 'consumptionEnergyQuantity',
+                'name' => 'ConsumptionEnergyQuantity',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+                'format' => null,
+            ],
+            10 => [
+                'property' => 'consumptionWaterQuantity',
+                'name' => 'ConsumptionWaterQuantity',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+                'format' => null,
+            ],
+            11 => [
+                'property' => 'correctionAmount',
+                'name' => 'CorrectionAmount',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'correctionTypeCode',
-            'name' => 'CorrectionTypeCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'meterNumber',
-            'name' => 'MeterNumber',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'gasPressureQuantity',
-            'name' => 'GasPressureQuantity',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'actualTemperatureReductionQuantity',
-            'name' => 'ActualTemperatureReductionQuantity',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'normalTemperatureReductionQuantity',
-            'name' => 'NormalTemperatureReductionQuantity',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
-            'format' => null,
-        ],
-        6 =>
-         [
-            'property' => 'differenceTemperatureReductionQuantity',
-            'name' => 'DifferenceTemperatureReductionQuantity',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
-            'format' => null,
-        ],
-        7 =>
-         [
-            'property' => 'descriptions',
-            'name' => 'Description',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        8 =>
-         [
-            'property' => 'correctionUnitAmount',
-            'name' => 'CorrectionUnitAmount',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
-            'format' => null,
-        ],
-        9 =>
-         [
-            'property' => 'consumptionEnergyQuantity',
-            'name' => 'ConsumptionEnergyQuantity',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
-            'format' => null,
-        ],
-        10 =>
-         [
-            'property' => 'consumptionWaterQuantity',
-            'name' => 'ConsumptionWaterQuantity',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
-            'format' => null,
-        ],
-        11 =>
-         [
-            'property' => 'correctionAmount',
-            'name' => 'CorrectionAmount',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'CorrectionType', namespace: Ns::CBC)]
     private ?Text $correctionType = null;

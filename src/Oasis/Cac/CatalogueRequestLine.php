@@ -33,66 +33,59 @@ final class CatalogueRequestLine implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'id',
-            'name' => 'ID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'id',
+                'name' => 'ID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'contractSubdivision',
+                'name' => 'ContractSubdivision',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'notes',
+                'name' => 'Note',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'lineValidityPeriod',
+                'name' => 'LineValidityPeriod',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Period',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'requiredItemLocationQuantities',
+                'name' => 'RequiredItemLocationQuantity',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\ItemLocationQuantity',
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'item',
+                'name' => 'Item',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Item',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'contractSubdivision',
-            'name' => 'ContractSubdivision',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'notes',
-            'name' => 'Note',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'lineValidityPeriod',
-            'name' => 'LineValidityPeriod',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Period',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'requiredItemLocationQuantities',
-            'name' => 'RequiredItemLocationQuantity',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\ItemLocationQuantity',
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'item',
-            'name' => 'Item',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Item',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'ID', namespace: Ns::CBC, required: true)]
     private Identifier $id;

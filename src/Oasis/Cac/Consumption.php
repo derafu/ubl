@@ -32,75 +32,67 @@ final class Consumption implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'utilityStatementTypeCode',
-            'name' => 'UtilityStatementTypeCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'utilityStatementTypeCode',
+                'name' => 'UtilityStatementTypeCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'mainPeriod',
+                'name' => 'MainPeriod',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Period',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'allowanceCharges',
+                'name' => 'AllowanceCharge',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\AllowanceCharge',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'taxTotals',
+                'name' => 'TaxTotal',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\TaxTotal',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'energyWaterSupply',
+                'name' => 'EnergyWaterSupply',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\EnergyWaterSupply',
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'telecommunicationsSupply',
+                'name' => 'TelecommunicationsSupply',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\TelecommunicationsSupply',
+                'format' => null,
+            ],
+            6 => [
+                'property' => 'legalMonetaryTotal',
+                'name' => 'LegalMonetaryTotal',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\MonetaryTotal',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'mainPeriod',
-            'name' => 'MainPeriod',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Period',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'allowanceCharges',
-            'name' => 'AllowanceCharge',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\AllowanceCharge',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'taxTotals',
-            'name' => 'TaxTotal',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\TaxTotal',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'energyWaterSupply',
-            'name' => 'EnergyWaterSupply',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\EnergyWaterSupply',
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'telecommunicationsSupply',
-            'name' => 'TelecommunicationsSupply',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\TelecommunicationsSupply',
-            'format' => null,
-        ],
-        6 =>
-         [
-            'property' => 'legalMonetaryTotal',
-            'name' => 'LegalMonetaryTotal',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\MonetaryTotal',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'UtilityStatementTypeCode', namespace: Ns::CBC)]
     private ?Code $utilityStatementTypeCode = null;

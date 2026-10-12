@@ -34,6 +34,7 @@ use Derafu\Ubl\Service\Format\JsonHandler;
 use Derafu\Ubl\Service\Format\XmlHandler;
 use Derafu\Ubl\Service\Format\YamlHandler;
 use Derafu\Ubl\Service\FormatHandlerFactory;
+use Derafu\Ubl\Service\RootElementResolver;
 use Derafu\Ubl\Service\Serializer;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
@@ -56,6 +57,7 @@ use Symfony\Component\Yaml\Yaml;
 #[UsesClass(Price::class)]
 #[UsesClass(Quotation::class)]
 #[UsesClass(QuotationLine::class)]
+#[UsesClass(RootElementResolver::class)]
 #[UsesClass(Serializer::class)]
 #[UsesClass(SupplierParty::class)]
 #[UsesClass(XmlHandler::class)]

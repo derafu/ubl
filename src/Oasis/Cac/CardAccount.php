@@ -35,111 +35,99 @@ final class CardAccount implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'primaryAccountNumberID',
-            'name' => 'PrimaryAccountNumberID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'primaryAccountNumberID',
+                'name' => 'PrimaryAccountNumberID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'networkID',
+                'name' => 'NetworkID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'cardTypeCode',
+                'name' => 'CardTypeCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'validityStartDate',
+                'name' => 'ValidityStartDate',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'expiryDate',
+                'name' => 'ExpiryDate',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'issuerID',
+                'name' => 'IssuerID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            6 => [
+                'property' => 'issueNumberID',
+                'name' => 'IssueNumberID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            7 => [
+                'property' => 'cV2ID',
+                'name' => 'CV2ID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            8 => [
+                'property' => 'cardChipCode',
+                'name' => 'CardChipCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            9 => [
+                'property' => 'chipApplicationID',
+                'name' => 'ChipApplicationID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            10 => [
+                'property' => 'holderName',
+                'name' => 'HolderName',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'networkID',
-            'name' => 'NetworkID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'cardTypeCode',
-            'name' => 'CardTypeCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'validityStartDate',
-            'name' => 'ValidityStartDate',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'expiryDate',
-            'name' => 'ExpiryDate',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'issuerID',
-            'name' => 'IssuerID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-        6 =>
-         [
-            'property' => 'issueNumberID',
-            'name' => 'IssueNumberID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-        7 =>
-         [
-            'property' => 'cV2ID',
-            'name' => 'CV2ID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-        8 =>
-         [
-            'property' => 'cardChipCode',
-            'name' => 'CardChipCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        9 =>
-         [
-            'property' => 'chipApplicationID',
-            'name' => 'ChipApplicationID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-        10 =>
-         [
-            'property' => 'holderName',
-            'name' => 'HolderName',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'PrimaryAccountNumberID', namespace: Ns::CBC, required: true)]
     private Identifier $primaryAccountNumberID;

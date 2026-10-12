@@ -36,147 +36,131 @@ final class AllowanceCharge implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'id',
-            'name' => 'ID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'id',
+                'name' => 'ID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'chargeIndicator',
+                'name' => 'ChargeIndicator',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'bool',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'allowanceChargeReasonCode',
+                'name' => 'AllowanceChargeReasonCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'allowanceChargeReasons',
+                'name' => 'AllowanceChargeReason',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'multiplierFactorNumeric',
+                'name' => 'MultiplierFactorNumeric',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'prepaidIndicator',
+                'name' => 'PrepaidIndicator',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'bool',
+                'format' => null,
+            ],
+            6 => [
+                'property' => 'sequenceNumeric',
+                'name' => 'SequenceNumeric',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
+                'format' => null,
+            ],
+            7 => [
+                'property' => 'amount',
+                'name' => 'Amount',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+                'format' => null,
+            ],
+            8 => [
+                'property' => 'baseAmount',
+                'name' => 'BaseAmount',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+                'format' => null,
+            ],
+            9 => [
+                'property' => 'accountingCostCode',
+                'name' => 'AccountingCostCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            10 => [
+                'property' => 'accountingCost',
+                'name' => 'AccountingCost',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            11 => [
+                'property' => 'perUnitAmount',
+                'name' => 'PerUnitAmount',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+                'format' => null,
+            ],
+            12 => [
+                'property' => 'taxCategories',
+                'name' => 'TaxCategory',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\TaxCategory',
+                'format' => null,
+            ],
+            13 => [
+                'property' => 'taxTotal',
+                'name' => 'TaxTotal',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\TaxTotal',
+                'format' => null,
+            ],
+            14 => [
+                'property' => 'paymentMeanses',
+                'name' => 'PaymentMeans',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\PaymentMeans',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'chargeIndicator',
-            'name' => 'ChargeIndicator',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'bool',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'allowanceChargeReasonCode',
-            'name' => 'AllowanceChargeReasonCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'allowanceChargeReasons',
-            'name' => 'AllowanceChargeReason',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'multiplierFactorNumeric',
-            'name' => 'MultiplierFactorNumeric',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'prepaidIndicator',
-            'name' => 'PrepaidIndicator',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'bool',
-            'format' => null,
-        ],
-        6 =>
-         [
-            'property' => 'sequenceNumeric',
-            'name' => 'SequenceNumeric',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
-            'format' => null,
-        ],
-        7 =>
-         [
-            'property' => 'amount',
-            'name' => 'Amount',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
-            'format' => null,
-        ],
-        8 =>
-         [
-            'property' => 'baseAmount',
-            'name' => 'BaseAmount',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
-            'format' => null,
-        ],
-        9 =>
-         [
-            'property' => 'accountingCostCode',
-            'name' => 'AccountingCostCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        10 =>
-         [
-            'property' => 'accountingCost',
-            'name' => 'AccountingCost',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        11 =>
-         [
-            'property' => 'perUnitAmount',
-            'name' => 'PerUnitAmount',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
-            'format' => null,
-        ],
-        12 =>
-         [
-            'property' => 'taxCategories',
-            'name' => 'TaxCategory',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\TaxCategory',
-            'format' => null,
-        ],
-        13 =>
-         [
-            'property' => 'taxTotal',
-            'name' => 'TaxTotal',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\TaxTotal',
-            'format' => null,
-        ],
-        14 =>
-         [
-            'property' => 'paymentMeanses',
-            'name' => 'PaymentMeans',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\PaymentMeans',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'ID', namespace: Ns::CBC)]
     private ?Identifier $id = null;

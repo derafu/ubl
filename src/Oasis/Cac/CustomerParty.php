@@ -32,75 +32,67 @@ final class CustomerParty implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'customerAssignedAccountID',
-            'name' => 'CustomerAssignedAccountID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'customerAssignedAccountID',
+                'name' => 'CustomerAssignedAccountID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'supplierAssignedAccountID',
+                'name' => 'SupplierAssignedAccountID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'additionalAccountIDs',
+                'name' => 'AdditionalAccountID',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'party',
+                'name' => 'Party',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'deliveryContact',
+                'name' => 'DeliveryContact',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Contact',
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'accountingContact',
+                'name' => 'AccountingContact',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Contact',
+                'format' => null,
+            ],
+            6 => [
+                'property' => 'buyerContact',
+                'name' => 'BuyerContact',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Contact',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'supplierAssignedAccountID',
-            'name' => 'SupplierAssignedAccountID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'additionalAccountIDs',
-            'name' => 'AdditionalAccountID',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'party',
-            'name' => 'Party',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'deliveryContact',
-            'name' => 'DeliveryContact',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Contact',
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'accountingContact',
-            'name' => 'AccountingContact',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Contact',
-            'format' => null,
-        ],
-        6 =>
-         [
-            'property' => 'buyerContact',
-            'name' => 'BuyerContact',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Contact',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'CustomerAssignedAccountID', namespace: Ns::CBC)]
     private ?Identifier $customerAssignedAccountID = null;

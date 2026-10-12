@@ -32,111 +32,99 @@ final class TransportExecutionTerms implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'transportUserSpecialTermses',
-            'name' => 'TransportUserSpecialTerms',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'transportUserSpecialTermses',
+                'name' => 'TransportUserSpecialTerms',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'transportServiceProviderSpecialTermses',
+                'name' => 'TransportServiceProviderSpecialTerms',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'changeConditionses',
+                'name' => 'ChangeConditions',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'paymentTermses',
+                'name' => 'PaymentTerms',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\PaymentTerms',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'deliveryTermses',
+                'name' => 'DeliveryTerms',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\DeliveryTerms',
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'bonusPaymentTerms',
+                'name' => 'BonusPaymentTerms',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\PaymentTerms',
+                'format' => null,
+            ],
+            6 => [
+                'property' => 'commissionPaymentTerms',
+                'name' => 'CommissionPaymentTerms',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\PaymentTerms',
+                'format' => null,
+            ],
+            7 => [
+                'property' => 'penaltyPaymentTerms',
+                'name' => 'PenaltyPaymentTerms',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\PaymentTerms',
+                'format' => null,
+            ],
+            8 => [
+                'property' => 'environmentalEmissions',
+                'name' => 'EnvironmentalEmission',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\EnvironmentalEmission',
+                'format' => null,
+            ],
+            9 => [
+                'property' => 'notificationRequirements',
+                'name' => 'NotificationRequirement',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\NotificationRequirement',
+                'format' => null,
+            ],
+            10 => [
+                'property' => 'serviceChargePaymentTerms',
+                'name' => 'ServiceChargePaymentTerms',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\PaymentTerms',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'transportServiceProviderSpecialTermses',
-            'name' => 'TransportServiceProviderSpecialTerms',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'changeConditionses',
-            'name' => 'ChangeConditions',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'paymentTermses',
-            'name' => 'PaymentTerms',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\PaymentTerms',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'deliveryTermses',
-            'name' => 'DeliveryTerms',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\DeliveryTerms',
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'bonusPaymentTerms',
-            'name' => 'BonusPaymentTerms',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\PaymentTerms',
-            'format' => null,
-        ],
-        6 =>
-         [
-            'property' => 'commissionPaymentTerms',
-            'name' => 'CommissionPaymentTerms',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\PaymentTerms',
-            'format' => null,
-        ],
-        7 =>
-         [
-            'property' => 'penaltyPaymentTerms',
-            'name' => 'PenaltyPaymentTerms',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\PaymentTerms',
-            'format' => null,
-        ],
-        8 =>
-         [
-            'property' => 'environmentalEmissions',
-            'name' => 'EnvironmentalEmission',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\EnvironmentalEmission',
-            'format' => null,
-        ],
-        9 =>
-         [
-            'property' => 'notificationRequirements',
-            'name' => 'NotificationRequirement',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\NotificationRequirement',
-            'format' => null,
-        ],
-        10 =>
-         [
-            'property' => 'serviceChargePaymentTerms',
-            'name' => 'ServiceChargePaymentTerms',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\PaymentTerms',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     /** @var list<Text> */
     #[XmlElement(name: 'TransportUserSpecialTerms', namespace: Ns::CBC, type: Text::class)]

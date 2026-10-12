@@ -35,93 +35,83 @@ final class ExchangeRate implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'sourceCurrencyCode',
-            'name' => 'SourceCurrencyCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'sourceCurrencyCode',
+                'name' => 'SourceCurrencyCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'sourceCurrencyBaseRate',
+                'name' => 'SourceCurrencyBaseRate',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'targetCurrencyCode',
+                'name' => 'TargetCurrencyCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'targetCurrencyBaseRate',
+                'name' => 'TargetCurrencyBaseRate',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'exchangeMarketID',
+                'name' => 'ExchangeMarketID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'calculationRate',
+                'name' => 'CalculationRate',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
+                'format' => null,
+            ],
+            6 => [
+                'property' => 'mathematicOperatorCode',
+                'name' => 'MathematicOperatorCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            7 => [
+                'property' => 'date',
+                'name' => 'Date',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => null,
+            ],
+            8 => [
+                'property' => 'foreignExchangeContract',
+                'name' => 'ForeignExchangeContract',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Contract',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'sourceCurrencyBaseRate',
-            'name' => 'SourceCurrencyBaseRate',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'targetCurrencyCode',
-            'name' => 'TargetCurrencyCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'targetCurrencyBaseRate',
-            'name' => 'TargetCurrencyBaseRate',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'exchangeMarketID',
-            'name' => 'ExchangeMarketID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'calculationRate',
-            'name' => 'CalculationRate',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
-            'format' => null,
-        ],
-        6 =>
-         [
-            'property' => 'mathematicOperatorCode',
-            'name' => 'MathematicOperatorCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        7 =>
-         [
-            'property' => 'date',
-            'name' => 'Date',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => null,
-        ],
-        8 =>
-         [
-            'property' => 'foreignExchangeContract',
-            'name' => 'ForeignExchangeContract',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Contract',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'SourceCurrencyCode', namespace: Ns::CBC, required: true)]
     private Code $sourceCurrencyCode;

@@ -34,66 +34,59 @@ final class Payment implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'id',
-            'name' => 'ID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'id',
+                'name' => 'ID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'paidAmount',
+                'name' => 'PaidAmount',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'receivedDate',
+                'name' => 'ReceivedDate',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'paidDate',
+                'name' => 'PaidDate',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'paidTime',
+                'name' => 'PaidTime',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => 'H:i:sP',
+            ],
+            5 => [
+                'property' => 'instructionID',
+                'name' => 'InstructionID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'paidAmount',
-            'name' => 'PaidAmount',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'receivedDate',
-            'name' => 'ReceivedDate',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'paidDate',
-            'name' => 'PaidDate',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'paidTime',
-            'name' => 'PaidTime',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => 'H:i:sP',
-        ],
-        5 =>
-         [
-            'property' => 'instructionID',
-            'name' => 'InstructionID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'ID', namespace: Ns::CBC)]
     private ?Identifier $id = null;

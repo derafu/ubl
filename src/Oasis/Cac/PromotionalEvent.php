@@ -33,57 +33,51 @@ final class PromotionalEvent implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'promotionalEventTypeCode',
-            'name' => 'PromotionalEventTypeCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'promotionalEventTypeCode',
+                'name' => 'PromotionalEventTypeCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'submissionDate',
+                'name' => 'SubmissionDate',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'firstShipmentAvailibilityDate',
+                'name' => 'FirstShipmentAvailibilityDate',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'latestProposalAcceptanceDate',
+                'name' => 'LatestProposalAcceptanceDate',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'promotionalSpecifications',
+                'name' => 'PromotionalSpecification',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\PromotionalSpecification',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'submissionDate',
-            'name' => 'SubmissionDate',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'firstShipmentAvailibilityDate',
-            'name' => 'FirstShipmentAvailibilityDate',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'latestProposalAcceptanceDate',
-            'name' => 'LatestProposalAcceptanceDate',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'promotionalSpecifications',
-            'name' => 'PromotionalSpecification',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\PromotionalSpecification',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'PromotionalEventTypeCode', namespace: Ns::CBC, required: true)]
     private Code $promotionalEventTypeCode;

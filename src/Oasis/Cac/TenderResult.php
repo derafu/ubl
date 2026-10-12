@@ -36,156 +36,139 @@ final class TenderResult implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'tenderResultCode',
-            'name' => 'TenderResultCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'tenderResultCode',
+                'name' => 'TenderResultCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'descriptions',
+                'name' => 'Description',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'advertisementAmount',
+                'name' => 'AdvertisementAmount',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'awardDate',
+                'name' => 'AwardDate',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'awardTime',
+                'name' => 'AwardTime',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => 'H:i:sP',
+            ],
+            5 => [
+                'property' => 'receivedTenderQuantity',
+                'name' => 'ReceivedTenderQuantity',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+                'format' => null,
+            ],
+            6 => [
+                'property' => 'lowerTenderAmount',
+                'name' => 'LowerTenderAmount',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+                'format' => null,
+            ],
+            7 => [
+                'property' => 'higherTenderAmount',
+                'name' => 'HigherTenderAmount',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+                'format' => null,
+            ],
+            8 => [
+                'property' => 'startDate',
+                'name' => 'StartDate',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => null,
+            ],
+            9 => [
+                'property' => 'receivedElectronicTenderQuantity',
+                'name' => 'ReceivedElectronicTenderQuantity',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+                'format' => null,
+            ],
+            10 => [
+                'property' => 'receivedForeignTenderQuantity',
+                'name' => 'ReceivedForeignTenderQuantity',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+                'format' => null,
+            ],
+            11 => [
+                'property' => 'contract',
+                'name' => 'Contract',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Contract',
+                'format' => null,
+            ],
+            12 => [
+                'property' => 'awardedTenderedProject',
+                'name' => 'AwardedTenderedProject',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\TenderedProject',
+                'format' => null,
+            ],
+            13 => [
+                'property' => 'contractFormalizationPeriod',
+                'name' => 'ContractFormalizationPeriod',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Period',
+                'format' => null,
+            ],
+            14 => [
+                'property' => 'subcontractTermses',
+                'name' => 'SubcontractTerms',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\SubcontractTerms',
+                'format' => null,
+            ],
+            15 => [
+                'property' => 'winningParties',
+                'name' => 'WinningParty',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\WinningParty',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'descriptions',
-            'name' => 'Description',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'advertisementAmount',
-            'name' => 'AdvertisementAmount',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'awardDate',
-            'name' => 'AwardDate',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'awardTime',
-            'name' => 'AwardTime',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => 'H:i:sP',
-        ],
-        5 =>
-         [
-            'property' => 'receivedTenderQuantity',
-            'name' => 'ReceivedTenderQuantity',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
-            'format' => null,
-        ],
-        6 =>
-         [
-            'property' => 'lowerTenderAmount',
-            'name' => 'LowerTenderAmount',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
-            'format' => null,
-        ],
-        7 =>
-         [
-            'property' => 'higherTenderAmount',
-            'name' => 'HigherTenderAmount',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
-            'format' => null,
-        ],
-        8 =>
-         [
-            'property' => 'startDate',
-            'name' => 'StartDate',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => null,
-        ],
-        9 =>
-         [
-            'property' => 'receivedElectronicTenderQuantity',
-            'name' => 'ReceivedElectronicTenderQuantity',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
-            'format' => null,
-        ],
-        10 =>
-         [
-            'property' => 'receivedForeignTenderQuantity',
-            'name' => 'ReceivedForeignTenderQuantity',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
-            'format' => null,
-        ],
-        11 =>
-         [
-            'property' => 'contract',
-            'name' => 'Contract',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Contract',
-            'format' => null,
-        ],
-        12 =>
-         [
-            'property' => 'awardedTenderedProject',
-            'name' => 'AwardedTenderedProject',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\TenderedProject',
-            'format' => null,
-        ],
-        13 =>
-         [
-            'property' => 'contractFormalizationPeriod',
-            'name' => 'ContractFormalizationPeriod',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Period',
-            'format' => null,
-        ],
-        14 =>
-         [
-            'property' => 'subcontractTermses',
-            'name' => 'SubcontractTerms',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\SubcontractTerms',
-            'format' => null,
-        ],
-        15 =>
-         [
-            'property' => 'winningParties',
-            'name' => 'WinningParty',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\WinningParty',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'TenderResultCode', namespace: Ns::CBC)]
     private ?Code $tenderResultCode = null;

@@ -32,39 +32,35 @@ final class DependentPriceReference implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'percent',
-            'name' => 'Percent',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'percent',
+                'name' => 'Percent',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'locationAddress',
+                'name' => 'LocationAddress',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Address',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'dependentLineReference',
+                'name' => 'DependentLineReference',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\LineReference',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'locationAddress',
-            'name' => 'LocationAddress',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Address',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'dependentLineReference',
-            'name' => 'DependentLineReference',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\LineReference',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'Percent', namespace: Ns::CBC)]
     private ?Numeric $percent = null;

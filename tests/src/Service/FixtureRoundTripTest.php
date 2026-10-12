@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Derafu\TestsUbl\Service;
 
 use Derafu\Ubl\Service\Deserializer;
+use Derafu\Ubl\Service\SchemaValidator;
 use Derafu\Ubl\Service\Serializer;
 use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -21,7 +22,8 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Round-trips every committed fixture under tests/fixtures/doc/ through Serializer/Deserializer.
+ * Round-trips every committed fixture under tests/fixtures/doc/ through Serializer/Deserializer,
+ * and every xml one additionally through SchemaValidator, against the real OASIS XSD.
  * Fixtures are discovered by glob, never listed by hand: adding a new one under
  * tests/fixtures/doc/<format>/<Document>/ picks it up here automatically, for whichever
  * document types and formats happen to have one today. There is no dedicated json data
@@ -64,6 +66,22 @@ final class FixtureRoundTripTest extends TestCase
     public function xmlFixtureRoundTrips(string $path): void
     {
         $this->assertSymmetry($path, 'xml');
+    }
+
+    /**
+     * The bundled XSDs are not just present, they genuinely accept the real documents they are
+     * meant for - proven directly against each one, not assumed from parsing or round-tripping
+     * having already succeeded.
+     */
+    #[Test]
+    #[DataProvider('xmlFixtures')]
+    public function xmlFixtureValidatesAgainstItsRealSchema(string $path): void
+    {
+        $content = (string) file_get_contents($path);
+
+        (new SchemaValidator())->validate($content);
+
+        $this->addToAssertionCount(1);
     }
 
     /**
@@ -118,10 +136,10 @@ final class FixtureRoundTripTest extends TestCase
             $serializer->serialize($fromJson, 'yaml'),
             'yaml'
         );
-        $final = $deserializer->deserialize(
-            $serializer->serialize($fromYaml, 'xml'),
-            'xml'
-        );
+        $finalXml = $serializer->serialize($fromYaml, 'xml');
+        $final = $deserializer->deserialize($finalXml, 'xml');
+
+        (new SchemaValidator())->validate($finalXml);
 
         $this->assertSame($this->toArray($original), $this->toArray($final), $path);
         $this->assertSame(serialize($original), serialize($final), $path);

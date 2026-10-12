@@ -27,30 +27,27 @@ final class Numeric implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => true,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'value',
-            'name' => null,
-            'kind' => 'value',
-            'list' => false,
-            'item' => null,
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => true,
+        'properties' => [
+            0 => [
+                'property' => 'value',
+                'name' => null,
+                'kind' => 'value',
+                'list' => false,
+                'item' => null,
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'format',
+                'name' => 'format',
+                'kind' => 'attribute',
+                'list' => false,
+                'item' => null,
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'format',
-            'name' => 'format',
-            'kind' => 'attribute',
-            'list' => false,
-            'item' => null,
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlValue]
     private ?string $value = null;

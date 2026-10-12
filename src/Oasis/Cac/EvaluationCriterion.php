@@ -35,84 +35,75 @@ final class EvaluationCriterion implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'evaluationCriterionTypeCode',
-            'name' => 'EvaluationCriterionTypeCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'evaluationCriterionTypeCode',
+                'name' => 'EvaluationCriterionTypeCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'descriptions',
+                'name' => 'Description',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'thresholdAmount',
+                'name' => 'ThresholdAmount',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'thresholdQuantity',
+                'name' => 'ThresholdQuantity',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'expressionCode',
+                'name' => 'ExpressionCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'expressions',
+                'name' => 'Expression',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            6 => [
+                'property' => 'durationPeriod',
+                'name' => 'DurationPeriod',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Period',
+                'format' => null,
+            ],
+            7 => [
+                'property' => 'suggestedEvidences',
+                'name' => 'SuggestedEvidence',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Evidence',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'descriptions',
-            'name' => 'Description',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'thresholdAmount',
-            'name' => 'ThresholdAmount',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'thresholdQuantity',
-            'name' => 'ThresholdQuantity',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'expressionCode',
-            'name' => 'ExpressionCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'expressions',
-            'name' => 'Expression',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        6 =>
-         [
-            'property' => 'durationPeriod',
-            'name' => 'DurationPeriod',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Period',
-            'format' => null,
-        ],
-        7 =>
-         [
-            'property' => 'suggestedEvidences',
-            'name' => 'SuggestedEvidence',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Evidence',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'EvaluationCriterionTypeCode', namespace: Ns::CBC)]
     private ?Code $evaluationCriterionTypeCode = null;

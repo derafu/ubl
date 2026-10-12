@@ -32,48 +32,43 @@ final class EmissionCalculationMethod implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'calculationMethodCode',
-            'name' => 'CalculationMethodCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'calculationMethodCode',
+                'name' => 'CalculationMethodCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'fullnessIndicationCode',
+                'name' => 'FullnessIndicationCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'measurementFromLocation',
+                'name' => 'MeasurementFromLocation',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Location',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'measurementToLocation',
+                'name' => 'MeasurementToLocation',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Location',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'fullnessIndicationCode',
-            'name' => 'FullnessIndicationCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'measurementFromLocation',
-            'name' => 'MeasurementFromLocation',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Location',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'measurementToLocation',
-            'name' => 'MeasurementToLocation',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Location',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'CalculationMethodCode', namespace: Ns::CBC)]
     private ?Code $calculationMethodCode = null;

@@ -32,30 +32,27 @@ final class PromotionalEventLineItem implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'amount',
-            'name' => 'Amount',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'amount',
+                'name' => 'Amount',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'eventLineItem',
+                'name' => 'EventLineItem',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\EventLineItem',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'eventLineItem',
-            'name' => 'EventLineItem',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\EventLineItem',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'Amount', namespace: Ns::CBC, required: true)]
     private Amount $amount;

@@ -32,66 +32,59 @@ final class SupplierConsumption implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'descriptions',
-            'name' => 'Description',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'descriptions',
+                'name' => 'Description',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'utilitySupplierParty',
+                'name' => 'UtilitySupplierParty',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'utilityCustomerParty',
+                'name' => 'UtilityCustomerParty',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'consumption',
+                'name' => 'Consumption',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Consumption',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'contract',
+                'name' => 'Contract',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Contract',
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'consumptionLines',
+                'name' => 'ConsumptionLine',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\ConsumptionLine',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'utilitySupplierParty',
-            'name' => 'UtilitySupplierParty',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'utilityCustomerParty',
-            'name' => 'UtilityCustomerParty',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'consumption',
-            'name' => 'Consumption',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Consumption',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'contract',
-            'name' => 'Contract',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Contract',
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'consumptionLines',
-            'name' => 'ConsumptionLine',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\ConsumptionLine',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     /** @var list<Text> */
     #[XmlElement(name: 'Description', namespace: Ns::CBC, type: Text::class)]

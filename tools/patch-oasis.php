@@ -30,6 +30,7 @@ $files = new RegexIterator(
 );
 
 $totalChanged = 0;
+$totalChanged += removeW3cMetaschemaEnums($oasisDir);
 $totalChanged += fixValidatorDocblocks($files);
 $totalChanged += fixTimeFormat(dirname(__DIR__) . '/src/Oasis');
 $totalChanged += fixDocumentRegistry(dirname(__DIR__) . '/src/Oasis/Xml/DocumentRegistry.php');
@@ -38,6 +39,75 @@ $totalChanged += addArraySerializableTrait(dirname(__DIR__) . '/src/Oasis');
 $totalChanged += addArrayMetadataConstant(dirname(__DIR__) . '/src/Oasis');
 
 fwrite(STDOUT, "patch-oasis: $totalChanged file(s) changed.\n");
+
+/**
+ * The generator does not only emit enums for UBL's own types (always PascalCase): it also
+ * leaks a handful of W3C XML Schema meta-schema utility types - the vocabulary XSD uses to
+ * describe itself (`block`/`final`/`elementFormDefault` and the like), not UBL business data.
+ * Those are always lowerCamelCase in the real W3C spec (`derivationControl`, `formChoice`, ...)
+ * and each carries the literal annotation "A utility type, not for public use" copied from
+ * that spec. Confirmed unused anywhere in `Cac`/`Cbc`/`Doc`: nothing in this package's own
+ * model ever had a reason to reference the vocabulary XSD uses to describe itself.
+ *
+ * Casing alone is only ever a proxy for "came from the W3C XML Schema namespace, not a UBL
+ * one" - true today for every lowercase file this generator has ever produced, but not a law
+ * of nature. Before trusting it, isReferencedOutsideEnum() checks the one thing that actually
+ * matters: that nothing else in the generated model points at this class. If a future
+ * regeneration ever produces a lowercase file something else DOES reference, this refuses to
+ * delete it and fails loud instead of silently creating a dangling reference.
+ *
+ * @return int Number of files removed.
+ */
+function removeW3cMetaschemaEnums(string $oasisDir): int
+{
+    $enumDir = "$oasisDir/Enum";
+    $removed = 0;
+
+    foreach (glob("$enumDir/*.php") ?: [] as $file) {
+        $className = basename($file, '.php');
+        if ($className === '' || ctype_upper($className[0])) {
+            continue;
+        }
+
+        if (isReferencedOutsideEnum($oasisDir, $className)) {
+            fwrite(STDERR, "patch-oasis: $file is lowercase, which so far has only ever meant a W3C meta-schema leak, but it IS referenced elsewhere in src/Oasis - refusing to delete it (a genuinely-used lowercase UBL type?), needs a human to look.\n");
+            exit(1);
+        }
+
+        unlink($file);
+        $removed++;
+    }
+
+    assertNoneMatch($enumDir, '/^enum [a-z]/m', 'is a W3C meta-schema utility type, not a UBL one');
+
+    return $removed;
+}
+
+/**
+ * Plain text search, deliberately not reflection/AST-based: good enough to prove a class name
+ * appears nowhere outside Enum/ itself, which is all removeW3cMetaschemaEnums() needs before
+ * trusting casing alone is safe to delete a file by.
+ */
+function isReferencedOutsideEnum(string $oasisDir, string $className): bool
+{
+    $files = new RegexIterator(
+        new RecursiveIteratorIterator(new RecursiveDirectoryIterator($oasisDir)),
+        '/\.php$/'
+    );
+
+    foreach ($files as $file) {
+        $path = $file->getPathname();
+        if (str_contains($path, '/Enum/')) {
+            continue;
+        }
+
+        if (str_contains((string) file_get_contents($path), $className)) {
+            return true;
+        }
+    }
+
+    return false;
+}
 
 /**
  * Fixes the `@param list<SpecificType> $values` docblock the generator writes on each
@@ -319,16 +389,33 @@ function classArrayMetadata(string $class): array
 }
 
 /**
- * `var_export()` with 4-space indentation, to match the rest of the file (`php-cs-fixer`
- * only fixes indentation already made of spaces, it does not re-indent `var_export()`'s
- * own 2-space, PSR-12-breaking output).
+ * `var_export()` with 4-space indentation, to match the rest of the file (`php-cs-fixer` only
+ * fixes indentation already made of spaces, it does not re-indent `var_export()`'s own 2-space,
+ * PSR-12-breaking output), and with the constant's own nesting folded in: the array literal
+ * starts mid-line, after `private const ARRAY_METADATA = `, so every line after the first needs
+ * one indent level more than `var_export()` assumes (column 0) to land under that declaration
+ * instead of under it. It also collapses a nested array's `array (` onto its key's own line
+ * (`var_export()` always puts it on a new one: `'properties' => \narray (`) and drops the space
+ * before every `(` it is about to turn into `[` - left in place, that space survives
+ * `php-cs-fixer`'s short-array-syntax rewrite as a stray double space (`=>  [`).
  */
 function exportMetadata(array $metadata): string
 {
     $exported = var_export($metadata, true);
-    $exported = preg_replace('/^( +)/m', '$1$1', $exported);
+    $exported = preg_replace('/=> \n\s*array \(/', '=> array (', $exported);
+    $exported = str_replace('array (', 'array(', (string) $exported);
 
-    return (string) $exported;
+    $lines = explode("\n", $exported);
+    foreach ($lines as $i => $line) {
+        if ($i === 0) {
+            continue;
+        }
+        $trimmed = ltrim($line, ' ');
+        $depth = (strlen($line) - strlen($trimmed)) / 2;
+        $lines[$i] = str_repeat(' ', $depth * 4 + 4) . $trimmed;
+    }
+
+    return implode("\n", $lines);
 }
 
 /**

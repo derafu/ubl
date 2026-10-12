@@ -33,84 +33,75 @@ final class ForecastException implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'forecastPurposeCode',
-            'name' => 'ForecastPurposeCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'forecastPurposeCode',
+                'name' => 'ForecastPurposeCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'forecastTypeCode',
+                'name' => 'ForecastTypeCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'issueDate',
+                'name' => 'IssueDate',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'issueTime',
+                'name' => 'IssueTime',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => 'H:i:sP',
+            ],
+            4 => [
+                'property' => 'dataSourceCode',
+                'name' => 'DataSourceCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'comparisonDataCode',
+                'name' => 'ComparisonDataCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            6 => [
+                'property' => 'comparisonForecastIssueTime',
+                'name' => 'ComparisonForecastIssueTime',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => 'H:i:sP',
+            ],
+            7 => [
+                'property' => 'comparisonForecastIssueDate',
+                'name' => 'ComparisonForecastIssueDate',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'forecastTypeCode',
-            'name' => 'ForecastTypeCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'issueDate',
-            'name' => 'IssueDate',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'issueTime',
-            'name' => 'IssueTime',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => 'H:i:sP',
-        ],
-        4 =>
-         [
-            'property' => 'dataSourceCode',
-            'name' => 'DataSourceCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'comparisonDataCode',
-            'name' => 'ComparisonDataCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        6 =>
-         [
-            'property' => 'comparisonForecastIssueTime',
-            'name' => 'ComparisonForecastIssueTime',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => 'H:i:sP',
-        ],
-        7 =>
-         [
-            'property' => 'comparisonForecastIssueDate',
-            'name' => 'ComparisonForecastIssueDate',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'ForecastPurposeCode', namespace: Ns::CBC, required: true)]
     private Code $forecastPurposeCode;

@@ -32,48 +32,43 @@ final class CataloguePricingUpdateLine implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'id',
-            'name' => 'ID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'id',
+                'name' => 'ID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'contractorCustomerParty',
+                'name' => 'ContractorCustomerParty',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\CustomerParty',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'sellerSupplierParty',
+                'name' => 'SellerSupplierParty',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\SupplierParty',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'requiredItemLocationQuantities',
+                'name' => 'RequiredItemLocationQuantity',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\ItemLocationQuantity',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'contractorCustomerParty',
-            'name' => 'ContractorCustomerParty',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\CustomerParty',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'sellerSupplierParty',
-            'name' => 'SellerSupplierParty',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\SupplierParty',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'requiredItemLocationQuantities',
-            'name' => 'RequiredItemLocationQuantity',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\ItemLocationQuantity',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'ID', namespace: Ns::CBC, required: true)]
     private Identifier $id;

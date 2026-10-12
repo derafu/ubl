@@ -35,57 +35,51 @@ final class ConsumptionReportReference implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'consumptionReportID',
-            'name' => 'ConsumptionReportID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'consumptionReportID',
+                'name' => 'ConsumptionReportID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'consumptionType',
+                'name' => 'ConsumptionType',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'consumptionTypeCode',
+                'name' => 'ConsumptionTypeCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'totalConsumedQuantity',
+                'name' => 'TotalConsumedQuantity',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'period',
+                'name' => 'Period',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Period',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'consumptionType',
-            'name' => 'ConsumptionType',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'consumptionTypeCode',
-            'name' => 'ConsumptionTypeCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'totalConsumedQuantity',
-            'name' => 'TotalConsumedQuantity',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'period',
-            'name' => 'Period',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Period',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'ConsumptionReportID', namespace: Ns::CBC, required: true)]
     private Identifier $consumptionReportID;

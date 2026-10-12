@@ -33,57 +33,51 @@ final class EconomicOperatorShortList implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'limitationDescriptions',
-            'name' => 'LimitationDescription',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'limitationDescriptions',
+                'name' => 'LimitationDescription',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'expectedQuantity',
+                'name' => 'ExpectedQuantity',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'maximumQuantity',
+                'name' => 'MaximumQuantity',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'minimumQuantity',
+                'name' => 'MinimumQuantity',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'preSelectedParties',
+                'name' => 'PreSelectedParty',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'expectedQuantity',
-            'name' => 'ExpectedQuantity',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'maximumQuantity',
-            'name' => 'MaximumQuantity',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'minimumQuantity',
-            'name' => 'MinimumQuantity',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'preSelectedParties',
-            'name' => 'PreSelectedParty',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     /** @var list<Text> */
     #[XmlElement(name: 'LimitationDescription', namespace: Ns::CBC, type: Text::class)]

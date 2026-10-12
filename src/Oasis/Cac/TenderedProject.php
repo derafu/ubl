@@ -35,111 +35,99 @@ final class TenderedProject implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'variantID',
-            'name' => 'VariantID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'variantID',
+                'name' => 'VariantID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'feeAmount',
+                'name' => 'FeeAmount',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'feeDescriptions',
+                'name' => 'FeeDescription',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'tenderEnvelopeID',
+                'name' => 'TenderEnvelopeID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'tenderEnvelopeTypeCode',
+                'name' => 'TenderEnvelopeTypeCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'procurementProjectLot',
+                'name' => 'ProcurementProjectLot',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\ProcurementProjectLot',
+                'format' => null,
+            ],
+            6 => [
+                'property' => 'evidenceDocumentReferences',
+                'name' => 'EvidenceDocumentReference',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+                'format' => null,
+            ],
+            7 => [
+                'property' => 'taxTotals',
+                'name' => 'TaxTotal',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\TaxTotal',
+                'format' => null,
+            ],
+            8 => [
+                'property' => 'legalMonetaryTotal',
+                'name' => 'LegalMonetaryTotal',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\MonetaryTotal',
+                'format' => null,
+            ],
+            9 => [
+                'property' => 'tenderLines',
+                'name' => 'TenderLine',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\TenderLine',
+                'format' => null,
+            ],
+            10 => [
+                'property' => 'awardingCriterionResponses',
+                'name' => 'AwardingCriterionResponse',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\AwardingCriterionResponse',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'feeAmount',
-            'name' => 'FeeAmount',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'feeDescriptions',
-            'name' => 'FeeDescription',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'tenderEnvelopeID',
-            'name' => 'TenderEnvelopeID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'tenderEnvelopeTypeCode',
-            'name' => 'TenderEnvelopeTypeCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'procurementProjectLot',
-            'name' => 'ProcurementProjectLot',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\ProcurementProjectLot',
-            'format' => null,
-        ],
-        6 =>
-         [
-            'property' => 'evidenceDocumentReferences',
-            'name' => 'EvidenceDocumentReference',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
-            'format' => null,
-        ],
-        7 =>
-         [
-            'property' => 'taxTotals',
-            'name' => 'TaxTotal',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\TaxTotal',
-            'format' => null,
-        ],
-        8 =>
-         [
-            'property' => 'legalMonetaryTotal',
-            'name' => 'LegalMonetaryTotal',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\MonetaryTotal',
-            'format' => null,
-        ],
-        9 =>
-         [
-            'property' => 'tenderLines',
-            'name' => 'TenderLine',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\TenderLine',
-            'format' => null,
-        ],
-        10 =>
-         [
-            'property' => 'awardingCriterionResponses',
-            'name' => 'AwardingCriterionResponse',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\AwardingCriterionResponse',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'VariantID', namespace: Ns::CBC)]
     private ?Identifier $variantID = null;

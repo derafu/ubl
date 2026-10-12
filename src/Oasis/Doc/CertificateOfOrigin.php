@@ -42,192 +42,171 @@ final class CertificateOfOrigin implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'ublExtensions',
-            'name' => 'UBLExtensions',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\UBLExtensions',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'ublExtensions',
+                'name' => 'UBLExtensions',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\UBLExtensions',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'ublVersionID',
+                'name' => 'UBLVersionID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'customizationID',
+                'name' => 'CustomizationID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'profileID',
+                'name' => 'ProfileID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'profileExecutionID',
+                'name' => 'ProfileExecutionID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'id',
+                'name' => 'ID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            6 => [
+                'property' => 'uuid',
+                'name' => 'UUID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            7 => [
+                'property' => 'issueDate',
+                'name' => 'IssueDate',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => null,
+            ],
+            8 => [
+                'property' => 'issueTime',
+                'name' => 'IssueTime',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => 'H:i:sP',
+            ],
+            9 => [
+                'property' => 'descriptions',
+                'name' => 'Description',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            10 => [
+                'property' => 'notes',
+                'name' => 'Note',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            11 => [
+                'property' => 'versionID',
+                'name' => 'VersionID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            12 => [
+                'property' => 'signatures',
+                'name' => 'Signature',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Signature',
+                'format' => null,
+            ],
+            13 => [
+                'property' => 'exporterParty',
+                'name' => 'ExporterParty',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+                'format' => null,
+            ],
+            14 => [
+                'property' => 'importerParty',
+                'name' => 'ImporterParty',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+                'format' => null,
+            ],
+            15 => [
+                'property' => 'endorserParties',
+                'name' => 'EndorserParty',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\EndorserParty',
+                'format' => null,
+            ],
+            16 => [
+                'property' => 'certificateOfOriginApplication',
+                'name' => 'CertificateOfOriginApplication',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\CertificateOfOriginApplication',
+                'format' => null,
+            ],
+            17 => [
+                'property' => 'issuerEndorsement',
+                'name' => 'IssuerEndorsement',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Endorsement',
+                'format' => null,
+            ],
+            18 => [
+                'property' => 'embassyEndorsement',
+                'name' => 'EmbassyEndorsement',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Endorsement',
+                'format' => null,
+            ],
+            19 => [
+                'property' => 'insuranceEndorsement',
+                'name' => 'InsuranceEndorsement',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Endorsement',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'ublVersionID',
-            'name' => 'UBLVersionID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'customizationID',
-            'name' => 'CustomizationID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'profileID',
-            'name' => 'ProfileID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'profileExecutionID',
-            'name' => 'ProfileExecutionID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'id',
-            'name' => 'ID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-        6 =>
-         [
-            'property' => 'uuid',
-            'name' => 'UUID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-        7 =>
-         [
-            'property' => 'issueDate',
-            'name' => 'IssueDate',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => null,
-        ],
-        8 =>
-         [
-            'property' => 'issueTime',
-            'name' => 'IssueTime',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => 'H:i:sP',
-        ],
-        9 =>
-         [
-            'property' => 'descriptions',
-            'name' => 'Description',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        10 =>
-         [
-            'property' => 'notes',
-            'name' => 'Note',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        11 =>
-         [
-            'property' => 'versionID',
-            'name' => 'VersionID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-        12 =>
-         [
-            'property' => 'signatures',
-            'name' => 'Signature',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Signature',
-            'format' => null,
-        ],
-        13 =>
-         [
-            'property' => 'exporterParty',
-            'name' => 'ExporterParty',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
-            'format' => null,
-        ],
-        14 =>
-         [
-            'property' => 'importerParty',
-            'name' => 'ImporterParty',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
-            'format' => null,
-        ],
-        15 =>
-         [
-            'property' => 'endorserParties',
-            'name' => 'EndorserParty',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\EndorserParty',
-            'format' => null,
-        ],
-        16 =>
-         [
-            'property' => 'certificateOfOriginApplication',
-            'name' => 'CertificateOfOriginApplication',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\CertificateOfOriginApplication',
-            'format' => null,
-        ],
-        17 =>
-         [
-            'property' => 'issuerEndorsement',
-            'name' => 'IssuerEndorsement',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Endorsement',
-            'format' => null,
-        ],
-        18 =>
-         [
-            'property' => 'embassyEndorsement',
-            'name' => 'EmbassyEndorsement',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Endorsement',
-            'format' => null,
-        ],
-        19 =>
-         [
-            'property' => 'insuranceEndorsement',
-            'name' => 'InsuranceEndorsement',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Endorsement',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'UBLExtensions', namespace: Ns::EXT)]
     private ?UBLExtensions $ublExtensions = null;

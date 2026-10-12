@@ -34,219 +34,195 @@ final class TenderingProcess implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'id',
-            'name' => 'ID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'id',
+                'name' => 'ID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'originalContractingSystemID',
+                'name' => 'OriginalContractingSystemID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'descriptions',
+                'name' => 'Description',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'negotiationDescriptions',
+                'name' => 'NegotiationDescription',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'procedureCode',
+                'name' => 'ProcedureCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'urgencyCode',
+                'name' => 'UrgencyCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            6 => [
+                'property' => 'expenseCode',
+                'name' => 'ExpenseCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            7 => [
+                'property' => 'partPresentationCode',
+                'name' => 'PartPresentationCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            8 => [
+                'property' => 'contractingSystemCode',
+                'name' => 'ContractingSystemCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            9 => [
+                'property' => 'submissionMethodCode',
+                'name' => 'SubmissionMethodCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            10 => [
+                'property' => 'candidateReductionConstraintIndicator',
+                'name' => 'CandidateReductionConstraintIndicator',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'bool',
+                'format' => null,
+            ],
+            11 => [
+                'property' => 'governmentAgreementConstraintIndicator',
+                'name' => 'GovernmentAgreementConstraintIndicator',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'bool',
+                'format' => null,
+            ],
+            12 => [
+                'property' => 'documentAvailabilityPeriod',
+                'name' => 'DocumentAvailabilityPeriod',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Period',
+                'format' => null,
+            ],
+            13 => [
+                'property' => 'tenderSubmissionDeadlinePeriod',
+                'name' => 'TenderSubmissionDeadlinePeriod',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Period',
+                'format' => null,
+            ],
+            14 => [
+                'property' => 'invitationSubmissionPeriod',
+                'name' => 'InvitationSubmissionPeriod',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Period',
+                'format' => null,
+            ],
+            15 => [
+                'property' => 'participationRequestReceptionPeriod',
+                'name' => 'ParticipationRequestReceptionPeriod',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Period',
+                'format' => null,
+            ],
+            16 => [
+                'property' => 'noticeDocumentReferences',
+                'name' => 'NoticeDocumentReference',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+                'format' => null,
+            ],
+            17 => [
+                'property' => 'additionalDocumentReferences',
+                'name' => 'AdditionalDocumentReference',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+                'format' => null,
+            ],
+            18 => [
+                'property' => 'processJustifications',
+                'name' => 'ProcessJustification',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\ProcessJustification',
+                'format' => null,
+            ],
+            19 => [
+                'property' => 'economicOperatorShortList',
+                'name' => 'EconomicOperatorShortList',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\EconomicOperatorShortList',
+                'format' => null,
+            ],
+            20 => [
+                'property' => 'openTenderEvents',
+                'name' => 'OpenTenderEvent',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Event',
+                'format' => null,
+            ],
+            21 => [
+                'property' => 'auctionTerms',
+                'name' => 'AuctionTerms',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\AuctionTerms',
+                'format' => null,
+            ],
+            22 => [
+                'property' => 'frameworkAgreement',
+                'name' => 'FrameworkAgreement',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\FrameworkAgreement',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'originalContractingSystemID',
-            'name' => 'OriginalContractingSystemID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'descriptions',
-            'name' => 'Description',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'negotiationDescriptions',
-            'name' => 'NegotiationDescription',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'procedureCode',
-            'name' => 'ProcedureCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'urgencyCode',
-            'name' => 'UrgencyCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        6 =>
-         [
-            'property' => 'expenseCode',
-            'name' => 'ExpenseCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        7 =>
-         [
-            'property' => 'partPresentationCode',
-            'name' => 'PartPresentationCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        8 =>
-         [
-            'property' => 'contractingSystemCode',
-            'name' => 'ContractingSystemCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        9 =>
-         [
-            'property' => 'submissionMethodCode',
-            'name' => 'SubmissionMethodCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        10 =>
-         [
-            'property' => 'candidateReductionConstraintIndicator',
-            'name' => 'CandidateReductionConstraintIndicator',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'bool',
-            'format' => null,
-        ],
-        11 =>
-         [
-            'property' => 'governmentAgreementConstraintIndicator',
-            'name' => 'GovernmentAgreementConstraintIndicator',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'bool',
-            'format' => null,
-        ],
-        12 =>
-         [
-            'property' => 'documentAvailabilityPeriod',
-            'name' => 'DocumentAvailabilityPeriod',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Period',
-            'format' => null,
-        ],
-        13 =>
-         [
-            'property' => 'tenderSubmissionDeadlinePeriod',
-            'name' => 'TenderSubmissionDeadlinePeriod',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Period',
-            'format' => null,
-        ],
-        14 =>
-         [
-            'property' => 'invitationSubmissionPeriod',
-            'name' => 'InvitationSubmissionPeriod',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Period',
-            'format' => null,
-        ],
-        15 =>
-         [
-            'property' => 'participationRequestReceptionPeriod',
-            'name' => 'ParticipationRequestReceptionPeriod',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Period',
-            'format' => null,
-        ],
-        16 =>
-         [
-            'property' => 'noticeDocumentReferences',
-            'name' => 'NoticeDocumentReference',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
-            'format' => null,
-        ],
-        17 =>
-         [
-            'property' => 'additionalDocumentReferences',
-            'name' => 'AdditionalDocumentReference',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
-            'format' => null,
-        ],
-        18 =>
-         [
-            'property' => 'processJustifications',
-            'name' => 'ProcessJustification',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\ProcessJustification',
-            'format' => null,
-        ],
-        19 =>
-         [
-            'property' => 'economicOperatorShortList',
-            'name' => 'EconomicOperatorShortList',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\EconomicOperatorShortList',
-            'format' => null,
-        ],
-        20 =>
-         [
-            'property' => 'openTenderEvents',
-            'name' => 'OpenTenderEvent',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Event',
-            'format' => null,
-        ],
-        21 =>
-         [
-            'property' => 'auctionTerms',
-            'name' => 'AuctionTerms',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\AuctionTerms',
-            'format' => null,
-        ],
-        22 =>
-         [
-            'property' => 'frameworkAgreement',
-            'name' => 'FrameworkAgreement',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\FrameworkAgreement',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'ID', namespace: Ns::CBC)]
     private ?Identifier $id = null;

@@ -34,48 +34,43 @@ final class EnvironmentalEmission implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'environmentalEmissionTypeCode',
-            'name' => 'EnvironmentalEmissionTypeCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'environmentalEmissionTypeCode',
+                'name' => 'EnvironmentalEmissionTypeCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'valueMeasure',
+                'name' => 'ValueMeasure',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Measure',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'descriptions',
+                'name' => 'Description',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'emissionCalculationMethods',
+                'name' => 'EmissionCalculationMethod',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\EmissionCalculationMethod',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'valueMeasure',
-            'name' => 'ValueMeasure',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Measure',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'descriptions',
-            'name' => 'Description',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'emissionCalculationMethods',
-            'name' => 'EmissionCalculationMethod',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\EmissionCalculationMethod',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'EnvironmentalEmissionTypeCode', namespace: Ns::CBC, required: true)]
     private Code $environmentalEmissionTypeCode;

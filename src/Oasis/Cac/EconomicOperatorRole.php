@@ -33,30 +33,27 @@ final class EconomicOperatorRole implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'roleCode',
-            'name' => 'RoleCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'roleCode',
+                'name' => 'RoleCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'roleDescriptions',
+                'name' => 'RoleDescription',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'roleDescriptions',
-            'name' => 'RoleDescription',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'RoleCode', namespace: Ns::CBC)]
     private ?Code $roleCode = null;

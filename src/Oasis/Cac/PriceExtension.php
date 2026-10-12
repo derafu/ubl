@@ -32,30 +32,27 @@ final class PriceExtension implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'amount',
-            'name' => 'Amount',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'amount',
+                'name' => 'Amount',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'taxTotals',
+                'name' => 'TaxTotal',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\TaxTotal',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'taxTotals',
-            'name' => 'TaxTotal',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\TaxTotal',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'Amount', namespace: Ns::CBC, required: true)]
     private Amount $amount;

@@ -34,84 +34,75 @@ final class MaritimeTransport implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'vesselID',
-            'name' => 'VesselID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'vesselID',
+                'name' => 'VesselID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'vesselName',
+                'name' => 'VesselName',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'radioCallSignID',
+                'name' => 'RadioCallSignID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'shipsRequirementses',
+                'name' => 'ShipsRequirements',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'grossTonnageMeasure',
+                'name' => 'GrossTonnageMeasure',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Measure',
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'netTonnageMeasure',
+                'name' => 'NetTonnageMeasure',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Measure',
+                'format' => null,
+            ],
+            6 => [
+                'property' => 'registryCertificateDocumentReference',
+                'name' => 'RegistryCertificateDocumentReference',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+                'format' => null,
+            ],
+            7 => [
+                'property' => 'registryPortLocation',
+                'name' => 'RegistryPortLocation',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Location',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'vesselName',
-            'name' => 'VesselName',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'radioCallSignID',
-            'name' => 'RadioCallSignID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'shipsRequirementses',
-            'name' => 'ShipsRequirements',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'grossTonnageMeasure',
-            'name' => 'GrossTonnageMeasure',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Measure',
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'netTonnageMeasure',
-            'name' => 'NetTonnageMeasure',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Measure',
-            'format' => null,
-        ],
-        6 =>
-         [
-            'property' => 'registryCertificateDocumentReference',
-            'name' => 'RegistryCertificateDocumentReference',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
-            'format' => null,
-        ],
-        7 =>
-         [
-            'property' => 'registryPortLocation',
-            'name' => 'RegistryPortLocation',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Location',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'VesselID', namespace: Ns::CBC)]
     private ?Identifier $vesselID = null;

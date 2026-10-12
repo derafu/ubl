@@ -32,21 +32,19 @@ final class CreditAccount implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'accountID',
-            'name' => 'AccountID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'accountID',
+                'name' => 'AccountID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
         ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'AccountID', namespace: Ns::CBC, required: true)]
     private Identifier $accountID;

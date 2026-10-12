@@ -34,111 +34,99 @@ final class TendererQualificationRequest implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'companyLegalFormCode',
-            'name' => 'CompanyLegalFormCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'companyLegalFormCode',
+                'name' => 'CompanyLegalFormCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'companyLegalForm',
+                'name' => 'CompanyLegalForm',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'personalSituations',
+                'name' => 'PersonalSituation',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'operatingYearsQuantity',
+                'name' => 'OperatingYearsQuantity',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'employeeQuantity',
+                'name' => 'EmployeeQuantity',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'descriptions',
+                'name' => 'Description',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            6 => [
+                'property' => 'requiredBusinessClassificationSchemes',
+                'name' => 'RequiredBusinessClassificationScheme',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\ClassificationScheme',
+                'format' => null,
+            ],
+            7 => [
+                'property' => 'technicalEvaluationCriterions',
+                'name' => 'TechnicalEvaluationCriterion',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\EvaluationCriterion',
+                'format' => null,
+            ],
+            8 => [
+                'property' => 'financialEvaluationCriterions',
+                'name' => 'FinancialEvaluationCriterion',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\EvaluationCriterion',
+                'format' => null,
+            ],
+            9 => [
+                'property' => 'specificTendererRequirements',
+                'name' => 'SpecificTendererRequirement',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\TendererRequirement',
+                'format' => null,
+            ],
+            10 => [
+                'property' => 'economicOperatorRoles',
+                'name' => 'EconomicOperatorRole',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\EconomicOperatorRole',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'companyLegalForm',
-            'name' => 'CompanyLegalForm',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'personalSituations',
-            'name' => 'PersonalSituation',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'operatingYearsQuantity',
-            'name' => 'OperatingYearsQuantity',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'employeeQuantity',
-            'name' => 'EmployeeQuantity',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'descriptions',
-            'name' => 'Description',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        6 =>
-         [
-            'property' => 'requiredBusinessClassificationSchemes',
-            'name' => 'RequiredBusinessClassificationScheme',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\ClassificationScheme',
-            'format' => null,
-        ],
-        7 =>
-         [
-            'property' => 'technicalEvaluationCriterions',
-            'name' => 'TechnicalEvaluationCriterion',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\EvaluationCriterion',
-            'format' => null,
-        ],
-        8 =>
-         [
-            'property' => 'financialEvaluationCriterions',
-            'name' => 'FinancialEvaluationCriterion',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\EvaluationCriterion',
-            'format' => null,
-        ],
-        9 =>
-         [
-            'property' => 'specificTendererRequirements',
-            'name' => 'SpecificTendererRequirement',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\TendererRequirement',
-            'format' => null,
-        ],
-        10 =>
-         [
-            'property' => 'economicOperatorRoles',
-            'name' => 'EconomicOperatorRole',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\EconomicOperatorRole',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'CompanyLegalFormCode', namespace: Ns::CBC)]
     private ?Code $companyLegalFormCode = null;

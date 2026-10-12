@@ -27,102 +27,91 @@ final class Code implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => true,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'value',
-            'name' => null,
-            'kind' => 'value',
-            'list' => false,
-            'item' => null,
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => true,
+        'properties' => [
+            0 => [
+                'property' => 'value',
+                'name' => null,
+                'kind' => 'value',
+                'list' => false,
+                'item' => null,
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'listID',
+                'name' => 'listID',
+                'kind' => 'attribute',
+                'list' => false,
+                'item' => null,
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'listAgencyID',
+                'name' => 'listAgencyID',
+                'kind' => 'attribute',
+                'list' => false,
+                'item' => null,
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'listAgencyName',
+                'name' => 'listAgencyName',
+                'kind' => 'attribute',
+                'list' => false,
+                'item' => null,
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'listName',
+                'name' => 'listName',
+                'kind' => 'attribute',
+                'list' => false,
+                'item' => null,
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'listVersionID',
+                'name' => 'listVersionID',
+                'kind' => 'attribute',
+                'list' => false,
+                'item' => null,
+                'format' => null,
+            ],
+            6 => [
+                'property' => 'name',
+                'name' => 'name',
+                'kind' => 'attribute',
+                'list' => false,
+                'item' => null,
+                'format' => null,
+            ],
+            7 => [
+                'property' => 'languageID',
+                'name' => 'languageID',
+                'kind' => 'attribute',
+                'list' => false,
+                'item' => null,
+                'format' => null,
+            ],
+            8 => [
+                'property' => 'listURI',
+                'name' => 'listURI',
+                'kind' => 'attribute',
+                'list' => false,
+                'item' => null,
+                'format' => null,
+            ],
+            9 => [
+                'property' => 'listSchemeURI',
+                'name' => 'listSchemeURI',
+                'kind' => 'attribute',
+                'list' => false,
+                'item' => null,
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'listID',
-            'name' => 'listID',
-            'kind' => 'attribute',
-            'list' => false,
-            'item' => null,
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'listAgencyID',
-            'name' => 'listAgencyID',
-            'kind' => 'attribute',
-            'list' => false,
-            'item' => null,
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'listAgencyName',
-            'name' => 'listAgencyName',
-            'kind' => 'attribute',
-            'list' => false,
-            'item' => null,
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'listName',
-            'name' => 'listName',
-            'kind' => 'attribute',
-            'list' => false,
-            'item' => null,
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'listVersionID',
-            'name' => 'listVersionID',
-            'kind' => 'attribute',
-            'list' => false,
-            'item' => null,
-            'format' => null,
-        ],
-        6 =>
-         [
-            'property' => 'name',
-            'name' => 'name',
-            'kind' => 'attribute',
-            'list' => false,
-            'item' => null,
-            'format' => null,
-        ],
-        7 =>
-         [
-            'property' => 'languageID',
-            'name' => 'languageID',
-            'kind' => 'attribute',
-            'list' => false,
-            'item' => null,
-            'format' => null,
-        ],
-        8 =>
-         [
-            'property' => 'listURI',
-            'name' => 'listURI',
-            'kind' => 'attribute',
-            'list' => false,
-            'item' => null,
-            'format' => null,
-        ],
-        9 =>
-         [
-            'property' => 'listSchemeURI',
-            'name' => 'listSchemeURI',
-            'kind' => 'attribute',
-            'list' => false,
-            'item' => null,
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlValue]
     private ?string $value = null;

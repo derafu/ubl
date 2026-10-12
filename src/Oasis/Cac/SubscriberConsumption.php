@@ -35,93 +35,83 @@ final class SubscriberConsumption implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'consumptionID',
-            'name' => 'ConsumptionID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'consumptionID',
+                'name' => 'ConsumptionID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'specificationTypeCode',
+                'name' => 'SpecificationTypeCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'notes',
+                'name' => 'Note',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'totalMeteredQuantity',
+                'name' => 'TotalMeteredQuantity',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'subscriberParty',
+                'name' => 'SubscriberParty',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'utilityConsumptionPoint',
+                'name' => 'UtilityConsumptionPoint',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\ConsumptionPoint',
+                'format' => null,
+            ],
+            6 => [
+                'property' => 'onAccountPayments',
+                'name' => 'OnAccountPayment',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\OnAccountPayment',
+                'format' => null,
+            ],
+            7 => [
+                'property' => 'consumption',
+                'name' => 'Consumption',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Consumption',
+                'format' => null,
+            ],
+            8 => [
+                'property' => 'supplierConsumptions',
+                'name' => 'SupplierConsumption',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\SupplierConsumption',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'specificationTypeCode',
-            'name' => 'SpecificationTypeCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'notes',
-            'name' => 'Note',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'totalMeteredQuantity',
-            'name' => 'TotalMeteredQuantity',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'subscriberParty',
-            'name' => 'SubscriberParty',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'utilityConsumptionPoint',
-            'name' => 'UtilityConsumptionPoint',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\ConsumptionPoint',
-            'format' => null,
-        ],
-        6 =>
-         [
-            'property' => 'onAccountPayments',
-            'name' => 'OnAccountPayment',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\OnAccountPayment',
-            'format' => null,
-        ],
-        7 =>
-         [
-            'property' => 'consumption',
-            'name' => 'Consumption',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Consumption',
-            'format' => null,
-        ],
-        8 =>
-         [
-            'property' => 'supplierConsumptions',
-            'name' => 'SupplierConsumption',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\SupplierConsumption',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'ConsumptionID', namespace: Ns::CBC)]
     private ?Identifier $consumptionID = null;

@@ -35,93 +35,83 @@ final class Event implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'identificationID',
-            'name' => 'IdentificationID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'identificationID',
+                'name' => 'IdentificationID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'occurrenceDate',
+                'name' => 'OccurrenceDate',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'occurrenceTime',
+                'name' => 'OccurrenceTime',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => 'H:i:sP',
+            ],
+            3 => [
+                'property' => 'typeCode',
+                'name' => 'TypeCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'descriptions',
+                'name' => 'Description',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'completionIndicator',
+                'name' => 'CompletionIndicator',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'bool',
+                'format' => null,
+            ],
+            6 => [
+                'property' => 'currentStatuses',
+                'name' => 'CurrentStatus',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Status',
+                'format' => null,
+            ],
+            7 => [
+                'property' => 'contacts',
+                'name' => 'Contact',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Contact',
+                'format' => null,
+            ],
+            8 => [
+                'property' => 'occurenceLocation',
+                'name' => 'OccurenceLocation',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Location',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'occurrenceDate',
-            'name' => 'OccurrenceDate',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'occurrenceTime',
-            'name' => 'OccurrenceTime',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => 'H:i:sP',
-        ],
-        3 =>
-         [
-            'property' => 'typeCode',
-            'name' => 'TypeCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'descriptions',
-            'name' => 'Description',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'completionIndicator',
-            'name' => 'CompletionIndicator',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'bool',
-            'format' => null,
-        ],
-        6 =>
-         [
-            'property' => 'currentStatuses',
-            'name' => 'CurrentStatus',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Status',
-            'format' => null,
-        ],
-        7 =>
-         [
-            'property' => 'contacts',
-            'name' => 'Contact',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Contact',
-            'format' => null,
-        ],
-        8 =>
-         [
-            'property' => 'occurenceLocation',
-            'name' => 'OccurenceLocation',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Location',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'IdentificationID', namespace: Ns::CBC)]
     private ?Identifier $identificationID = null;

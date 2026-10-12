@@ -33,84 +33,75 @@ final class RequestedTenderTotal implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'estimatedOverallContractAmount',
-            'name' => 'EstimatedOverallContractAmount',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'estimatedOverallContractAmount',
+                'name' => 'EstimatedOverallContractAmount',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'totalAmount',
+                'name' => 'TotalAmount',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'taxIncludedIndicator',
+                'name' => 'TaxIncludedIndicator',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'bool',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'minimumAmount',
+                'name' => 'MinimumAmount',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'maximumAmount',
+                'name' => 'MaximumAmount',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'monetaryScopes',
+                'name' => 'MonetaryScope',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            6 => [
+                'property' => 'averageSubsequentContractAmount',
+                'name' => 'AverageSubsequentContractAmount',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+                'format' => null,
+            ],
+            7 => [
+                'property' => 'applicableTaxCategories',
+                'name' => 'ApplicableTaxCategory',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\TaxCategory',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'totalAmount',
-            'name' => 'TotalAmount',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'taxIncludedIndicator',
-            'name' => 'TaxIncludedIndicator',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'bool',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'minimumAmount',
-            'name' => 'MinimumAmount',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'maximumAmount',
-            'name' => 'MaximumAmount',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'monetaryScopes',
-            'name' => 'MonetaryScope',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        6 =>
-         [
-            'property' => 'averageSubsequentContractAmount',
-            'name' => 'AverageSubsequentContractAmount',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
-            'format' => null,
-        ],
-        7 =>
-         [
-            'property' => 'applicableTaxCategories',
-            'name' => 'ApplicableTaxCategory',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\TaxCategory',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'EstimatedOverallContractAmount', namespace: Ns::CBC)]
     private ?Amount $estimatedOverallContractAmount = null;

@@ -11,6 +11,18 @@ services:
         autoconfigure: true
         public: false
 
+    Derafu\Ubl\Contract\SerializerInterface:
+        class: Derafu\Ubl\Service\Serializer
+
+    Derafu\Ubl\Contract\DeserializerInterface:
+        class: Derafu\Ubl\Service\Deserializer
+
+    Derafu\Ubl\Contract\ValidatorInterface:
+        class: Derafu\Ubl\Service\SchemaValidator
+
+    Derafu\Ubl\Contract\FormatHandlerFactoryInterface:
+        class: Derafu\Ubl\Service\FormatHandlerFactory
+
     # Feeds resources/translations into the consuming app's Translator (the
     # app must pass $resourceProviders: !tagged_iterator
     # derafu_translation.resource_provider to TranslatorFactory::create(),

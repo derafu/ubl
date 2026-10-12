@@ -33,66 +33,59 @@ final class NotificationRequirement implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'notificationTypeCode',
-            'name' => 'NotificationTypeCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'notificationTypeCode',
+                'name' => 'NotificationTypeCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'postEventNotificationDurationMeasure',
+                'name' => 'PostEventNotificationDurationMeasure',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Measure',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'preEventNotificationDurationMeasure',
+                'name' => 'PreEventNotificationDurationMeasure',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Measure',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'notifyParties',
+                'name' => 'NotifyParty',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'notificationPeriods',
+                'name' => 'NotificationPeriod',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Period',
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'notificationLocations',
+                'name' => 'NotificationLocation',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Location',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'postEventNotificationDurationMeasure',
-            'name' => 'PostEventNotificationDurationMeasure',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Measure',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'preEventNotificationDurationMeasure',
-            'name' => 'PreEventNotificationDurationMeasure',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Measure',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'notifyParties',
-            'name' => 'NotifyParty',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'notificationPeriods',
-            'name' => 'NotificationPeriod',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Period',
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'notificationLocations',
-            'name' => 'NotificationLocation',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Location',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'NotificationTypeCode', namespace: Ns::CBC, required: true)]
     private Code $notificationTypeCode;

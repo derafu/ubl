@@ -32,21 +32,19 @@ final class ServiceFrequency implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'weekDayCode',
-            'name' => 'WeekDayCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'weekDayCode',
+                'name' => 'WeekDayCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
         ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'WeekDayCode', namespace: Ns::CBC, required: true)]
     private Code $weekDayCode;

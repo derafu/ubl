@@ -31,30 +31,27 @@ final class LineResponse implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'lineReference',
-            'name' => 'LineReference',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\LineReference',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'lineReference',
+                'name' => 'LineReference',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\LineReference',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'responses',
+                'name' => 'Response',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Response',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'responses',
-            'name' => 'Response',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Response',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'LineReference', namespace: Ns::CAC, required: true)]
     private LineReference $lineReference;

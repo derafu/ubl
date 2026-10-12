@@ -33,75 +33,67 @@ final class TradeFinancing implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'id',
-            'name' => 'ID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'id',
+                'name' => 'ID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'financingInstrumentCode',
+                'name' => 'FinancingInstrumentCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'contractDocumentReference',
+                'name' => 'ContractDocumentReference',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'documentReferences',
+                'name' => 'DocumentReference',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'financingParty',
+                'name' => 'FinancingParty',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'financingFinancialAccount',
+                'name' => 'FinancingFinancialAccount',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\FinancialAccount',
+                'format' => null,
+            ],
+            6 => [
+                'property' => 'clauses',
+                'name' => 'Clause',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Clause',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'financingInstrumentCode',
-            'name' => 'FinancingInstrumentCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'contractDocumentReference',
-            'name' => 'ContractDocumentReference',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'documentReferences',
-            'name' => 'DocumentReference',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'financingParty',
-            'name' => 'FinancingParty',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'financingFinancialAccount',
-            'name' => 'FinancingFinancialAccount',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\FinancialAccount',
-            'format' => null,
-        ],
-        6 =>
-         [
-            'property' => 'clauses',
-            'name' => 'Clause',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Clause',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'ID', namespace: Ns::CBC)]
     private ?Identifier $id = null;

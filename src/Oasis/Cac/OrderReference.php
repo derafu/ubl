@@ -35,93 +35,83 @@ final class OrderReference implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'id',
-            'name' => 'ID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'id',
+                'name' => 'ID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'salesOrderID',
+                'name' => 'SalesOrderID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'copyIndicator',
+                'name' => 'CopyIndicator',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'bool',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'uuid',
+                'name' => 'UUID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'issueDate',
+                'name' => 'IssueDate',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'issueTime',
+                'name' => 'IssueTime',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => 'H:i:sP',
+            ],
+            6 => [
+                'property' => 'customerReference',
+                'name' => 'CustomerReference',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            7 => [
+                'property' => 'orderTypeCode',
+                'name' => 'OrderTypeCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            8 => [
+                'property' => 'documentReference',
+                'name' => 'DocumentReference',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'salesOrderID',
-            'name' => 'SalesOrderID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'copyIndicator',
-            'name' => 'CopyIndicator',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'bool',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'uuid',
-            'name' => 'UUID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'issueDate',
-            'name' => 'IssueDate',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'issueTime',
-            'name' => 'IssueTime',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => 'H:i:sP',
-        ],
-        6 =>
-         [
-            'property' => 'customerReference',
-            'name' => 'CustomerReference',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        7 =>
-         [
-            'property' => 'orderTypeCode',
-            'name' => 'OrderTypeCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        8 =>
-         [
-            'property' => 'documentReference',
-            'name' => 'DocumentReference',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'ID', namespace: Ns::CBC, required: true)]
     private Identifier $id;

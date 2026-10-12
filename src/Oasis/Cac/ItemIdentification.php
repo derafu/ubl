@@ -32,66 +32,59 @@ final class ItemIdentification implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'id',
-            'name' => 'ID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'id',
+                'name' => 'ID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'extendedID',
+                'name' => 'ExtendedID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'barcodeSymbologyID',
+                'name' => 'BarcodeSymbologyID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'physicalAttributes',
+                'name' => 'PhysicalAttribute',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\PhysicalAttribute',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'measurementDimensions',
+                'name' => 'MeasurementDimension',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Dimension',
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'issuerParty',
+                'name' => 'IssuerParty',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'extendedID',
-            'name' => 'ExtendedID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'barcodeSymbologyID',
-            'name' => 'BarcodeSymbologyID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'physicalAttributes',
-            'name' => 'PhysicalAttribute',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\PhysicalAttribute',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'measurementDimensions',
-            'name' => 'MeasurementDimension',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Dimension',
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'issuerParty',
-            'name' => 'IssuerParty',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'ID', namespace: Ns::CBC, required: true)]
     private Identifier $id;

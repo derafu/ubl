@@ -32,39 +32,35 @@ final class TradingTerms implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'informations',
-            'name' => 'Information',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'informations',
+                'name' => 'Information',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'reference',
+                'name' => 'Reference',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'applicableAddress',
+                'name' => 'ApplicableAddress',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Address',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'reference',
-            'name' => 'Reference',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'applicableAddress',
-            'name' => 'ApplicableAddress',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Address',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     /** @var list<Text> */
     #[XmlElement(name: 'Information', namespace: Ns::CBC, type: Text::class)]

@@ -34,75 +34,67 @@ final class PartyTaxScheme implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'registrationName',
-            'name' => 'RegistrationName',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'registrationName',
+                'name' => 'RegistrationName',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'companyID',
+                'name' => 'CompanyID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'taxLevelCode',
+                'name' => 'TaxLevelCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'exemptionReasonCode',
+                'name' => 'ExemptionReasonCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'exemptionReasons',
+                'name' => 'ExemptionReason',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'registrationAddress',
+                'name' => 'RegistrationAddress',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Address',
+                'format' => null,
+            ],
+            6 => [
+                'property' => 'taxScheme',
+                'name' => 'TaxScheme',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\TaxScheme',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'companyID',
-            'name' => 'CompanyID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'taxLevelCode',
-            'name' => 'TaxLevelCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'exemptionReasonCode',
-            'name' => 'ExemptionReasonCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'exemptionReasons',
-            'name' => 'ExemptionReason',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'registrationAddress',
-            'name' => 'RegistrationAddress',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Address',
-            'format' => null,
-        ],
-        6 =>
-         [
-            'property' => 'taxScheme',
-            'name' => 'TaxScheme',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\TaxScheme',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'RegistrationName', namespace: Ns::CBC)]
     private ?Text $registrationName = null;

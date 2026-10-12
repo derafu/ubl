@@ -31,30 +31,27 @@ final class OrderedShipment implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'shipment',
-            'name' => 'Shipment',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Shipment',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'shipment',
+                'name' => 'Shipment',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Shipment',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'packages',
+                'name' => 'Package',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Package',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'packages',
-            'name' => 'Package',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Package',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'Shipment', namespace: Ns::CAC, required: true)]
     private Shipment $shipment;

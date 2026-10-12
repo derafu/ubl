@@ -33,48 +33,43 @@ final class EventTactic implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'comment',
-            'name' => 'Comment',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'comment',
+                'name' => 'Comment',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'quantity',
+                'name' => 'Quantity',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'eventTacticEnumeration',
+                'name' => 'EventTacticEnumeration',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\EventTacticEnumeration',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'period',
+                'name' => 'Period',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Period',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'quantity',
-            'name' => 'Quantity',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'eventTacticEnumeration',
-            'name' => 'EventTacticEnumeration',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\EventTacticEnumeration',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'period',
-            'name' => 'Period',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Period',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'Comment', namespace: Ns::CBC)]
     private ?Text $comment = null;

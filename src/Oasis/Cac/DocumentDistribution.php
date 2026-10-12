@@ -33,39 +33,35 @@ final class DocumentDistribution implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'printQualifier',
-            'name' => 'PrintQualifier',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'printQualifier',
+                'name' => 'PrintQualifier',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'maximumCopiesNumeric',
+                'name' => 'MaximumCopiesNumeric',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'party',
+                'name' => 'Party',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'maximumCopiesNumeric',
-            'name' => 'MaximumCopiesNumeric',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'party',
-            'name' => 'Party',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'PrintQualifier', namespace: Ns::CBC, required: true)]
     private Text $printQualifier;

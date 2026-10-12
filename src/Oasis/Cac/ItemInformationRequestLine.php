@@ -32,66 +32,59 @@ final class ItemInformationRequestLine implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'timeFrequencyCode',
-            'name' => 'TimeFrequencyCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'timeFrequencyCode',
+                'name' => 'TimeFrequencyCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'supplyChainActivityTypeCode',
+                'name' => 'SupplyChainActivityTypeCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'forecastTypeCode',
+                'name' => 'ForecastTypeCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'performanceMetricTypeCode',
+                'name' => 'PerformanceMetricTypeCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'periods',
+                'name' => 'Period',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Period',
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'salesItems',
+                'name' => 'SalesItem',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\SalesItem',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'supplyChainActivityTypeCode',
-            'name' => 'SupplyChainActivityTypeCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'forecastTypeCode',
-            'name' => 'ForecastTypeCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'performanceMetricTypeCode',
-            'name' => 'PerformanceMetricTypeCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'periods',
-            'name' => 'Period',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Period',
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'salesItems',
-            'name' => 'SalesItem',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\SalesItem',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'TimeFrequencyCode', namespace: Ns::CBC)]
     private ?Code $timeFrequencyCode = null;

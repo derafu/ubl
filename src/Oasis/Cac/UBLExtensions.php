@@ -28,21 +28,19 @@ final class UBLExtensions implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'ublExtensions',
-            'name' => 'UBLExtension',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\UBLExtension',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'ublExtensions',
+                'name' => 'UBLExtension',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\UBLExtension',
+                'format' => null,
+            ],
         ],
-    ],
-];
+    ];
 
     /** @var list<UBLExtension> */
     #[XmlElement(name: 'UBLExtension', namespace: Ns::EXT, type: UBLExtension::class, required: true)]

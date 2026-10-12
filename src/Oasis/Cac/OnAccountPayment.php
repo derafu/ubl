@@ -33,39 +33,35 @@ final class OnAccountPayment implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'estimatedConsumedQuantity',
-            'name' => 'EstimatedConsumedQuantity',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'estimatedConsumedQuantity',
+                'name' => 'EstimatedConsumedQuantity',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'notes',
+                'name' => 'Note',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'paymentTermses',
+                'name' => 'PaymentTerms',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\PaymentTerms',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'notes',
-            'name' => 'Note',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'paymentTermses',
-            'name' => 'PaymentTerms',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\PaymentTerms',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'EstimatedConsumedQuantity', namespace: Ns::CBC, required: true)]
     private Quantity $estimatedConsumedQuantity;

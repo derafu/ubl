@@ -37,264 +37,235 @@ final class InvoiceLine implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'id',
-            'name' => 'ID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'id',
+                'name' => 'ID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'uuid',
+                'name' => 'UUID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'notes',
+                'name' => 'Note',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'invoicedQuantity',
+                'name' => 'InvoicedQuantity',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'lineExtensionAmount',
+                'name' => 'LineExtensionAmount',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'taxPointDate',
+                'name' => 'TaxPointDate',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => null,
+            ],
+            6 => [
+                'property' => 'accountingCostCode',
+                'name' => 'AccountingCostCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            7 => [
+                'property' => 'accountingCost',
+                'name' => 'AccountingCost',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            8 => [
+                'property' => 'paymentPurposeCode',
+                'name' => 'PaymentPurposeCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            9 => [
+                'property' => 'freeOfChargeIndicator',
+                'name' => 'FreeOfChargeIndicator',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'bool',
+                'format' => null,
+            ],
+            10 => [
+                'property' => 'invoicePeriods',
+                'name' => 'InvoicePeriod',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Period',
+                'format' => null,
+            ],
+            11 => [
+                'property' => 'orderLineReferences',
+                'name' => 'OrderLineReference',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\OrderLineReference',
+                'format' => null,
+            ],
+            12 => [
+                'property' => 'despatchLineReferences',
+                'name' => 'DespatchLineReference',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\LineReference',
+                'format' => null,
+            ],
+            13 => [
+                'property' => 'receiptLineReferences',
+                'name' => 'ReceiptLineReference',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\LineReference',
+                'format' => null,
+            ],
+            14 => [
+                'property' => 'billingReferences',
+                'name' => 'BillingReference',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\BillingReference',
+                'format' => null,
+            ],
+            15 => [
+                'property' => 'documentReferences',
+                'name' => 'DocumentReference',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+                'format' => null,
+            ],
+            16 => [
+                'property' => 'pricingReference',
+                'name' => 'PricingReference',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\PricingReference',
+                'format' => null,
+            ],
+            17 => [
+                'property' => 'originatorParty',
+                'name' => 'OriginatorParty',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+                'format' => null,
+            ],
+            18 => [
+                'property' => 'deliveries',
+                'name' => 'Delivery',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Delivery',
+                'format' => null,
+            ],
+            19 => [
+                'property' => 'paymentTermses',
+                'name' => 'PaymentTerms',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\PaymentTerms',
+                'format' => null,
+            ],
+            20 => [
+                'property' => 'allowanceCharges',
+                'name' => 'AllowanceCharge',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\AllowanceCharge',
+                'format' => null,
+            ],
+            21 => [
+                'property' => 'taxTotals',
+                'name' => 'TaxTotal',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\TaxTotal',
+                'format' => null,
+            ],
+            22 => [
+                'property' => 'withholdingTaxTotals',
+                'name' => 'WithholdingTaxTotal',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\TaxTotal',
+                'format' => null,
+            ],
+            23 => [
+                'property' => 'item',
+                'name' => 'Item',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Item',
+                'format' => null,
+            ],
+            24 => [
+                'property' => 'price',
+                'name' => 'Price',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Price',
+                'format' => null,
+            ],
+            25 => [
+                'property' => 'deliveryTerms',
+                'name' => 'DeliveryTerms',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\DeliveryTerms',
+                'format' => null,
+            ],
+            26 => [
+                'property' => 'subInvoiceLines',
+                'name' => 'SubInvoiceLine',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\InvoiceLine',
+                'format' => null,
+            ],
+            27 => [
+                'property' => 'itemPriceExtension',
+                'name' => 'ItemPriceExtension',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\PriceExtension',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'uuid',
-            'name' => 'UUID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'notes',
-            'name' => 'Note',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'invoicedQuantity',
-            'name' => 'InvoicedQuantity',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'lineExtensionAmount',
-            'name' => 'LineExtensionAmount',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'taxPointDate',
-            'name' => 'TaxPointDate',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => null,
-        ],
-        6 =>
-         [
-            'property' => 'accountingCostCode',
-            'name' => 'AccountingCostCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        7 =>
-         [
-            'property' => 'accountingCost',
-            'name' => 'AccountingCost',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        8 =>
-         [
-            'property' => 'paymentPurposeCode',
-            'name' => 'PaymentPurposeCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        9 =>
-         [
-            'property' => 'freeOfChargeIndicator',
-            'name' => 'FreeOfChargeIndicator',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'bool',
-            'format' => null,
-        ],
-        10 =>
-         [
-            'property' => 'invoicePeriods',
-            'name' => 'InvoicePeriod',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Period',
-            'format' => null,
-        ],
-        11 =>
-         [
-            'property' => 'orderLineReferences',
-            'name' => 'OrderLineReference',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\OrderLineReference',
-            'format' => null,
-        ],
-        12 =>
-         [
-            'property' => 'despatchLineReferences',
-            'name' => 'DespatchLineReference',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\LineReference',
-            'format' => null,
-        ],
-        13 =>
-         [
-            'property' => 'receiptLineReferences',
-            'name' => 'ReceiptLineReference',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\LineReference',
-            'format' => null,
-        ],
-        14 =>
-         [
-            'property' => 'billingReferences',
-            'name' => 'BillingReference',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\BillingReference',
-            'format' => null,
-        ],
-        15 =>
-         [
-            'property' => 'documentReferences',
-            'name' => 'DocumentReference',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
-            'format' => null,
-        ],
-        16 =>
-         [
-            'property' => 'pricingReference',
-            'name' => 'PricingReference',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\PricingReference',
-            'format' => null,
-        ],
-        17 =>
-         [
-            'property' => 'originatorParty',
-            'name' => 'OriginatorParty',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
-            'format' => null,
-        ],
-        18 =>
-         [
-            'property' => 'deliveries',
-            'name' => 'Delivery',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Delivery',
-            'format' => null,
-        ],
-        19 =>
-         [
-            'property' => 'paymentTermses',
-            'name' => 'PaymentTerms',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\PaymentTerms',
-            'format' => null,
-        ],
-        20 =>
-         [
-            'property' => 'allowanceCharges',
-            'name' => 'AllowanceCharge',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\AllowanceCharge',
-            'format' => null,
-        ],
-        21 =>
-         [
-            'property' => 'taxTotals',
-            'name' => 'TaxTotal',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\TaxTotal',
-            'format' => null,
-        ],
-        22 =>
-         [
-            'property' => 'withholdingTaxTotals',
-            'name' => 'WithholdingTaxTotal',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\TaxTotal',
-            'format' => null,
-        ],
-        23 =>
-         [
-            'property' => 'item',
-            'name' => 'Item',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Item',
-            'format' => null,
-        ],
-        24 =>
-         [
-            'property' => 'price',
-            'name' => 'Price',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Price',
-            'format' => null,
-        ],
-        25 =>
-         [
-            'property' => 'deliveryTerms',
-            'name' => 'DeliveryTerms',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\DeliveryTerms',
-            'format' => null,
-        ],
-        26 =>
-         [
-            'property' => 'subInvoiceLines',
-            'name' => 'SubInvoiceLine',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\InvoiceLine',
-            'format' => null,
-        ],
-        27 =>
-         [
-            'property' => 'itemPriceExtension',
-            'name' => 'ItemPriceExtension',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\PriceExtension',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'ID', namespace: Ns::CBC, required: true)]
     private Identifier $id;

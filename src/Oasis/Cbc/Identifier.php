@@ -27,84 +27,75 @@ final class Identifier implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => true,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'value',
-            'name' => null,
-            'kind' => 'value',
-            'list' => false,
-            'item' => null,
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => true,
+        'properties' => [
+            0 => [
+                'property' => 'value',
+                'name' => null,
+                'kind' => 'value',
+                'list' => false,
+                'item' => null,
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'schemeID',
+                'name' => 'schemeID',
+                'kind' => 'attribute',
+                'list' => false,
+                'item' => null,
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'schemeName',
+                'name' => 'schemeName',
+                'kind' => 'attribute',
+                'list' => false,
+                'item' => null,
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'schemeAgencyID',
+                'name' => 'schemeAgencyID',
+                'kind' => 'attribute',
+                'list' => false,
+                'item' => null,
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'schemeAgencyName',
+                'name' => 'schemeAgencyName',
+                'kind' => 'attribute',
+                'list' => false,
+                'item' => null,
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'schemeVersionID',
+                'name' => 'schemeVersionID',
+                'kind' => 'attribute',
+                'list' => false,
+                'item' => null,
+                'format' => null,
+            ],
+            6 => [
+                'property' => 'schemeDataURI',
+                'name' => 'schemeDataURI',
+                'kind' => 'attribute',
+                'list' => false,
+                'item' => null,
+                'format' => null,
+            ],
+            7 => [
+                'property' => 'schemeURI',
+                'name' => 'schemeURI',
+                'kind' => 'attribute',
+                'list' => false,
+                'item' => null,
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'schemeID',
-            'name' => 'schemeID',
-            'kind' => 'attribute',
-            'list' => false,
-            'item' => null,
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'schemeName',
-            'name' => 'schemeName',
-            'kind' => 'attribute',
-            'list' => false,
-            'item' => null,
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'schemeAgencyID',
-            'name' => 'schemeAgencyID',
-            'kind' => 'attribute',
-            'list' => false,
-            'item' => null,
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'schemeAgencyName',
-            'name' => 'schemeAgencyName',
-            'kind' => 'attribute',
-            'list' => false,
-            'item' => null,
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'schemeVersionID',
-            'name' => 'schemeVersionID',
-            'kind' => 'attribute',
-            'list' => false,
-            'item' => null,
-            'format' => null,
-        ],
-        6 =>
-         [
-            'property' => 'schemeDataURI',
-            'name' => 'schemeDataURI',
-            'kind' => 'attribute',
-            'list' => false,
-            'item' => null,
-            'format' => null,
-        ],
-        7 =>
-         [
-            'property' => 'schemeURI',
-            'name' => 'schemeURI',
-            'kind' => 'attribute',
-            'list' => false,
-            'item' => null,
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlValue]
     private ?string $value = null;

@@ -27,75 +27,67 @@ final class BinaryObject implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => true,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'value',
-            'name' => null,
-            'kind' => 'value',
-            'list' => false,
-            'item' => null,
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => true,
+        'properties' => [
+            0 => [
+                'property' => 'value',
+                'name' => null,
+                'kind' => 'value',
+                'list' => false,
+                'item' => null,
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'mimeCode',
+                'name' => 'mimeCode',
+                'kind' => 'attribute',
+                'list' => false,
+                'item' => null,
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'format',
+                'name' => 'format',
+                'kind' => 'attribute',
+                'list' => false,
+                'item' => null,
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'encodingCode',
+                'name' => 'encodingCode',
+                'kind' => 'attribute',
+                'list' => false,
+                'item' => null,
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'characterSetCode',
+                'name' => 'characterSetCode',
+                'kind' => 'attribute',
+                'list' => false,
+                'item' => null,
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'uri',
+                'name' => 'uri',
+                'kind' => 'attribute',
+                'list' => false,
+                'item' => null,
+                'format' => null,
+            ],
+            6 => [
+                'property' => 'filename',
+                'name' => 'filename',
+                'kind' => 'attribute',
+                'list' => false,
+                'item' => null,
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'mimeCode',
-            'name' => 'mimeCode',
-            'kind' => 'attribute',
-            'list' => false,
-            'item' => null,
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'format',
-            'name' => 'format',
-            'kind' => 'attribute',
-            'list' => false,
-            'item' => null,
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'encodingCode',
-            'name' => 'encodingCode',
-            'kind' => 'attribute',
-            'list' => false,
-            'item' => null,
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'characterSetCode',
-            'name' => 'characterSetCode',
-            'kind' => 'attribute',
-            'list' => false,
-            'item' => null,
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'uri',
-            'name' => 'uri',
-            'kind' => 'attribute',
-            'list' => false,
-            'item' => null,
-            'format' => null,
-        ],
-        6 =>
-         [
-            'property' => 'filename',
-            'name' => 'filename',
-            'kind' => 'attribute',
-            'list' => false,
-            'item' => null,
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlValue]
     private ?string $value = null;

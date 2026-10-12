@@ -33,84 +33,75 @@ final class LocationCoordinate implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'coordinateSystemCode',
-            'name' => 'CoordinateSystemCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'coordinateSystemCode',
+                'name' => 'CoordinateSystemCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'latitudeDegreesMeasure',
+                'name' => 'LatitudeDegreesMeasure',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Measure',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'latitudeMinutesMeasure',
+                'name' => 'LatitudeMinutesMeasure',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Measure',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'latitudeDirectionCode',
+                'name' => 'LatitudeDirectionCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'longitudeDegreesMeasure',
+                'name' => 'LongitudeDegreesMeasure',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Measure',
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'longitudeMinutesMeasure',
+                'name' => 'LongitudeMinutesMeasure',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Measure',
+                'format' => null,
+            ],
+            6 => [
+                'property' => 'longitudeDirectionCode',
+                'name' => 'LongitudeDirectionCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            7 => [
+                'property' => 'altitudeMeasure',
+                'name' => 'AltitudeMeasure',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Measure',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'latitudeDegreesMeasure',
-            'name' => 'LatitudeDegreesMeasure',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Measure',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'latitudeMinutesMeasure',
-            'name' => 'LatitudeMinutesMeasure',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Measure',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'latitudeDirectionCode',
-            'name' => 'LatitudeDirectionCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'longitudeDegreesMeasure',
-            'name' => 'LongitudeDegreesMeasure',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Measure',
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'longitudeMinutesMeasure',
-            'name' => 'LongitudeMinutesMeasure',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Measure',
-            'format' => null,
-        ],
-        6 =>
-         [
-            'property' => 'longitudeDirectionCode',
-            'name' => 'LongitudeDirectionCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        7 =>
-         [
-            'property' => 'altitudeMeasure',
-            'name' => 'AltitudeMeasure',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Measure',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'CoordinateSystemCode', namespace: Ns::CBC)]
     private ?Code $coordinateSystemCode = null;

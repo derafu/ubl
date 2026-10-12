@@ -32,48 +32,43 @@ final class ContractingParty implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'buyerProfileURI',
-            'name' => 'BuyerProfileURI',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'buyerProfileURI',
+                'name' => 'BuyerProfileURI',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'contractingPartyTypes',
+                'name' => 'ContractingPartyType',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\ContractingPartyType',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'contractingActivities',
+                'name' => 'ContractingActivity',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\ContractingActivity',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'party',
+                'name' => 'Party',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'contractingPartyTypes',
-            'name' => 'ContractingPartyType',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\ContractingPartyType',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'contractingActivities',
-            'name' => 'ContractingActivity',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\ContractingActivity',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'party',
-            'name' => 'Party',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'BuyerProfileURI', namespace: Ns::CBC)]
     private ?Identifier $buyerProfileURI = null;

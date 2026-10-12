@@ -33,102 +33,91 @@ final class OrderLine implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'substitutionStatusCode',
-            'name' => 'SubstitutionStatusCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'substitutionStatusCode',
+                'name' => 'SubstitutionStatusCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'notes',
+                'name' => 'Note',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'lineItem',
+                'name' => 'LineItem',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\LineItem',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'sellerProposedSubstituteLineItems',
+                'name' => 'SellerProposedSubstituteLineItem',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\LineItem',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'sellerSubstitutedLineItems',
+                'name' => 'SellerSubstitutedLineItem',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\LineItem',
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'buyerProposedSubstituteLineItems',
+                'name' => 'BuyerProposedSubstituteLineItem',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\LineItem',
+                'format' => null,
+            ],
+            6 => [
+                'property' => 'catalogueLineReference',
+                'name' => 'CatalogueLineReference',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\LineReference',
+                'format' => null,
+            ],
+            7 => [
+                'property' => 'quotationLineReference',
+                'name' => 'QuotationLineReference',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\LineReference',
+                'format' => null,
+            ],
+            8 => [
+                'property' => 'orderLineReferences',
+                'name' => 'OrderLineReference',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\OrderLineReference',
+                'format' => null,
+            ],
+            9 => [
+                'property' => 'documentReferences',
+                'name' => 'DocumentReference',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'notes',
-            'name' => 'Note',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'lineItem',
-            'name' => 'LineItem',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\LineItem',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'sellerProposedSubstituteLineItems',
-            'name' => 'SellerProposedSubstituteLineItem',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\LineItem',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'sellerSubstitutedLineItems',
-            'name' => 'SellerSubstitutedLineItem',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\LineItem',
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'buyerProposedSubstituteLineItems',
-            'name' => 'BuyerProposedSubstituteLineItem',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\LineItem',
-            'format' => null,
-        ],
-        6 =>
-         [
-            'property' => 'catalogueLineReference',
-            'name' => 'CatalogueLineReference',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\LineReference',
-            'format' => null,
-        ],
-        7 =>
-         [
-            'property' => 'quotationLineReference',
-            'name' => 'QuotationLineReference',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\LineReference',
-            'format' => null,
-        ],
-        8 =>
-         [
-            'property' => 'orderLineReferences',
-            'name' => 'OrderLineReference',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\OrderLineReference',
-            'format' => null,
-        ],
-        9 =>
-         [
-            'property' => 'documentReferences',
-            'name' => 'DocumentReference',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'SubstitutionStatusCode', namespace: Ns::CBC)]
     private ?Code $substitutionStatusCode = null;

@@ -36,138 +36,123 @@ final class QualifyingParty implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'participationPercent',
-            'name' => 'ParticipationPercent',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'participationPercent',
+                'name' => 'ParticipationPercent',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'personalSituations',
+                'name' => 'PersonalSituation',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'operatingYearsQuantity',
+                'name' => 'OperatingYearsQuantity',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'employeeQuantity',
+                'name' => 'EmployeeQuantity',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'businessClassificationEvidenceID',
+                'name' => 'BusinessClassificationEvidenceID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'businessIdentityEvidenceID',
+                'name' => 'BusinessIdentityEvidenceID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            6 => [
+                'property' => 'tendererRoleCode',
+                'name' => 'TendererRoleCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            7 => [
+                'property' => 'businessClassificationScheme',
+                'name' => 'BusinessClassificationScheme',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\ClassificationScheme',
+                'format' => null,
+            ],
+            8 => [
+                'property' => 'technicalCapabilities',
+                'name' => 'TechnicalCapability',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Capability',
+                'format' => null,
+            ],
+            9 => [
+                'property' => 'financialCapabilities',
+                'name' => 'FinancialCapability',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Capability',
+                'format' => null,
+            ],
+            10 => [
+                'property' => 'completedTasks',
+                'name' => 'CompletedTask',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\CompletedTask',
+                'format' => null,
+            ],
+            11 => [
+                'property' => 'declarations',
+                'name' => 'Declaration',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Declaration',
+                'format' => null,
+            ],
+            12 => [
+                'property' => 'party',
+                'name' => 'Party',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+                'format' => null,
+            ],
+            13 => [
+                'property' => 'economicOperatorRole',
+                'name' => 'EconomicOperatorRole',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\EconomicOperatorRole',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'personalSituations',
-            'name' => 'PersonalSituation',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'operatingYearsQuantity',
-            'name' => 'OperatingYearsQuantity',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'employeeQuantity',
-            'name' => 'EmployeeQuantity',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'businessClassificationEvidenceID',
-            'name' => 'BusinessClassificationEvidenceID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'businessIdentityEvidenceID',
-            'name' => 'BusinessIdentityEvidenceID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-        6 =>
-         [
-            'property' => 'tendererRoleCode',
-            'name' => 'TendererRoleCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        7 =>
-         [
-            'property' => 'businessClassificationScheme',
-            'name' => 'BusinessClassificationScheme',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\ClassificationScheme',
-            'format' => null,
-        ],
-        8 =>
-         [
-            'property' => 'technicalCapabilities',
-            'name' => 'TechnicalCapability',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Capability',
-            'format' => null,
-        ],
-        9 =>
-         [
-            'property' => 'financialCapabilities',
-            'name' => 'FinancialCapability',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Capability',
-            'format' => null,
-        ],
-        10 =>
-         [
-            'property' => 'completedTasks',
-            'name' => 'CompletedTask',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\CompletedTask',
-            'format' => null,
-        ],
-        11 =>
-         [
-            'property' => 'declarations',
-            'name' => 'Declaration',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Declaration',
-            'format' => null,
-        ],
-        12 =>
-         [
-            'property' => 'party',
-            'name' => 'Party',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
-            'format' => null,
-        ],
-        13 =>
-         [
-            'property' => 'economicOperatorRole',
-            'name' => 'EconomicOperatorRole',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\EconomicOperatorRole',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'ParticipationPercent', namespace: Ns::CBC)]
     private ?Numeric $participationPercent = null;

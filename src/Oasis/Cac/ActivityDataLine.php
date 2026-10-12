@@ -33,84 +33,75 @@ final class ActivityDataLine implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'id',
-            'name' => 'ID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'id',
+                'name' => 'ID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'supplyChainActivityTypeCode',
+                'name' => 'SupplyChainActivityTypeCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'buyerCustomerParty',
+                'name' => 'BuyerCustomerParty',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\CustomerParty',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'sellerSupplierParty',
+                'name' => 'SellerSupplierParty',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\SupplierParty',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'activityPeriod',
+                'name' => 'ActivityPeriod',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Period',
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'activityOriginLocation',
+                'name' => 'ActivityOriginLocation',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Location',
+                'format' => null,
+            ],
+            6 => [
+                'property' => 'activityFinalLocation',
+                'name' => 'ActivityFinalLocation',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Location',
+                'format' => null,
+            ],
+            7 => [
+                'property' => 'salesItems',
+                'name' => 'SalesItem',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\SalesItem',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'supplyChainActivityTypeCode',
-            'name' => 'SupplyChainActivityTypeCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'buyerCustomerParty',
-            'name' => 'BuyerCustomerParty',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\CustomerParty',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'sellerSupplierParty',
-            'name' => 'SellerSupplierParty',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\SupplierParty',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'activityPeriod',
-            'name' => 'ActivityPeriod',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Period',
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'activityOriginLocation',
-            'name' => 'ActivityOriginLocation',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Location',
-            'format' => null,
-        ],
-        6 =>
-         [
-            'property' => 'activityFinalLocation',
-            'name' => 'ActivityFinalLocation',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Location',
-            'format' => null,
-        ],
-        7 =>
-         [
-            'property' => 'salesItems',
-            'name' => 'SalesItem',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\SalesItem',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'ID', namespace: Ns::CBC, required: true)]
     private Identifier $id;

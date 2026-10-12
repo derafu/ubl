@@ -34,84 +34,75 @@ final class TelecommunicationsSupplyLine implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'id',
-            'name' => 'ID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'id',
+                'name' => 'ID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'phoneNumber',
+                'name' => 'PhoneNumber',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'descriptions',
+                'name' => 'Description',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'lineExtensionAmount',
+                'name' => 'LineExtensionAmount',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'exchangeRates',
+                'name' => 'ExchangeRate',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\ExchangeRate',
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'allowanceCharges',
+                'name' => 'AllowanceCharge',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\AllowanceCharge',
+                'format' => null,
+            ],
+            6 => [
+                'property' => 'taxTotals',
+                'name' => 'TaxTotal',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\TaxTotal',
+                'format' => null,
+            ],
+            7 => [
+                'property' => 'telecommunicationsServices',
+                'name' => 'TelecommunicationsService',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\TelecommunicationsService',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'phoneNumber',
-            'name' => 'PhoneNumber',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'descriptions',
-            'name' => 'Description',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'lineExtensionAmount',
-            'name' => 'LineExtensionAmount',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'exchangeRates',
-            'name' => 'ExchangeRate',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\ExchangeRate',
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'allowanceCharges',
-            'name' => 'AllowanceCharge',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\AllowanceCharge',
-            'format' => null,
-        ],
-        6 =>
-         [
-            'property' => 'taxTotals',
-            'name' => 'TaxTotal',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\TaxTotal',
-            'format' => null,
-        ],
-        7 =>
-         [
-            'property' => 'telecommunicationsServices',
-            'name' => 'TelecommunicationsService',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\TelecommunicationsService',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'ID', namespace: Ns::CBC, required: true)]
     private Identifier $id;

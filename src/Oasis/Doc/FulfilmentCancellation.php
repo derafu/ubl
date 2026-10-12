@@ -46,219 +46,195 @@ final class FulfilmentCancellation implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'ublExtensions',
-            'name' => 'UBLExtensions',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\UBLExtensions',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'ublExtensions',
+                'name' => 'UBLExtensions',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\UBLExtensions',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'ublVersionID',
+                'name' => 'UBLVersionID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'customizationID',
+                'name' => 'CustomizationID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'profileID',
+                'name' => 'ProfileID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'profileExecutionID',
+                'name' => 'ProfileExecutionID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'id',
+                'name' => 'ID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            6 => [
+                'property' => 'copyIndicator',
+                'name' => 'CopyIndicator',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'bool',
+                'format' => null,
+            ],
+            7 => [
+                'property' => 'uuid',
+                'name' => 'UUID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            8 => [
+                'property' => 'issueDate',
+                'name' => 'IssueDate',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => null,
+            ],
+            9 => [
+                'property' => 'issueTime',
+                'name' => 'IssueTime',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'DateTimeImmutable',
+                'format' => 'H:i:sP',
+            ],
+            10 => [
+                'property' => 'notes',
+                'name' => 'Note',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            11 => [
+                'property' => 'cancellationNotes',
+                'name' => 'CancellationNote',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            12 => [
+                'property' => 'despatchDocumentReferences',
+                'name' => 'DespatchDocumentReference',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+                'format' => null,
+            ],
+            13 => [
+                'property' => 'receiptDocumentReferences',
+                'name' => 'ReceiptDocumentReference',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+                'format' => null,
+            ],
+            14 => [
+                'property' => 'orderReferences',
+                'name' => 'OrderReference',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\OrderReference',
+                'format' => null,
+            ],
+            15 => [
+                'property' => 'additionalDocumentReferences',
+                'name' => 'AdditionalDocumentReference',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+                'format' => null,
+            ],
+            16 => [
+                'property' => 'contracts',
+                'name' => 'Contract',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Contract',
+                'format' => null,
+            ],
+            17 => [
+                'property' => 'signatures',
+                'name' => 'Signature',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Signature',
+                'format' => null,
+            ],
+            18 => [
+                'property' => 'buyerCustomerParty',
+                'name' => 'BuyerCustomerParty',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\CustomerParty',
+                'format' => null,
+            ],
+            19 => [
+                'property' => 'sellerSupplierParty',
+                'name' => 'SellerSupplierParty',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\SupplierParty',
+                'format' => null,
+            ],
+            20 => [
+                'property' => 'deliveryCustomerParty',
+                'name' => 'DeliveryCustomerParty',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\CustomerParty',
+                'format' => null,
+            ],
+            21 => [
+                'property' => 'despatchSupplierParty',
+                'name' => 'DespatchSupplierParty',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\SupplierParty',
+                'format' => null,
+            ],
+            22 => [
+                'property' => 'originatorCustomerParty',
+                'name' => 'OriginatorCustomerParty',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\CustomerParty',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'ublVersionID',
-            'name' => 'UBLVersionID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'customizationID',
-            'name' => 'CustomizationID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'profileID',
-            'name' => 'ProfileID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'profileExecutionID',
-            'name' => 'ProfileExecutionID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'id',
-            'name' => 'ID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-        6 =>
-         [
-            'property' => 'copyIndicator',
-            'name' => 'CopyIndicator',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'bool',
-            'format' => null,
-        ],
-        7 =>
-         [
-            'property' => 'uuid',
-            'name' => 'UUID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-        8 =>
-         [
-            'property' => 'issueDate',
-            'name' => 'IssueDate',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => null,
-        ],
-        9 =>
-         [
-            'property' => 'issueTime',
-            'name' => 'IssueTime',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'DateTimeImmutable',
-            'format' => 'H:i:sP',
-        ],
-        10 =>
-         [
-            'property' => 'notes',
-            'name' => 'Note',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        11 =>
-         [
-            'property' => 'cancellationNotes',
-            'name' => 'CancellationNote',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        12 =>
-         [
-            'property' => 'despatchDocumentReferences',
-            'name' => 'DespatchDocumentReference',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
-            'format' => null,
-        ],
-        13 =>
-         [
-            'property' => 'receiptDocumentReferences',
-            'name' => 'ReceiptDocumentReference',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
-            'format' => null,
-        ],
-        14 =>
-         [
-            'property' => 'orderReferences',
-            'name' => 'OrderReference',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\OrderReference',
-            'format' => null,
-        ],
-        15 =>
-         [
-            'property' => 'additionalDocumentReferences',
-            'name' => 'AdditionalDocumentReference',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
-            'format' => null,
-        ],
-        16 =>
-         [
-            'property' => 'contracts',
-            'name' => 'Contract',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Contract',
-            'format' => null,
-        ],
-        17 =>
-         [
-            'property' => 'signatures',
-            'name' => 'Signature',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Signature',
-            'format' => null,
-        ],
-        18 =>
-         [
-            'property' => 'buyerCustomerParty',
-            'name' => 'BuyerCustomerParty',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\CustomerParty',
-            'format' => null,
-        ],
-        19 =>
-         [
-            'property' => 'sellerSupplierParty',
-            'name' => 'SellerSupplierParty',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\SupplierParty',
-            'format' => null,
-        ],
-        20 =>
-         [
-            'property' => 'deliveryCustomerParty',
-            'name' => 'DeliveryCustomerParty',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\CustomerParty',
-            'format' => null,
-        ],
-        21 =>
-         [
-            'property' => 'despatchSupplierParty',
-            'name' => 'DespatchSupplierParty',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\SupplierParty',
-            'format' => null,
-        ],
-        22 =>
-         [
-            'property' => 'originatorCustomerParty',
-            'name' => 'OriginatorCustomerParty',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\CustomerParty',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'UBLExtensions', namespace: Ns::EXT)]
     private ?UBLExtensions $ublExtensions = null;

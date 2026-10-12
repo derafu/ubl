@@ -15,8 +15,7 @@ namespace Derafu\Ubl\Service\Format;
 use Derafu\Ubl\Contract\FormatHandlerInterface;
 use Derafu\Ubl\Exception\DeserializationException;
 use Derafu\Ubl\Exception\SerializationException;
-use Derafu\Ubl\Oasis\Xml\DocumentRegistry;
-use DOMDocument;
+use Derafu\Ubl\Service\RootElementResolver;
 use Xterr\UBL\Exception\DeserializationException as XterrDeserializationException;
 use Xterr\UBL\Exception\SerializationException as XterrSerializationException;
 use Xterr\UBL\Xml\XmlDeserializer;
@@ -72,32 +71,18 @@ final class XmlHandler implements FormatHandlerInterface
     }
 
     /**
-     * Resolves the target class from the XML root element via `DocumentRegistry`:
+     * Resolves the target class from the XML root element via `RootElementResolver`:
      * `Xterr\UBL\Xml\XmlDeserializer` requires an explicit class, it does not auto-detect one.
      *
      * @return class-string
      */
     private function detectClass(string $content): string
     {
-        $dom = new DOMDocument();
-        $previous = libxml_use_internal_errors(true);
-        $loaded = $dom->loadXML($content, LIBXML_NONET);
-        libxml_clear_errors();
-        libxml_use_internal_errors($previous);
+        $class = RootElementResolver::resolve($content);
 
-        if (!$loaded || $dom->documentElement === null) {
+        if ($class === null) {
             throw new DeserializationException([
-                'Could not read the XML root element.',
-            ]);
-        }
-
-        $root = $dom->documentElement;
-        $class = DocumentRegistry::classFor($root->namespaceURI ?? '', $root->localName ?? '');
-
-        if ($class === null || !class_exists($class)) {
-            throw new DeserializationException([
-                'Unknown UBL document root "{tag}".',
-                'tag' => $root->localName ?? '',
+                'Could not resolve a UBL document type from the XML root element.',
             ]);
         }
 

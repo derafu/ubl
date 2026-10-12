@@ -46,8 +46,14 @@ return [
         'No se pudo serializar {class} como XML: {message}',
     'Could not deserialize XML into {class}: {message}' =>
         'No se pudo deserializar el XML en {class}: {message}',
-    'Could not read the XML root element.' =>
-        'No se pudo leer el elemento raíz del XML.',
-    'Unknown UBL document root "{tag}".' =>
-        'Raíz de documento UBL desconocida: "{tag}".',
+    'Could not resolve a UBL document type from the XML root element.' =>
+        'No se pudo resolver un tipo de documento UBL a partir del elemento raíz del XML.',
+
+    // Schema validation.
+    'Could not parse the XML to validate it: {errors}' =>
+        'No se pudo parsear el XML para validarlo: {errors}',
+    '{class} does not validate against its UBL schema: {errors}' =>
+        '{class} no valida contra su esquema UBL: {errors}',
+    'No bundled XSD for "{class}" ("{path}" does not exist).' =>
+        'No hay un XSD empaquetado para "{class}" ("{path}" no existe).',
 ];

@@ -32,57 +32,51 @@ final class TaxTotal implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'taxAmount',
-            'name' => 'TaxAmount',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'taxAmount',
+                'name' => 'TaxAmount',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'roundingAmount',
+                'name' => 'RoundingAmount',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'taxEvidenceIndicator',
+                'name' => 'TaxEvidenceIndicator',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'bool',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'taxIncludedIndicator',
+                'name' => 'TaxIncludedIndicator',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'bool',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'taxSubtotals',
+                'name' => 'TaxSubtotal',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\TaxSubtotal',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'roundingAmount',
-            'name' => 'RoundingAmount',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'taxEvidenceIndicator',
-            'name' => 'TaxEvidenceIndicator',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'bool',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'taxIncludedIndicator',
-            'name' => 'TaxIncludedIndicator',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'bool',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'taxSubtotals',
-            'name' => 'TaxSubtotal',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\TaxSubtotal',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'TaxAmount', namespace: Ns::CBC, required: true)]
     private Amount $taxAmount;

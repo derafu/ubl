@@ -33,39 +33,35 @@ final class Stowage implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'locationID',
-            'name' => 'LocationID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'locationID',
+                'name' => 'LocationID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'locations',
+                'name' => 'Location',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'measurementDimensions',
+                'name' => 'MeasurementDimension',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Dimension',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'locations',
-            'name' => 'Location',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'measurementDimensions',
-            'name' => 'MeasurementDimension',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Dimension',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'LocationID', namespace: Ns::CBC)]
     private ?Identifier $locationID = null;

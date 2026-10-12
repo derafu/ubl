@@ -33,57 +33,51 @@ final class ContractExtension implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'optionsDescriptions',
-            'name' => 'OptionsDescription',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'optionsDescriptions',
+                'name' => 'OptionsDescription',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'minimumNumberNumeric',
+                'name' => 'MinimumNumberNumeric',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'maximumNumberNumeric',
+                'name' => 'MaximumNumberNumeric',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'optionValidityPeriod',
+                'name' => 'OptionValidityPeriod',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Period',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'renewals',
+                'name' => 'Renewal',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Renewal',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'minimumNumberNumeric',
-            'name' => 'MinimumNumberNumeric',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'maximumNumberNumeric',
-            'name' => 'MaximumNumberNumeric',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'optionValidityPeriod',
-            'name' => 'OptionValidityPeriod',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Period',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'renewals',
-            'name' => 'Renewal',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Renewal',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     /** @var list<Text> */
     #[XmlElement(name: 'OptionsDescription', namespace: Ns::CBC, type: Text::class)]

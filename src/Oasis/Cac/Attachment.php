@@ -32,30 +32,27 @@ final class Attachment implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'embeddedDocumentBinaryObject',
-            'name' => 'EmbeddedDocumentBinaryObject',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\BinaryObject',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'embeddedDocumentBinaryObject',
+                'name' => 'EmbeddedDocumentBinaryObject',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\BinaryObject',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'externalReference',
+                'name' => 'ExternalReference',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\ExternalReference',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'externalReference',
-            'name' => 'ExternalReference',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\ExternalReference',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'EmbeddedDocumentBinaryObject', namespace: Ns::CBC)]
     private ?BinaryObject $embeddedDocumentBinaryObject = null;

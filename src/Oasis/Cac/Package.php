@@ -35,147 +35,131 @@ final class Package implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'id',
-            'name' => 'ID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'id',
+                'name' => 'ID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'quantity',
+                'name' => 'Quantity',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'returnableMaterialIndicator',
+                'name' => 'ReturnableMaterialIndicator',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'bool',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'packageLevelCode',
+                'name' => 'PackageLevelCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'packagingTypeCode',
+                'name' => 'PackagingTypeCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'packingMaterials',
+                'name' => 'PackingMaterial',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            6 => [
+                'property' => 'traceID',
+                'name' => 'TraceID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            7 => [
+                'property' => 'containedPackages',
+                'name' => 'ContainedPackage',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Package',
+                'format' => null,
+            ],
+            8 => [
+                'property' => 'containingTransportEquipment',
+                'name' => 'ContainingTransportEquipment',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\TransportEquipment',
+                'format' => null,
+            ],
+            9 => [
+                'property' => 'goodsItems',
+                'name' => 'GoodsItem',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\GoodsItem',
+                'format' => null,
+            ],
+            10 => [
+                'property' => 'measurementDimensions',
+                'name' => 'MeasurementDimension',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Dimension',
+                'format' => null,
+            ],
+            11 => [
+                'property' => 'deliveryUnits',
+                'name' => 'DeliveryUnit',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\DeliveryUnit',
+                'format' => null,
+            ],
+            12 => [
+                'property' => 'delivery',
+                'name' => 'Delivery',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Delivery',
+                'format' => null,
+            ],
+            13 => [
+                'property' => 'pickup',
+                'name' => 'Pickup',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Pickup',
+                'format' => null,
+            ],
+            14 => [
+                'property' => 'despatch',
+                'name' => 'Despatch',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Despatch',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'quantity',
-            'name' => 'Quantity',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Quantity',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'returnableMaterialIndicator',
-            'name' => 'ReturnableMaterialIndicator',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'bool',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'packageLevelCode',
-            'name' => 'PackageLevelCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'packagingTypeCode',
-            'name' => 'PackagingTypeCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'packingMaterials',
-            'name' => 'PackingMaterial',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        6 =>
-         [
-            'property' => 'traceID',
-            'name' => 'TraceID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-        7 =>
-         [
-            'property' => 'containedPackages',
-            'name' => 'ContainedPackage',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Package',
-            'format' => null,
-        ],
-        8 =>
-         [
-            'property' => 'containingTransportEquipment',
-            'name' => 'ContainingTransportEquipment',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\TransportEquipment',
-            'format' => null,
-        ],
-        9 =>
-         [
-            'property' => 'goodsItems',
-            'name' => 'GoodsItem',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\GoodsItem',
-            'format' => null,
-        ],
-        10 =>
-         [
-            'property' => 'measurementDimensions',
-            'name' => 'MeasurementDimension',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Dimension',
-            'format' => null,
-        ],
-        11 =>
-         [
-            'property' => 'deliveryUnits',
-            'name' => 'DeliveryUnit',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\DeliveryUnit',
-            'format' => null,
-        ],
-        12 =>
-         [
-            'property' => 'delivery',
-            'name' => 'Delivery',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Delivery',
-            'format' => null,
-        ],
-        13 =>
-         [
-            'property' => 'pickup',
-            'name' => 'Pickup',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Pickup',
-            'format' => null,
-        ],
-        14 =>
-         [
-            'property' => 'despatch',
-            'name' => 'Despatch',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Despatch',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'ID', namespace: Ns::CBC)]
     private ?Identifier $id = null;

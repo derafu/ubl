@@ -32,48 +32,43 @@ final class EventLineItem implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'lineNumberNumeric',
-            'name' => 'LineNumberNumeric',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'lineNumberNumeric',
+                'name' => 'LineNumberNumeric',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Numeric',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'participatingLocationsLocation',
+                'name' => 'ParticipatingLocationsLocation',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Location',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'retailPlannedImpacts',
+                'name' => 'RetailPlannedImpact',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\RetailPlannedImpact',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'supplyItem',
+                'name' => 'SupplyItem',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Item',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'participatingLocationsLocation',
-            'name' => 'ParticipatingLocationsLocation',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Location',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'retailPlannedImpacts',
-            'name' => 'RetailPlannedImpact',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\RetailPlannedImpact',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'supplyItem',
-            'name' => 'SupplyItem',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Item',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'LineNumberNumeric', namespace: Ns::CBC)]
     private ?Numeric $lineNumberNumeric = null;

@@ -31,21 +31,19 @@ final class UBLDocumentSignatures implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'signatureInformations',
-            'name' => 'SignatureInformation',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\SignatureInformation',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'signatureInformations',
+                'name' => 'SignatureInformation',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\SignatureInformation',
+                'format' => null,
+            ],
         ],
-    ],
-];
+    ];
 
     /** @var list<SignatureInformation> */
     #[XmlElement(name: 'SignatureInformation', namespace: Ns::SAC, type: SignatureInformation::class, required: true)]

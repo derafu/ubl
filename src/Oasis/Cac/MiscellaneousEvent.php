@@ -32,30 +32,27 @@ final class MiscellaneousEvent implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'miscellaneousEventTypeCode',
-            'name' => 'MiscellaneousEventTypeCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'miscellaneousEventTypeCode',
+                'name' => 'MiscellaneousEventTypeCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'eventLineItems',
+                'name' => 'EventLineItem',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\EventLineItem',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'eventLineItems',
-            'name' => 'EventLineItem',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\EventLineItem',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'MiscellaneousEventTypeCode', namespace: Ns::CBC, required: true)]
     private Code $miscellaneousEventTypeCode;

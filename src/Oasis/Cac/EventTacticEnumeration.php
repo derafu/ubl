@@ -32,48 +32,43 @@ final class EventTacticEnumeration implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'consumerIncentiveTacticTypeCode',
-            'name' => 'ConsumerIncentiveTacticTypeCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'consumerIncentiveTacticTypeCode',
+                'name' => 'ConsumerIncentiveTacticTypeCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'displayTacticTypeCode',
+                'name' => 'DisplayTacticTypeCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'featureTacticTypeCode',
+                'name' => 'FeatureTacticTypeCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'tradeItemPackingLabelingTypeCode',
+                'name' => 'TradeItemPackingLabelingTypeCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'displayTacticTypeCode',
-            'name' => 'DisplayTacticTypeCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'featureTacticTypeCode',
-            'name' => 'FeatureTacticTypeCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'tradeItemPackingLabelingTypeCode',
-            'name' => 'TradeItemPackingLabelingTypeCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'ConsumerIncentiveTacticTypeCode', namespace: Ns::CBC)]
     private ?Code $consumerIncentiveTacticTypeCode = null;

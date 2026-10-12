@@ -35,210 +35,187 @@ final class StatementLine implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'id',
-            'name' => 'ID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'id',
+                'name' => 'ID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'notes',
+                'name' => 'Note',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'format' => null,
+            ],
+            2 => [
+                'property' => 'uuid',
+                'name' => 'UUID',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
+                'format' => null,
+            ],
+            3 => [
+                'property' => 'balanceBroughtForwardIndicator',
+                'name' => 'BalanceBroughtForwardIndicator',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'bool',
+                'format' => null,
+            ],
+            4 => [
+                'property' => 'debitLineAmount',
+                'name' => 'DebitLineAmount',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+                'format' => null,
+            ],
+            5 => [
+                'property' => 'creditLineAmount',
+                'name' => 'CreditLineAmount',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+                'format' => null,
+            ],
+            6 => [
+                'property' => 'balanceAmount',
+                'name' => 'BalanceAmount',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
+                'format' => null,
+            ],
+            7 => [
+                'property' => 'paymentPurposeCode',
+                'name' => 'PaymentPurposeCode',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
+                'format' => null,
+            ],
+            8 => [
+                'property' => 'paymentMeans',
+                'name' => 'PaymentMeans',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\PaymentMeans',
+                'format' => null,
+            ],
+            9 => [
+                'property' => 'paymentTermses',
+                'name' => 'PaymentTerms',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\PaymentTerms',
+                'format' => null,
+            ],
+            10 => [
+                'property' => 'buyerCustomerParty',
+                'name' => 'BuyerCustomerParty',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\CustomerParty',
+                'format' => null,
+            ],
+            11 => [
+                'property' => 'sellerSupplierParty',
+                'name' => 'SellerSupplierParty',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\SupplierParty',
+                'format' => null,
+            ],
+            12 => [
+                'property' => 'originatorCustomerParty',
+                'name' => 'OriginatorCustomerParty',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\CustomerParty',
+                'format' => null,
+            ],
+            13 => [
+                'property' => 'accountingCustomerParty',
+                'name' => 'AccountingCustomerParty',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\CustomerParty',
+                'format' => null,
+            ],
+            14 => [
+                'property' => 'accountingSupplierParty',
+                'name' => 'AccountingSupplierParty',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\SupplierParty',
+                'format' => null,
+            ],
+            15 => [
+                'property' => 'payeeParty',
+                'name' => 'PayeeParty',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Party',
+                'format' => null,
+            ],
+            16 => [
+                'property' => 'invoicePeriods',
+                'name' => 'InvoicePeriod',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Period',
+                'format' => null,
+            ],
+            17 => [
+                'property' => 'billingReferences',
+                'name' => 'BillingReference',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\BillingReference',
+                'format' => null,
+            ],
+            18 => [
+                'property' => 'documentReferences',
+                'name' => 'DocumentReference',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
+                'format' => null,
+            ],
+            19 => [
+                'property' => 'exchangeRate',
+                'name' => 'ExchangeRate',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\ExchangeRate',
+                'format' => null,
+            ],
+            20 => [
+                'property' => 'allowanceCharges',
+                'name' => 'AllowanceCharge',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\AllowanceCharge',
+                'format' => null,
+            ],
+            21 => [
+                'property' => 'collectedPayments',
+                'name' => 'CollectedPayment',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Payment',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'notes',
-            'name' => 'Note',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
-            'format' => null,
-        ],
-        2 =>
-         [
-            'property' => 'uuid',
-            'name' => 'UUID',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Identifier',
-            'format' => null,
-        ],
-        3 =>
-         [
-            'property' => 'balanceBroughtForwardIndicator',
-            'name' => 'BalanceBroughtForwardIndicator',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'bool',
-            'format' => null,
-        ],
-        4 =>
-         [
-            'property' => 'debitLineAmount',
-            'name' => 'DebitLineAmount',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
-            'format' => null,
-        ],
-        5 =>
-         [
-            'property' => 'creditLineAmount',
-            'name' => 'CreditLineAmount',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
-            'format' => null,
-        ],
-        6 =>
-         [
-            'property' => 'balanceAmount',
-            'name' => 'BalanceAmount',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Amount',
-            'format' => null,
-        ],
-        7 =>
-         [
-            'property' => 'paymentPurposeCode',
-            'name' => 'PaymentPurposeCode',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cbc\Code',
-            'format' => null,
-        ],
-        8 =>
-         [
-            'property' => 'paymentMeans',
-            'name' => 'PaymentMeans',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\PaymentMeans',
-            'format' => null,
-        ],
-        9 =>
-         [
-            'property' => 'paymentTermses',
-            'name' => 'PaymentTerms',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\PaymentTerms',
-            'format' => null,
-        ],
-        10 =>
-         [
-            'property' => 'buyerCustomerParty',
-            'name' => 'BuyerCustomerParty',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\CustomerParty',
-            'format' => null,
-        ],
-        11 =>
-         [
-            'property' => 'sellerSupplierParty',
-            'name' => 'SellerSupplierParty',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\SupplierParty',
-            'format' => null,
-        ],
-        12 =>
-         [
-            'property' => 'originatorCustomerParty',
-            'name' => 'OriginatorCustomerParty',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\CustomerParty',
-            'format' => null,
-        ],
-        13 =>
-         [
-            'property' => 'accountingCustomerParty',
-            'name' => 'AccountingCustomerParty',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\CustomerParty',
-            'format' => null,
-        ],
-        14 =>
-         [
-            'property' => 'accountingSupplierParty',
-            'name' => 'AccountingSupplierParty',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\SupplierParty',
-            'format' => null,
-        ],
-        15 =>
-         [
-            'property' => 'payeeParty',
-            'name' => 'PayeeParty',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Party',
-            'format' => null,
-        ],
-        16 =>
-         [
-            'property' => 'invoicePeriods',
-            'name' => 'InvoicePeriod',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Period',
-            'format' => null,
-        ],
-        17 =>
-         [
-            'property' => 'billingReferences',
-            'name' => 'BillingReference',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\BillingReference',
-            'format' => null,
-        ],
-        18 =>
-         [
-            'property' => 'documentReferences',
-            'name' => 'DocumentReference',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\DocumentReference',
-            'format' => null,
-        ],
-        19 =>
-         [
-            'property' => 'exchangeRate',
-            'name' => 'ExchangeRate',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\ExchangeRate',
-            'format' => null,
-        ],
-        20 =>
-         [
-            'property' => 'allowanceCharges',
-            'name' => 'AllowanceCharge',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\AllowanceCharge',
-            'format' => null,
-        ],
-        21 =>
-         [
-            'property' => 'collectedPayments',
-            'name' => 'CollectedPayment',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Payment',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'ID', namespace: Ns::CBC, required: true)]
     private Identifier $id;

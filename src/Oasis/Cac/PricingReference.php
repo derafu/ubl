@@ -31,30 +31,27 @@ final class PricingReference implements JsonSerializable
 {
     use ArraySerializableTrait;
 
-    private const ARRAY_METADATA =  [
-    'isValueType' => false,
-    'properties' =>
-     [
-        0 =>
-         [
-            'property' => 'originalItemLocationQuantity',
-            'name' => 'OriginalItemLocationQuantity',
-            'kind' => 'element',
-            'list' => false,
-            'item' => 'Derafu\Ubl\Oasis\Cac\ItemLocationQuantity',
-            'format' => null,
+    private const ARRAY_METADATA = [
+        'isValueType' => false,
+        'properties' => [
+            0 => [
+                'property' => 'originalItemLocationQuantity',
+                'name' => 'OriginalItemLocationQuantity',
+                'kind' => 'element',
+                'list' => false,
+                'item' => 'Derafu\Ubl\Oasis\Cac\ItemLocationQuantity',
+                'format' => null,
+            ],
+            1 => [
+                'property' => 'alternativeConditionPrices',
+                'name' => 'AlternativeConditionPrice',
+                'kind' => 'element',
+                'list' => true,
+                'item' => 'Derafu\Ubl\Oasis\Cac\Price',
+                'format' => null,
+            ],
         ],
-        1 =>
-         [
-            'property' => 'alternativeConditionPrices',
-            'name' => 'AlternativeConditionPrice',
-            'kind' => 'element',
-            'list' => true,
-            'item' => 'Derafu\Ubl\Oasis\Cac\Price',
-            'format' => null,
-        ],
-    ],
-];
+    ];
 
     #[XmlElement(name: 'OriginalItemLocationQuantity', namespace: Ns::CAC)]
     private ?ItemLocationQuantity $originalItemLocationQuantity = null;
