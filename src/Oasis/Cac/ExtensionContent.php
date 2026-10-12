@@ -14,7 +14,7 @@ namespace Derafu\Ubl\Oasis\Cac;
 
 use Derafu\Ubl\Trait\ArraySerializableTrait;
 use JsonSerializable;
-use Xterr\UBL\Xml\Mapping\XmlElement;
+use Xterr\UBL\Xml\Mapping\XmlAny;
 use Xterr\UBL\Xml\Mapping\XmlNamespace as Ns;
 use Xterr\UBL\Xml\Mapping\XmlType;
 
@@ -33,22 +33,29 @@ final class ExtensionContent implements JsonSerializable
                 'property' => 'any',
                 'name' => 'any',
                 'kind' => 'element',
-                'list' => false,
+                'list' => true,
                 'item' => 'string',
                 'format' => null,
             ],
         ],
     ];
 
-    #[XmlElement(name: 'any', namespace: '')]
-    private ?string $any = null;
+    /** @var list<string> */
+    #[XmlAny]
+    private array $any = [];
 
-    public function getAny(): ?string
+    /**
+     * @return list<string>
+     */
+    public function getAny(): array
     {
         return $this->any;
     }
 
-    public function setAny(?string $any = null): self
+    /**
+     * @param list<string> $any
+     */
+    public function setAny(array $any = []): self
     {
         $this->any = $any;
         return $this;

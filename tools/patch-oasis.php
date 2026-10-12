@@ -19,6 +19,7 @@ declare(strict_types=1);
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
+use Xterr\UBL\Xml\Mapping\XmlAny;
 use Xterr\UBL\Xml\Mapping\XmlAttribute;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlValue;
@@ -35,6 +36,7 @@ $totalChanged += fixValidatorDocblocks($files);
 $totalChanged += fixTimeFormat(dirname(__DIR__) . '/src/Oasis');
 $totalChanged += fixDocumentRegistry(dirname(__DIR__) . '/src/Oasis/Xml/DocumentRegistry.php');
 $totalChanged += fixSignatureInformationSignatureType(dirname(__DIR__) . '/src/Oasis/Cac/SignatureInformation.php');
+$totalChanged += fixAnyWildcards($oasisDir);
 $totalChanged += addCopyrightHeader(dirname(__DIR__) . '/src/Oasis');
 $totalChanged += addArraySerializableTrait(dirname(__DIR__) . '/src/Oasis');
 $totalChanged += addArrayMetadataConstant(dirname(__DIR__) . '/src/Oasis');
@@ -252,6 +254,101 @@ function fixSignatureInformationSignatureType(string $path): int
 }
 
 /**
+ * UBL's generic extension slot (`ext:ExtensionContentType`, reached from every document via
+ * `UBLExtensions > UBLExtension > ExtensionContent`) is a real XSD wildcard: `<xsd:any
+ * namespace="##other" processContents="lax"/>`, meant to carry arbitrary foreign content (a
+ * signature, a Peppol extension, anything not defined by UBL itself). The generator never
+ * models it that way: `goetas-webservices/xsd-reader`'s own `Any` class (what its XSD reader
+ * represents `<xsd:any>` as) hardcodes `getName(): string { return 'any'; }` - a real wildcard
+ * has no name, but that library's `ElementItem` interface requires one, so it picks a literal
+ * placeholder. `xterr/php-ubl-generator` has no code path for this at all (confirmed: no
+ * mention of "Any"/wildcards anywhere in its own source), so it falls through the same handling
+ * as any named element and takes that literal "any" as if it were one, emitting a plain
+ * `#[XmlElement(name: 'any', namespace: '')]` property - a single scalar, in the empty
+ * namespace. The runtime package this wraps, `xterr/php-ubl`, has a real, working wildcard
+ * mechanism of its own, `#[XmlAny]` (confirmed by reading `XmlSerializer`/`XmlDeserializer`: it
+ * reads/writes a list of raw, real XML fragments, not an escaped string) - the generator just
+ * never learned about it.
+ *
+ * With the generator's own mapping this is not merely imprecise, it does not work at all:
+ * proved empirically that even a plain string set into it fails real schema validation (libxml:
+ * "Element 'any': this element is not expected" - `##other` never matches the empty namespace
+ * `#[XmlElement(..., namespace: '')]` hardcodes), and a real foreign element is silently dropped
+ * on read. This widens the property to `#[XmlAny] private array $any = []` (a list of raw XML
+ * fragment strings, one per foreign child) wherever the generator's wrong pattern appears -
+ * proved against the real XSD: content set this way validates and round-trips correctly, with
+ * real markup, not escaped text.
+ *
+ * `ArraySerializableTrait`'s own `toArray()`/`fromArray()` (the array/json/yaml path) does not
+ * read `#[XmlAny]`, only `#[XmlElement]`/`#[XmlAttribute]`/`#[XmlValue]` - this only fixes the
+ * xml path; an `any` property silently absent from array/json/yaml output is a separate, known
+ * gap this does not claim to solve.
+ *
+ * @return int Number of files changed.
+ */
+function fixAnyWildcards(string $oasisDir): int
+{
+    $wrongProperty = "#[XmlElement(name: 'any', namespace: '')]\n    private ?string \$any = null;";
+    $fixedProperty = "/** @var list<string> */\n    #[XmlAny]\n    private array \$any = [];";
+    $files = new RegexIterator(
+        new RecursiveIteratorIterator(new RecursiveDirectoryIterator($oasisDir)),
+        '/\.php$/'
+    );
+    $changed = 0;
+
+    foreach ($files as $file) {
+        $path = $file->getPathname();
+        $source = (string) file_get_contents($path);
+
+        if (!str_contains($source, $wrongProperty)) {
+            continue;
+        }
+
+        $patched = str_replace(
+            [
+                $wrongProperty,
+                '    public function getAny(): ?string',
+                '    public function setAny(?string $any = null): self',
+            ],
+            [
+                $fixedProperty,
+                "    /**\n     * @return list<string>\n     */\n    public function getAny(): array",
+                "    /**\n     * @param list<string> \$any\n     */\n    public function setAny(array \$any = []): self",
+            ],
+            $source
+        );
+
+        // XmlElement's import might have been there only for the property just replaced: drop
+        // it and import XmlAny instead when so, otherwise keep it (still needed by another
+        // property of the same file) and add XmlAny alongside it.
+        if (!str_contains($patched, 'XmlElement(')) {
+            $patched = str_replace(
+                "use Xterr\\UBL\\Xml\\Mapping\\XmlElement;\n",
+                "use Xterr\\UBL\\Xml\\Mapping\\XmlAny;\n",
+                $patched
+            );
+        } elseif (!str_contains($patched, 'XmlAny;')) {
+            $patched = str_replace(
+                "use Xterr\\UBL\\Xml\\Mapping\\XmlElement;\n",
+                "use Xterr\\UBL\\Xml\\Mapping\\XmlAny;\nuse Xterr\\UBL\\Xml\\Mapping\\XmlElement;\n",
+                $patched
+            );
+        }
+
+        file_put_contents($path, $patched);
+        $changed++;
+    }
+
+    assertNoneMatch(
+        $oasisDir,
+        '/private \?string \$any = null;/',
+        "still has the generator's broken any-wildcard scalar instead of #[XmlAny]"
+    );
+
+    return $changed;
+}
+
+/**
  * Adds the package's copyright header to every generated file, the same as any other file
  * of the package.
  */
@@ -406,6 +503,7 @@ function classArrayMetadata(string $class): array
         $valueAttribute = $property->getAttributes(XmlValue::class);
         $elementAttribute = $property->getAttributes(XmlElement::class);
         $attributeAttribute = $property->getAttributes(XmlAttribute::class);
+        $anyAttribute = $property->getAttributes(XmlAny::class);
         $name = $property->getName();
 
         if ($valueAttribute !== []) {
@@ -419,6 +517,20 @@ function classArrayMetadata(string $class): array
         if ($attributeAttribute !== []) {
             $meta = $attributeAttribute[0]->newInstance();
             $properties[] = ['property' => $name, 'name' => $meta->name, 'kind' => 'attribute', 'list' => false, 'item' => null, 'format' => null];
+
+            continue;
+        }
+
+        // `#[XmlAny]` (a real XSD wildcard, `xterr/php-ubl`'s own mechanism for it) has no UBL
+        // element name to key the array form by - unlike `#[XmlElement]`, which always names
+        // one. Keying it by its own property name instead (here, always `any`) is this
+        // package's own, internal choice, not a UBL name: nothing about the array/json/yaml
+        // shape of a wildcard is standardized by UBL itself. Otherwise identical to a list of
+        // plain strings (`list: true, item: 'string'`), because that is genuinely what it is:
+        // `ArraySerializableTrait::exportList()`/`hydrateList()` already handle that shape with
+        // no change of their own needed.
+        if ($anyAttribute !== []) {
+            $properties[] = ['property' => $name, 'name' => $name, 'kind' => 'element', 'list' => true, 'item' => 'string', 'format' => null];
 
             continue;
         }
