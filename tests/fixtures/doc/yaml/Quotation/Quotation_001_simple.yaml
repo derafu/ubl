@@ -28,10 +28,10 @@ Quotation:
     - ID: '1'
       LineItem:
         ID: '1'
-        Item:
-          Name: Widget
         Price:
           PriceAmount:
             '@value': '100'
             '@attributes':
               currencyID: EUR
+        Item:
+          Name: Widget

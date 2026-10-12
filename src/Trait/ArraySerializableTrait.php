@@ -14,6 +14,8 @@ namespace Derafu\Ubl\Trait;
 
 use BackedEnum;
 use DateTimeImmutable;
+use DateTimeZone;
+use Exception;
 
 /**
  * `toArray()`, `fromArray()` and `jsonSerialize()` for an `Oasis` class, keyed by the UBL
@@ -92,6 +94,13 @@ trait ArraySerializableTrait
     }
 
     /**
+     * A property is included whenever it was actually set, never based on whether its own
+     * exported shape happens to be empty: an aggregate present but with every field of its own
+     * empty (`<cac:Item/>`) still exports as `[]`, which is not the same as the property never
+     * having been set at all - the same distinction `exportSingle()` makes for a value leaf.
+     * `fromArray()` already treats `[]` as "a real but empty object", via the same `fromArray()`
+     * every nested class gets from this trait.
+     *
      * @return array<string, mixed>
      */
     private function elementsToArray(): array
@@ -104,12 +113,17 @@ trait ArraySerializableTrait
             }
 
             $raw = self::get($this, $property['property']);
-            $exported = $property['list']
-                ? self::exportList($raw, $property['format'])
-                : self::exportOne($raw, $property['kind'], $property['format']);
 
-            if ($exported !== null && $exported !== []) {
-                $result[$property['name']] = $exported;
+            if ($property['list']) {
+                if (!is_array($raw) || $raw === []) {
+                    continue;
+                }
+                $result[$property['name']] = self::exportList($raw, $property['format']);
+            } else {
+                if ($raw === null) {
+                    continue;
+                }
+                $result[$property['name']] = self::exportOne($raw, $property['kind'], $property['format']);
             }
         }
 
@@ -137,6 +151,16 @@ trait ArraySerializableTrait
         return $kind === 'attribute' ? self::exportScalar($raw, null) : self::exportSingle($raw, $format);
     }
 
+    /**
+     * A leaf with no attributes simplifies to its bare `@value` - except when that value is
+     * itself `null`: the leaf object is still there (a required property genuinely never set
+     * would already have returned `null` in `exportOne()`, before even reaching here), it is
+     * just empty, the same as an XML element present with no content (`<cbc:ID/>`). Keeping the
+     * `@value`/`@attributes` shape in that case is what lets `fromArray()` tell "present but
+     * empty" apart from "absent" and reconstruct the same empty-but-set object, instead of
+     * leaving a required property genuinely uninitialized - which `ArraySerializableTrait`
+     * itself tolerates, but `Xterr\UBL\Xml\XmlSerializer` does not.
+     */
     private static function exportSingle(mixed $raw, ?string $format): mixed
     {
         if (is_object($raw) && method_exists($raw, 'toArray')) {
@@ -144,9 +168,11 @@ trait ArraySerializableTrait
             $exported = $raw->toArray();
             $attributes = $exported['@attributes'] ?? [];
 
-            return array_key_exists('@value', $exported) && $attributes === []
-                ? $exported['@value']
-                : $exported;
+            if (array_key_exists('@value', $exported) && $attributes === [] && $exported['@value'] !== null) {
+                return $exported['@value'];
+            }
+
+            return $exported;
         }
 
         return self::exportScalar($raw, $format);
@@ -240,15 +266,42 @@ trait ArraySerializableTrait
         };
     }
 
+    /**
+     * `xsd:date`/`xsd:time` both allow an optional fractional second and an optional timezone,
+     * neither of which `$format`'s fixed pattern can express as optional: `createFromFormat()`
+     * only matches the one shape `$format` spells out exactly. A value in a different (still
+     * valid) shape - "11:32:26.0Z" against the dateless "H:i:sP", say - falls back to PHP's own
+     * lenient parser, which handles both the fraction and the timezone being present or not.
+     *
+     * Whichever of the two parses `$date`, its internal shape (what date a time-only value is
+     * filled in with, whether its timezone ends up the named "UTC" or the offset "+00:00")
+     * depends on which one it was, even though the exported string (`$date->format($format)`,
+     * what `exportScalar()` actually emits) is identical either way. Re-deriving `$date` from
+     * that same exported string, through the strict parser, collapses both onto the one shape
+     * the strict parse alone already produces - without changing the exported string itself.
+     * `xterr/php-ubl`'s own date parsing gets the equivalent fix, in `tools/patch-xterr-ubl.php`.
+     */
     private static function importDate(mixed $raw, ?string $format): ?DateTimeImmutable
     {
         if (!is_string($raw) && !is_int($raw) && !is_float($raw)) {
             return null;
         }
 
-        $date = DateTimeImmutable::createFromFormat($format ?? 'Y-m-d', (string) $raw);
+        $raw = (string) $raw;
+        $resolvedFormat = $format ?? 'Y-m-d';
+        $date = DateTimeImmutable::createFromFormat('!' . $resolvedFormat, $raw);
 
-        return $date === false ? null : $date;
+        if ($date === false) {
+            try {
+                $date = new DateTimeImmutable($raw, new DateTimeZone('UTC'));
+            } catch (Exception) {
+                return null;
+            }
+        }
+
+        $canonical = DateTimeImmutable::createFromFormat('!' . $resolvedFormat, $date->format($resolvedFormat));
+
+        return $canonical !== false ? $canonical : $date;
     }
 
     /**

@@ -37,6 +37,7 @@
         "phpstan/phpstan": "^2.2",
         "phpunit/phpunit": "^13.4",
         "nikic/php-parser": "^5.9",
+        "symfony/yaml": "^8.1",
         "xterr/php-ubl-generator": "^1.4"
     },
     "scripts": {
@@ -46,7 +47,10 @@
         "phpcs": "vendor/bin/php-cs-fixer fix -v --dry-run --diff --config=php-cs-fixer.php",
         "phpstan": "vendor/bin/phpstan analyse --configuration=phpstan.neon --memory-limit=1G",
         "phpstan-export": "vendor/bin/phpstan analyse --configuration=phpstan.neon --level 9 --generate-baseline",
-        "generate-oasis": "php tools/generate-oasis.php && php tools/patch-oasis.php && composer phpcs-fix"
+        "generate-oasis": "php tools/generate-oasis.php && php tools/patch-oasis.php && composer phpcs-fix",
+        "fetch-oasis-examples": "php tools/fetch-oasis-examples.php",
+        "post-install-cmd": "php tools/patch-xterr-ubl.php",
+        "post-update-cmd": "php tools/patch-xterr-ubl.php"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
