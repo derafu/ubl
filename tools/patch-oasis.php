@@ -34,6 +34,7 @@ $totalChanged += removeW3cMetaschemaEnums($oasisDir);
 $totalChanged += fixValidatorDocblocks($files);
 $totalChanged += fixTimeFormat(dirname(__DIR__) . '/src/Oasis');
 $totalChanged += fixDocumentRegistry(dirname(__DIR__) . '/src/Oasis/Xml/DocumentRegistry.php');
+$totalChanged += fixSignatureInformationSignatureType(dirname(__DIR__) . '/src/Oasis/Cac/SignatureInformation.php');
 $totalChanged += addCopyrightHeader(dirname(__DIR__) . '/src/Oasis');
 $totalChanged += addArraySerializableTrait(dirname(__DIR__) . '/src/Oasis');
 $totalChanged += addArrayMetadataConstant(dirname(__DIR__) . '/src/Oasis');
@@ -188,6 +189,56 @@ function fixDocumentRegistry(string $path): int
 
     if ($patched === $source && !str_contains($source, $checked)) {
         fwrite(STDERR, "patch-oasis: the unchecked preg_match() pattern was not found in $path (generator output changed?)\n");
+        exit(1);
+    }
+
+    if ($patched !== $source) {
+        file_put_contents($path, $patched);
+
+        return 1;
+    }
+
+    return 0;
+}
+
+/**
+ * `cac:SignatureInformationType`'s `ds:Signature` element is a real W3C XML-DSig signature
+ * envelope (`SignedInfo`/`SignatureValue`/`KeyInfo`/`Object` - a completely different schema,
+ * bundled at `resources/xsd/2.1/common/UBL-xmldsig-core-schema-2.1.xsd`, not part of UBL
+ * itself), never a UBL `Cac\Signature` (plain metadata: ID/ValidationDate/SignatoryParty/...,
+ * what `cac:Signature` actually is). `UblTypeRegistry::COMPONENT_NAMESPACES` never processes
+ * that schema's namespace, so its `TypeResolver` resolves the `ds:Signature` reference by its
+ * bare, namespace-stripped name alone ("Signature") and lands on this package's own, unrelated
+ * `Cac\Signature` class - the two happen to share a name, nothing else. Typed that way, a real
+ * signed document would silently hydrate into the wrong shape. This does not model the real
+ * `ds:SignatureType` (see CLAUDE.md's note on digital signatures for why, and for what a
+ * future signing package would need to do instead) - it only stops the false claim, widening
+ * the property to a plain, honestly-untyped string.
+ */
+function fixSignatureInformationSignatureType(string $path): int
+{
+    if (!is_file($path)) {
+        fwrite(STDERR, "patch-oasis: expected file not found: $path\n");
+        exit(1);
+    }
+
+    $source = (string) file_get_contents($path);
+    $patched = str_replace(
+        [
+            'private ?Signature $signature = null;',
+            'getSignature(): ?Signature',
+            'setSignature(?Signature $signature = null): self',
+        ],
+        [
+            'private ?string $signature = null;',
+            'getSignature(): ?string',
+            'setSignature(?string $signature = null): self',
+        ],
+        $source
+    );
+
+    if ($patched === $source && !str_contains($source, 'private ?string $signature = null;')) {
+        fwrite(STDERR, "patch-oasis: the wrong ?Signature typing was not found in $path (generator output changed?)\n");
         exit(1);
     }
 

@@ -56,7 +56,7 @@ final class SignatureInformation implements JsonSerializable
                 'name' => 'Signature',
                 'kind' => 'element',
                 'list' => false,
-                'item' => 'Derafu\Ubl\Oasis\Cac\Signature',
+                'item' => 'string',
                 'format' => null,
             ],
         ],
@@ -69,7 +69,7 @@ final class SignatureInformation implements JsonSerializable
     private ?Identifier $referencedSignatureID = null;
 
     #[XmlElement(name: 'Signature', namespace: Ns::DS)]
-    private ?Signature $signature = null;
+    private ?string $signature = null;
 
     public function getId(): ?Identifier
     {
@@ -93,12 +93,12 @@ final class SignatureInformation implements JsonSerializable
         return $this;
     }
 
-    public function getSignature(): ?Signature
+    public function getSignature(): ?string
     {
         return $this->signature;
     }
 
-    public function setSignature(?Signature $signature = null): self
+    public function setSignature(?string $signature = null): self
     {
         $this->signature = $signature;
         return $this;
