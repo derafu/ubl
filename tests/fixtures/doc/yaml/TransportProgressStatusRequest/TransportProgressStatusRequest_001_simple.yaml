@@ -1,0 +1,27 @@
+# TransportProgressStatusRequest
+#
+# UBL 2.1's own definition (UBL-TransportProgressStatusRequest-2.1.xsd): "A document sent
+# from a transport service provider to a transportation network manager requesting a
+# Transport Progress Status."
+#
+# `ID`, `IssueDate`, `IssueTime` and `TransportMeans` are the only elements
+# `TransportProgressStatusRequest` marks `required: true` at the top level (see
+# src/Oasis/Doc/TransportProgressStatusRequest.php).
+#
+# Keys are the UBL element and attribute names, the same ones
+# `Derafu\Ubl\Trait\ArraySerializableTrait::fromArray()` reads, e.g.
+# `TransportProgressStatusRequest::fromArray(Yaml::parseFile(...)['TransportProgressStatusRequest'])`. A value with no attributes is a
+# plain scalar (`ID`, `IssueDate`); a value that has one, like an amount's currency, needs
+# the `@value`/`@attributes` form. Each field's comment below is UBL's own definition for
+# it (see the `ccts:Definition` of the matching type in `resources/xsd/2.1/`), not a
+# restatement of its name. A handful of required substructures UBL itself leaves with no
+# required fields of their own also carry one further optional, identifying field purely
+# for readability (a party's name, an item's name): everything else below is genuinely
+# `required: true`.
+TransportProgressStatusRequest:
+  ID: '1' # An identifier for this document, assigned by the sender.
+  IssueDate: '2026-01-15' # The date, assigned by the sender, on which this document was issued.
+  IssueTime: 00:00:00-03:00 # The time, assigned by the sender, at which this document was issued.
+  # The transport means by which the current transport service is effectuated and for which status
+  # is requested.
+  TransportMeans: {}

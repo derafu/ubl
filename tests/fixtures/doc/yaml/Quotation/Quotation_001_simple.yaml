@@ -1,37 +1,53 @@
-# The simplest Quotation that UBL 2.1 itself requires: `IssueDate`, `SellerSupplierParty`,
+# Quotation
+#
+# UBL 2.1's own definition (UBL-Quotation-2.1.xsd): "A document used to quote for the
+# provision of goods and services." A seller sends it to price goods/services for a buyer,
+# without yet committing to deliver - that commitment comes later, when/if the buyer turns
+# it into an Order. It is typically the answer to a RequestForQuotation (UBL does not
+# require that link though: `RequestForQuotationDocumentReference` is optional, so a
+# Quotation can also be unsolicited).
+#
+# Minimal document UBL 2.1 itself allows: `IssueDate`, `SellerSupplierParty`,
 # `QuotedMonetaryTotal` and at least one `QuotationLine` are the only elements `Quotation`
-# marks `required: true` (see src/Oasis/Doc/Quotation.php), and none of their own children are
-# required either except `LineItem.ID`, `LineItem.Item` and an `Amount`'s `currencyID`. UBL does
-# not even require a buyer. A document with nothing else (no name, no price) would not read as
-# an actual quotation though, so the few optional fields that make this one meaningful are kept
-# too: `Quotation.ID`, the seller's and the item's `Name`, and the line's `Price`.
+# marks `required: true` (see src/Oasis/Doc/Quotation.php), and none of their own children
+# are required either except `LineItem.ID`, `LineItem.Item` and an `Amount`'s `currencyID`.
+# UBL does not even require a buyer. A document with nothing else (no name, no price) would
+# not read as an actual quotation though, so the few optional fields that make this one
+# meaningful are kept too: `Quotation.ID`, the seller's and the item's `Name`, and the
+# line's `Price`.
 #
 # Keys are the UBL element and attribute names, the same ones
 # `Derafu\Ubl\Trait\ArraySerializableTrait::fromArray()` reads, e.g.
 # `Quotation::fromArray(Yaml::parseFile(...)['Quotation'])`. A value with no attributes is a
 # plain scalar (`ID`, `IssueDate`, `Name`); a value that has one, like an amount's currency,
-# needs the `@value`/`@attributes` form.
+# needs the `@value`/`@attributes` form. Each field's comment below is UBL's own definition
+# for it (see the `ccts:Definition` of the matching type in `resources/xsd/2.1/common/`),
+# not a restatement of its name.
 
 Quotation:
-  ID: '1'
-  IssueDate: '2026-01-15'
+  ID: '1' # An identifier for this document, assigned by the sender.
+  IssueDate: '2026-01-15' # The date, assigned by the sender, on which this document was issued.
+  # The seller. Wrapped in SupplierParty rather than a bare Party: UBL's way of letting a
+  # party carry supplier-specific data (e.g. a customer-assigned account id) alongside its
+  # identity - unused here, so only the identity underneath is actually filled in.
   SellerSupplierParty:
-    Party:
-      PartyName:
-        - Name: Acme Corp
-  QuotedMonetaryTotal:
-    PayableAmount:
+    Party: # A class to describe an organization, sub-organization, or individual.
+      PartyName: # A name for this party (a list: a party can have more than one name).
+        - Name: Acme Corp # The name of the party.
+  QuotedMonetaryTotal: # The total amount of the Quotation.
+    PayableAmount: # The amount of the monetary total to be paid.
       '@value': '100'
       '@attributes':
         currencyID: EUR
+  # A line quoting a cost for one kind of item - at least one is required.
   QuotationLine:
-    - ID: '1'
-      LineItem:
-        ID: '1'
-        Price:
-          PriceAmount:
+    - ID: '1' # An identifier for this quotation line.
+      LineItem: # The item that is the subject of this quotation line.
+        ID: '1' # An identifier for this line item, assigned by the buyer.
+        Price: # The price of the item of trade associated with this line item.
+          PriceAmount: # The amount of the price.
             '@value': '100'
             '@attributes':
               currencyID: EUR
-        Item:
-          Name: Widget
+        Item: # The item of trade associated with this line item.
+          Name: Widget # A short name optionally given to this item.

@@ -1,0 +1,35 @@
+# ForwardingInstructions
+#
+# UBL 2.1's own definition (UBL-ForwardingInstructions-2.1.xsd): "A document issued to a
+# forwarder, giving instructions regarding the action to be taken for the forwarding of
+# goods described therein. Forwarding Instructions is used by any party who gives
+# instructions for the transportation services required for a consignment of goods to any
+# party who is contracted to provide the transportation services. The parties who issue
+# this document are commonly referred to as the shipper or consignor, while the parties
+# who receive this document are forwarders, carriers, shipping agents, etc. This document
+# may also be issued by a forwarder or shipping agent in its capacity as a shipper. This
+# document can be used to arrange for the transportation (1) of different types of goods
+# or cargoes; (2) whether containerized or non-containerized; (3) through different modes
+# of transport including multi-modal; and (4) from any origin to any destination."
+#
+# `ID` and `Shipment` are the only elements `ForwardingInstructions` marks `required:
+# true` at the top level (see src/Oasis/Doc/ForwardingInstructions.php). `IssueDate` is
+# optional here, but included anyway for readability.
+#
+# Keys are the UBL element and attribute names, the same ones
+# `Derafu\Ubl\Trait\ArraySerializableTrait::fromArray()` reads, e.g.
+# `ForwardingInstructions::fromArray(Yaml::parseFile(...)['ForwardingInstructions'])`. A value with no attributes is a
+# plain scalar (`ID`, `IssueDate`); a value that has one, like an amount's currency, needs
+# the `@value`/`@attributes` form. Each field's comment below is UBL's own definition for
+# it (see the `ccts:Definition` of the matching type in `resources/xsd/2.1/`), not a
+# restatement of its name. A handful of required substructures UBL itself leaves with no
+# required fields of their own also carry one further optional, identifying field purely
+# for readability (a party's name, an item's name): everything else below is genuinely
+# `required: true`.
+ForwardingInstructions:
+  ID: '1' # An identifier for this document, assigned by the sender.
+  IssueDate: '2026-01-15' # The date, assigned by the sender, on which this document was issued.
+  # An identifiable collection of one or more goods items to be transported between the seller
+  # party and the buyer party.
+  Shipment:
+    ID: '1' # An identifier for this shipment.

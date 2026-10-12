@@ -1,0 +1,38 @@
+# TransportExecutionPlan
+#
+# UBL 2.1's own definition (UBL-TransportExecutionPlan-2.1.xsd): "A document used in the
+# negotiation of a transport service between a transport user and a transport service
+# provider."
+#
+# `ID`, `TransportUserParty`, `TransportServiceProviderParty` and `Consignment` are the
+# only elements `TransportExecutionPlan` marks `required: true` at the top level (see
+# src/Oasis/Doc/TransportExecutionPlan.php). `IssueDate` is optional here, but included
+# anyway for readability.
+#
+# Keys are the UBL element and attribute names, the same ones
+# `Derafu\Ubl\Trait\ArraySerializableTrait::fromArray()` reads, e.g.
+# `TransportExecutionPlan::fromArray(Yaml::parseFile(...)['TransportExecutionPlan'])`. A value with no attributes is a
+# plain scalar (`ID`, `IssueDate`); a value that has one, like an amount's currency, needs
+# the `@value`/`@attributes` form. Each field's comment below is UBL's own definition for
+# it (see the `ccts:Definition` of the matching type in `resources/xsd/2.1/`), not a
+# restatement of its name. A handful of required substructures UBL itself leaves with no
+# required fields of their own also carry one further optional, identifying field purely
+# for readability (a party's name, an item's name): everything else below is genuinely
+# `required: true`.
+TransportExecutionPlan:
+  ID: '1' # An identifier for this document, assigned by the sender.
+  IssueDate: '2026-01-15' # The date, assigned by the sender, on which this document was issued.
+  TransportUserParty: # The party requesting the transport service from a transport service provider.
+    # A name for this party.
+    PartyName:
+      - Name: Acme Corp # The name of the party.
+  TransportServiceProviderParty: # The party offering the transport service based upon a request from a transport user.
+    # A name for this party.
+    PartyName:
+      - Name: Acme Corp # The name of the party.
+  # A description of an identifiable collection of goods items to be transported between the
+  # consignor and the consignee. This information may be defined within a transport contract. A
+  # consignment may comprise more than one shipment (e.g., when consolidated by a freight
+  # forwarder).
+  Consignment:
+    - ID: '1' # An identifier assigned to a collection of goods for both import and export.

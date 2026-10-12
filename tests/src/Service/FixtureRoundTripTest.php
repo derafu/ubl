@@ -23,7 +23,7 @@ use Symfony\Component\Yaml\Yaml;
 
 /**
  * Round-trips every committed fixture under tests/fixtures/doc/ through Serializer/Deserializer,
- * and every xml one additionally through SchemaValidator, against the real OASIS XSD.
+ * and every xml and yaml one additionally through SchemaValidator, against the real OASIS XSD.
  * Fixtures are discovered by glob, never listed by hand: adding a new one under
  * tests/fixtures/doc/<format>/<Document>/ picks it up here automatically, for whichever
  * document types and formats happen to have one today. There is no dedicated json data
@@ -80,6 +80,26 @@ final class FixtureRoundTripTest extends TestCase
         $content = (string) file_get_contents($path);
 
         (new SchemaValidator())->validate($content);
+
+        $this->addToAssertionCount(1);
+    }
+
+    /**
+     * The yaml fixtures are hand-authored (unlike the xml ones, real official examples): this
+     * is what actually proves each one is not just internally consistent (round-trips, reads as
+     * authored) but a genuinely valid UBL document - the same guarantee
+     * xmlFixtureValidatesAgainstItsRealSchema() already gives the xml fixtures, closing the gap
+     * for the minimal, one-per-document-type yaml fixtures under tests/fixtures/doc/yaml/.
+     */
+    #[Test]
+    #[DataProvider('yamlFixtures')]
+    public function yamlFixtureValidatesAgainstItsRealSchema(string $path): void
+    {
+        $content = (string) file_get_contents($path);
+        $document = (new Deserializer())->deserialize($content, 'yaml');
+        $xml = (new Serializer())->serialize($document, 'xml');
+
+        (new SchemaValidator())->validate($xml);
 
         $this->addToAssertionCount(1);
     }

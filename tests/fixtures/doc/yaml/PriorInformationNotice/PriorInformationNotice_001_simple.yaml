@@ -1,0 +1,26 @@
+# PriorInformationNotice
+#
+# UBL 2.1's own definition (UBL-PriorInformationNotice-2.1.xsd): "A document used by a
+# contracting party to declare the intention to buy goods, services, or works during a
+# specified period."
+#
+# `IssueDate` and `ContractingParty` are the only elements `PriorInformationNotice` marks
+# `required: true` at the top level (see src/Oasis/Doc/PriorInformationNotice.php).
+#
+# Keys are the UBL element and attribute names, the same ones
+# `Derafu\Ubl\Trait\ArraySerializableTrait::fromArray()` reads, e.g.
+# `PriorInformationNotice::fromArray(Yaml::parseFile(...)['PriorInformationNotice'])`. A value with no attributes is a
+# plain scalar (`ID`, `IssueDate`); a value that has one, like an amount's currency, needs
+# the `@value`/`@attributes` form. Each field's comment below is UBL's own definition for
+# it (see the `ccts:Definition` of the matching type in `resources/xsd/2.1/`), not a
+# restatement of its name. A handful of required substructures UBL itself leaves with no
+# required fields of their own also carry one further optional, identifying field purely
+# for readability (a party's name, an item's name): everything else below is genuinely
+# `required: true`.
+PriorInformationNotice:
+  IssueDate: '2026-01-15' # The date, assigned by the sender, on which this document was issued.
+  ContractingParty: # The contracting party.
+    Party: # The contracting party itself.
+      # A name for this party.
+      PartyName:
+        - Name: Acme Corp # The name of the party.

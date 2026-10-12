@@ -1,0 +1,46 @@
+# ExceptionCriteria
+#
+# UBL 2.1's own definition (UBL-ExceptionCriteria-2.1.xsd): "A document used to specify
+# the thresholds for forecast variance, product activity, and performance history beyond
+# which exceptions should be triggered."
+#
+# `ID`, `IssueDate`, `ValidityPeriod`, `SenderParty`, `ReceiverParty` and
+# `ExceptionCriteriaLine` are the only elements `ExceptionCriteria` marks `required: true`
+# at the top level (see src/Oasis/Doc/ExceptionCriteria.php).
+#
+# Keys are the UBL element and attribute names, the same ones
+# `Derafu\Ubl\Trait\ArraySerializableTrait::fromArray()` reads, e.g.
+# `ExceptionCriteria::fromArray(Yaml::parseFile(...)['ExceptionCriteria'])`. A value with no attributes is a
+# plain scalar (`ID`, `IssueDate`); a value that has one, like an amount's currency, needs
+# the `@value`/`@attributes` form. Each field's comment below is UBL's own definition for
+# it (see the `ccts:Definition` of the matching type in `resources/xsd/2.1/`), not a
+# restatement of its name. A handful of required substructures UBL itself leaves with no
+# required fields of their own also carry one further optional, identifying field purely
+# for readability (a party's name, an item's name): everything else below is genuinely
+# `required: true`.
+ExceptionCriteria:
+  ID: '1' # An identifier for this document, assigned by the sender.
+  IssueDate: '2026-01-15' # The date, assigned by the sender, on which this document was issued.
+  ValidityPeriod: # The period of time during which the Exception Criteria is valid.
+    StartDate: '2026-01-15' # The date on which this period begins.
+  SenderParty: # The party sending this document.
+    # A name for this party.
+    PartyName:
+      - Name: Acme Corp # The name of the party.
+  ReceiverParty: # The party receiving this document.
+    # A name for this party.
+    PartyName:
+      - Name: Acme Corp # The name of the party.
+  # A line expressing an exception criterion setting thresholds beyond which an exception should be
+  # triggered.
+  ExceptionCriteriaLine:
+    - ID: '1' # An identifier for this exception criteria line.
+      # Type of comparison to be carried out in reference to the set threshold." Allowed values are:
+      # EXCEEDS_EXCEPTION_VALUE FALLS_BELOW_EXCEPTION_VALUE
+      ThresholdValueComparisonCode: '1'
+      ThresholdQuantity: '1' # A quantity beyond which an exception will be triggered.
+      # The Trade Item that is the subject of the Exception Criterion.
+      SupplyItem:
+        - # A short name optionally given to this item, such as a name from a catalogue, as distinct from a
+          # description.
+          Name: Widget

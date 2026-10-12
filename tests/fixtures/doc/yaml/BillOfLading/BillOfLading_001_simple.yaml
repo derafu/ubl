@@ -1,0 +1,33 @@
+# BillOfLading
+#
+# UBL 2.1's own definition (UBL-BillOfLading-2.1.xsd): "A document issued by the party who
+# acts as an agent for a transportation carrier or other agents to the party who gives
+# instructions for the transportation services (shipper, consignor, etc.) stating the
+# details of the transportation, charges, and terms and conditions under which the
+# transportation service is provided. The party issuing this document does not necessarily
+# provide the physical transportation service. The information in the Bill of Lading
+# corresponds to the information on the Forwarding Instructions. It is used for any mode
+# of transport. A Bill of Lading can serve as a contractual document between the parties
+# for the transportation service. The document evidences a contract of carriage by sea and
+# the acceptance of responsibility for the goods by the carrier, by which the carrier
+# undertakes to deliver the goods against surrender of the document. A provision in the
+# document that the goods are to be delivered to the order of a named person, or to order,
+# or to bearer, constitutes such an undertaking."
+#
+# `ID` is the only element `BillOfLading` marks `required: true` at the top level (see
+# src/Oasis/Doc/BillOfLading.php). `IssueDate` is optional here, but included anyway for
+# readability.
+#
+# Keys are the UBL element and attribute names, the same ones
+# `Derafu\Ubl\Trait\ArraySerializableTrait::fromArray()` reads, e.g.
+# `BillOfLading::fromArray(Yaml::parseFile(...)['BillOfLading'])`. A value with no attributes is a
+# plain scalar (`ID`, `IssueDate`); a value that has one, like an amount's currency, needs
+# the `@value`/`@attributes` form. Each field's comment below is UBL's own definition for
+# it (see the `ccts:Definition` of the matching type in `resources/xsd/2.1/`), not a
+# restatement of its name. A handful of required substructures UBL itself leaves with no
+# required fields of their own also carry one further optional, identifying field purely
+# for readability (a party's name, an item's name): everything else below is genuinely
+# `required: true`.
+BillOfLading:
+  ID: '1' # An identifier for this document, assigned by the sender.
+  IssueDate: '2026-01-15' # The date, assigned by the sender, on which this document was issued.

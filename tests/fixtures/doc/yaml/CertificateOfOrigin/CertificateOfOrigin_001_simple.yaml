@@ -1,0 +1,72 @@
+# CertificateOfOrigin
+#
+# UBL 2.1's own definition (UBL-CertificateOfOrigin-2.1.xsd): "A document that describes
+# the Certificate of Origin."
+#
+# `ID`, `CertificateOfOriginApplication` and `IssuerEndorsement` are the only elements
+# `CertificateOfOrigin` marks `required: true` at the top level (see
+# src/Oasis/Doc/CertificateOfOrigin.php). `IssueDate` is optional here, but included
+# anyway for readability.
+#
+# Keys are the UBL element and attribute names, the same ones
+# `Derafu\Ubl\Trait\ArraySerializableTrait::fromArray()` reads, e.g.
+# `CertificateOfOrigin::fromArray(Yaml::parseFile(...)['CertificateOfOrigin'])`. A value with no attributes is a
+# plain scalar (`ID`, `IssueDate`); a value that has one, like an amount's currency, needs
+# the `@value`/`@attributes` form. Each field's comment below is UBL's own definition for
+# it (see the `ccts:Definition` of the matching type in `resources/xsd/2.1/`), not a
+# restatement of its name. A handful of required substructures UBL itself leaves with no
+# required fields of their own also carry one further optional, identifying field purely
+# for readability (a party's name, an item's name): everything else below is genuinely
+# `required: true`.
+CertificateOfOrigin:
+  ID: '1' # An identifier for this document, assigned by the sender.
+  IssueDate: '2026-01-15' # The date, assigned by the sender, on which this document was issued.
+  CertificateOfOriginApplication: # Details of the application for a Certificate of Origin.
+    ReferenceID: '1' # An identifier for a reference as part of the CoO application.
+    CertificateType: Certificate of Origin # The type of CoO being applied for (Ordinary, Re-export, Commonwealth Preferential, etc.).
+    # The latest job number given to the CoO application. This is used by the system to keep track of
+    # amendments to or cancellation of any earlier applications.
+    OriginalJobID: '1'
+    Shipment: # The shipment of goods covered by the CoO.
+      ID: '1' # An identifier for this shipment.
+    # A party providing an endorsement to the CoO.
+    EndorserParty:
+      - # A code specifying the role of the party providing the endorsement (e.g., issuer, embassy,
+        # insurance, etc.).
+        RoleCode: '1'
+        # A number indicating the order of the endorsement provided by this party in the sequence in
+        # which endorsements are to be applied.
+        SequenceNumeric: '1'
+        Party: # The party endorsing the application.
+          # A name for this party.
+          PartyName:
+            - Name: Acme Corp # The name of the party.
+        # The individual representing the exporter who signs the Certificate of Origin application before
+        # submitting it to the issuer party.
+        SignatoryContact: {}
+    PreparationParty: # The party (individual, group, or body) that prepared this CoO application.
+      # A name for this party.
+      PartyName:
+        - Name: Acme Corp # The name of the party.
+    IssuerParty: # The organization authorized to issue the CoO requested by this application.
+      # A name for this party.
+      PartyName:
+        - Name: Acme Corp # The name of the party.
+    IssuingCountry: {} # The country where the requested CoO will be issued.
+  IssuerEndorsement: # Issuer Endorsement details.
+    DocumentID: '1' # An identifier for this endorsement.
+    ApprovalStatus: Approved # The status of this endorsement.
+    EndorserParty: # The type of party providing this endorsement.
+      # A code specifying the role of the party providing the endorsement (e.g., issuer, embassy,
+      # insurance, etc.).
+      RoleCode: '1'
+      # A number indicating the order of the endorsement provided by this party in the sequence in
+      # which endorsements are to be applied.
+      SequenceNumeric: '1'
+      Party: # The party endorsing the application.
+        # A name for this party.
+        PartyName:
+          - Name: Acme Corp # The name of the party.
+      # The individual representing the exporter who signs the Certificate of Origin application before
+      # submitting it to the issuer party.
+      SignatoryContact: {}

@@ -1,0 +1,46 @@
+# ProductActivity
+#
+# UBL 2.1's own definition (UBL-ProductActivity-2.1.xsd): "A document reporting the
+# movement of goods at specified retail locations for inventory tracking purposes."
+#
+# `ID`, `IssueDate`, `ActivityPeriod`, `SenderParty`, `ReceiverParty` and
+# `SupplyChainActivityDataLine` are the only elements `ProductActivity` marks `required:
+# true` at the top level (see src/Oasis/Doc/ProductActivity.php).
+#
+# Keys are the UBL element and attribute names, the same ones
+# `Derafu\Ubl\Trait\ArraySerializableTrait::fromArray()` reads, e.g.
+# `ProductActivity::fromArray(Yaml::parseFile(...)['ProductActivity'])`. A value with no attributes is a
+# plain scalar (`ID`, `IssueDate`); a value that has one, like an amount's currency, needs
+# the `@value`/`@attributes` form. Each field's comment below is UBL's own definition for
+# it (see the `ccts:Definition` of the matching type in `resources/xsd/2.1/`), not a
+# restatement of its name. A handful of required substructures UBL itself leaves with no
+# required fields of their own also carry one further optional, identifying field purely
+# for readability (a party's name, an item's name): everything else below is genuinely
+# `required: true`.
+ProductActivity:
+  ID: '1' # An identifier for this document, assigned by the sender.
+  IssueDate: '2026-01-15' # The date, assigned by the sender, on which this document was issued.
+  ActivityPeriod: # The period covered by this Product Activity report.
+    StartDate: '2026-01-15' # The date on which this period begins.
+  SenderParty: # The sender of the Product Activity.
+    # A name for this party.
+    PartyName:
+      - Name: Acme Corp # The name of the party.
+  ReceiverParty: # The receiver of the Product Activity.
+    # A name for this party.
+    PartyName:
+      - Name: Acme Corp # The name of the party.
+  # A line describing the movement of goods to a specific location.
+  SupplyChainActivityDataLine:
+    - ID: '1' # An identifier for this activity data line.
+      SupplyChainActivityTypeCode: '1' # A code signifying the type of supply chain activity.
+      # Either the location where the movement of goods is observed or the location from which the
+      # goods are moved.
+      ActivityOriginLocation: {}
+      # Sales information for an item to which this line applies.
+      SalesItem:
+        - Quantity: '1' # The quantity the given information are related to
+          Item: # The sales item itself.
+            # A short name optionally given to this item, such as a name from a catalogue, as distinct from a
+            # description.
+            Name: Widget

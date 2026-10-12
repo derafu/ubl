@@ -1,0 +1,50 @@
+# SelfBilledInvoice
+#
+# UBL 2.1's own definition (UBL-SelfBilledInvoice-2.1.xsd): "An Invoice document created
+# by the Customer (rather than the Supplier) in a Self Billing relationship."
+#
+# `ID`, `IssueDate`, `AccountingCustomerParty`, `AccountingSupplierParty`,
+# `LegalMonetaryTotal` and `InvoiceLine` are the only elements `SelfBilledInvoice` marks
+# `required: true` at the top level (see src/Oasis/Doc/SelfBilledInvoice.php).
+#
+# Keys are the UBL element and attribute names, the same ones
+# `Derafu\Ubl\Trait\ArraySerializableTrait::fromArray()` reads, e.g.
+# `SelfBilledInvoice::fromArray(Yaml::parseFile(...)['SelfBilledInvoice'])`. A value with no attributes is a
+# plain scalar (`ID`, `IssueDate`); a value that has one, like an amount's currency, needs
+# the `@value`/`@attributes` form. Each field's comment below is UBL's own definition for
+# it (see the `ccts:Definition` of the matching type in `resources/xsd/2.1/`), not a
+# restatement of its name. A handful of required substructures UBL itself leaves with no
+# required fields of their own also carry one further optional, identifying field purely
+# for readability (a party's name, an item's name): everything else below is genuinely
+# `required: true`.
+SelfBilledInvoice:
+  ID: '1' # An identifier for this document, assigned by the sender.
+  IssueDate: '2026-01-15' # The date, assigned by the sender, on which this document was issued.
+  AccountingCustomerParty: # The accounting customer party.
+    Party: # The customer party itself.
+      # A name for this party.
+      PartyName:
+        - Name: Acme Corp # The name of the party.
+  AccountingSupplierParty: # The accounting supplier party.
+    Party: # The supplier party itself.
+      # A name for this party.
+      PartyName:
+        - Name: Acme Corp # The name of the party.
+  # A set of totals associated with this Invoice that are required for the Invoice to be a legal
+  # document.
+  LegalMonetaryTotal:
+    PayableAmount: # The amount of the monetary total to be paid.
+      '@value': '100'
+      '@attributes':
+        currencyID: EUR
+  # A line describing an Invoice Item.
+  InvoiceLine:
+    - ID: '1' # An identifier for this invoice line.
+      LineExtensionAmount: # The total amount for this invoice line, including allowance charges but net of taxes.
+        '@value': '100'
+        '@attributes':
+          currencyID: EUR
+      Item: # The item associated with this invoice line.
+        # A short name optionally given to this item, such as a name from a catalogue, as distinct from a
+        # description.
+        Name: Widget

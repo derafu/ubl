@@ -1,0 +1,42 @@
+# StockAvailabilityReport
+#
+# UBL 2.1's own definition (UBL-StockAvailabilityReport-2.1.xsd): "A report on the
+# quantities of each item that are, or will be, in stock. This document is sent by a
+# Seller (for example a producer) to a Buyer (for example a retailer)."
+#
+# `ID`, `IssueDate`, `SellerSupplierParty`, `InventoryReportingParty` and
+# `StockAvailabilityReportLine` are the only elements `StockAvailabilityReport` marks
+# `required: true` at the top level (see src/Oasis/Doc/StockAvailabilityReport.php).
+#
+# Keys are the UBL element and attribute names, the same ones
+# `Derafu\Ubl\Trait\ArraySerializableTrait::fromArray()` reads, e.g.
+# `StockAvailabilityReport::fromArray(Yaml::parseFile(...)['StockAvailabilityReport'])`. A value with no attributes is a
+# plain scalar (`ID`, `IssueDate`); a value that has one, like an amount's currency, needs
+# the `@value`/`@attributes` form. Each field's comment below is UBL's own definition for
+# it (see the `ccts:Definition` of the matching type in `resources/xsd/2.1/`), not a
+# restatement of its name. A handful of required substructures UBL itself leaves with no
+# required fields of their own also carry one further optional, identifying field purely
+# for readability (a party's name, an item's name): everything else below is genuinely
+# `required: true`.
+StockAvailabilityReport:
+  ID: '1' # An identifier for this document, assigned by the sender.
+  IssueDate: '2026-01-15' # The date, assigned by the sender, on which this document was issued.
+  SellerSupplierParty: # The seller.
+    Party: # The supplier party itself.
+      # A name for this party.
+      PartyName:
+        - Name: Acme Corp # The name of the party.
+  # The party that will receive and use the Stock Availability Report (normally the branch for
+  # which the stock is reported).
+  InventoryReportingParty:
+    # A name for this party.
+    PartyName:
+      - Name: Acme Corp # The name of the party.
+  # A line representing a particular item of sale and associated with a line in the Catalogue.
+  StockAvailabilityReportLine:
+    - ID: '1' # An identifier for this stock availability line.
+      Quantity: '1' # The quantity of the item currently in stock.
+      Item: # The item associated with this stock availability report line.
+        # A short name optionally given to this item, such as a name from a catalogue, as distinct from a
+        # description.
+        Name: Widget
