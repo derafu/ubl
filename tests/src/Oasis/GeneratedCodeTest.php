@@ -68,6 +68,41 @@ final class GeneratedCodeTest extends TestCase
     }
 
     #[Test]
+    public function everyClassLivesInTheDirectoryOfItsOwnXmlNamespace(): void
+    {
+        // The generator puts everything that is not `Cbc` into `Cac`; patch-oasis.php moves the
+        // few classes of other UBL component families (extension, signature) out of it.
+        $namespaceOf = [
+            'Cac' => 'CAC',
+            'Cbc' => 'CBC',
+            'Ext' => 'EXT',
+            'Sac' => 'SAC',
+            'Sig' => 'SIG',
+        ];
+
+        $checked = 0;
+        foreach ($namespaceOf as $directory => $constant) {
+            foreach (glob(self::oasisDir() . "/$directory/*.php") ?: [] as $path) {
+                $source = file_get_contents($path);
+                $this->assertNotFalse($source);
+
+                if (preg_match('/#\[XmlType\(localName: \'\w+\', namespace: Ns::(\w+)\)\]/', $source, $match) !== 1) {
+                    $this->fail($path . ': has no #[XmlType] with an Ns:: namespace');
+                }
+
+                $this->assertSame(
+                    $constant,
+                    $match[1],
+                    $path . ": is declared in the PHP namespace of $directory but its XML namespace is Ns::{$match[1]}"
+                );
+                $checked++;
+            }
+        }
+
+        $this->assertGreaterThan(200, $checked, 'the directories were not scanned');
+    }
+
+    #[Test]
     public function documentRegistryGuardsItsRegexMatch(): void
     {
         $source = file_get_contents(self::oasisDir() . '/Xml/DocumentRegistry.php');

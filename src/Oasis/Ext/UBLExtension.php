@@ -10,7 +10,7 @@ declare(strict_types=1);
  * See LICENSE file for more details.
  */
 
-namespace Derafu\Ubl\Oasis\Cac;
+namespace Derafu\Ubl\Oasis\Ext;
 
 use Derafu\Ubl\Oasis\Cbc\Code;
 use Derafu\Ubl\Oasis\Cbc\Identifier;
@@ -111,7 +111,7 @@ final class UBLExtension implements JsonSerializable
                 'name' => 'ExtensionContent',
                 'kind' => 'element',
                 'list' => false,
-                'item' => 'Derafu\Ubl\Oasis\Cac\ExtensionContent',
+                'item' => 'Derafu\Ubl\Oasis\Ext\ExtensionContent',
                 'format' => null,
             ],
         ],

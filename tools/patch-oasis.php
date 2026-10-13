@@ -31,11 +31,14 @@ $files = new RegexIterator(
 );
 
 $totalChanged = 0;
+// First, and before anything that reads a path or reflects a class: every later step, including
+// the ARRAY_METADATA one, must see each class where it finally lives.
+$totalChanged += relocateForeignNamespaceClasses($oasisDir);
 $totalChanged += removeW3cMetaschemaEnums($oasisDir);
 $totalChanged += fixValidatorDocblocks($files);
 $totalChanged += fixTimeFormat(dirname(__DIR__) . '/src/Oasis');
 $totalChanged += fixDocumentRegistry(dirname(__DIR__) . '/src/Oasis/Xml/DocumentRegistry.php');
-$totalChanged += fixSignatureInformationSignatureType(dirname(__DIR__) . '/src/Oasis/Cac/SignatureInformation.php');
+$totalChanged += fixSignatureInformationSignatureType(dirname(__DIR__) . '/src/Oasis/Sac/SignatureInformation.php');
 $totalChanged += fixAnyWildcards($oasisDir);
 $totalChanged += addCopyrightHeader(dirname(__DIR__) . '/src/Oasis');
 $totalChanged += addArraySerializableTrait(dirname(__DIR__) . '/src/Oasis');
@@ -44,12 +47,124 @@ $totalChanged += addArrayMetadataConstant(dirname(__DIR__) . '/src/Oasis');
 fwrite(STDOUT, "patch-oasis: $totalChanged file(s) changed.\n");
 
 /**
+ * The generator puts every class that is not `Cbc` into `Cac`, including the few whose own
+ * XML namespace is not `CommonAggregateComponents` at all: the extension slot (`ext:`), and the
+ * signature envelope (`sig:`, `sac:`). Their PHP namespace then claims a UBL component family
+ * they do not belong to (`Cac\UBLExtensions` is a `CommonExtensionComponents` type). This moves
+ * each one to the directory named after its own XML namespace prefix, the same naming `Cac` and
+ * `Cbc` already follow: `Ext`, `Sac`, `Sig`.
+ *
+ * Runs before every other step because they all work from a class's path (and the metadata step
+ * reflects it): a class moved later would be read from a place it no longer is. Safe to run on
+ * an already corrected tree, and over a freshly generated one (the generator re-emits these
+ * classes into `Cac` on every run, so an existing target is overwritten).
+ *
+ * References from other classes are plain `use` statements (the metadata, with its fully
+ * qualified names, is computed after this step, from the moved classes). A class that used one
+ * of the moved ones without a `use`, because they shared a namespace, gets one added.
+ *
+ * @return int Number of files changed.
+ */
+function relocateForeignNamespaceClasses(string $oasisDir): int
+{
+    $moves = [
+        'UBLExtensions' => 'Ext',
+        'UBLExtension' => 'Ext',
+        'ExtensionContent' => 'Ext',
+        'SignatureInformation' => 'Sac',
+        'UBLDocumentSignatures' => 'Sig',
+    ];
+    $base = 'Derafu\\Ubl\\Oasis\\';
+    $changed = 0;
+
+    foreach ($moves as $class => $target) {
+        $from = "$oasisDir/Cac/$class.php";
+        $to = "$oasisDir/$target/$class.php";
+
+        if (!is_file($from)) {
+            if (!is_file($to)) {
+                fwrite(STDERR, "patch-oasis: neither $from nor $to exists (generator output changed?)\n");
+                exit(1);
+            }
+
+            continue;
+        }
+
+        if (!is_dir(dirname($to))) {
+            mkdir(dirname($to), 0775, true);
+        }
+
+        $source = (string) file_get_contents($from);
+        $patched = str_replace("namespace {$base}Cac;", "namespace {$base}{$target};", $source);
+        file_put_contents($to, $patched);
+        unlink($from);
+        $changed++;
+    }
+
+    $files = new RegexIterator(
+        new RecursiveIteratorIterator(new RecursiveDirectoryIterator($oasisDir)),
+        '/\.php$/'
+    );
+
+    foreach ($files as $file) {
+        $path = $file->getPathname();
+        $source = (string) file_get_contents($path);
+        $patched = $source;
+
+        // Imports of a moved class, wherever they are.
+        foreach ($moves as $class => $target) {
+            $patched = str_replace(
+                "use {$base}Cac\\{$class};",
+                "use {$base}{$target}\\{$class};",
+                $patched
+            );
+        }
+
+        // A moved class that used a class it no longer shares a namespace with, or a class left
+        // in `Cac` that used a moved one, without importing it (same namespace before).
+        $ownNamespace = preg_match('/^namespace ([^;]+);/m', $patched, $m) === 1 ? $m[1] : null;
+        foreach ($moves as $class => $target) {
+            $targetNamespace = $base . $target;
+            $import = "use {$targetNamespace}\\{$class};";
+            if ($ownNamespace === $targetNamespace || str_contains($patched, $import . "\n")) {
+                continue;
+            }
+            if (preg_match('/(?<![\w\\\\])' . $class . '(?:::class|\s+\$)/', $patched) !== 1) {
+                continue;
+            }
+
+            $patched = preg_replace_callback(
+                '/^(namespace [^;]+;\n\n)/m',
+                static fn (array $match): string => $match[1] . $import . "\n",
+                $patched,
+                1
+            );
+        }
+
+        if ($patched !== $source) {
+            file_put_contents($path, $patched);
+            $changed++;
+        }
+    }
+
+    foreach (array_keys($moves) as $class) {
+        assertNoneMatch(
+            $oasisDir,
+            '/' . preg_quote("{$base}Cac\\{$class}", '/') . '(?!\w)/',
+            "still references {$base}Cac\\{$class}, which was moved to the directory of its own XML namespace"
+        );
+    }
+
+    return $changed;
+}
+
+/**
  * The generator does not only emit enums for UBL's own types (always PascalCase): it also
  * leaks a handful of W3C XML Schema meta-schema utility types - the vocabulary XSD uses to
  * describe itself (`block`/`final`/`elementFormDefault` and the like), not UBL business data.
  * Those are always lowerCamelCase in the real W3C spec (`derivationControl`, `formChoice`, ...)
  * and each carries the literal annotation "A utility type, not for public use" copied from
- * that spec. Confirmed unused anywhere in `Cac`/`Cbc`/`Doc`: nothing in this package's own
+ * that spec. Confirmed unused anywhere in `Cac`/`Cbc`/`Doc`/`Ext`/`Sac`/`Sig`: nothing in this package's own
  * model ever had a reason to reference the vocabulary XSD uses to describe itself.
  *
  * Casing alone is only ever a proxy for "came from the W3C XML Schema namespace, not a UBL
@@ -395,7 +510,7 @@ function addCopyrightHeader(string $dir): int
 /**
  * Adds `Derafu\Ubl\Trait\ArraySerializableTrait` (`toArray()`, `fromArray()`,
  * `jsonSerialize()`, keyed by the UBL element/attribute names) to every generated class -
- * everything under `Cbc`, `Cac` and `Doc`. Not `Xml/DocumentRegistry` (a lookup table, not a
+ * everything under `Cbc`, `Cac`, `Doc`, `Ext`, `Sac` and `Sig`. Not `Xml/DocumentRegistry` (a lookup table, not a
  * UBL value) and not `Enum` (a plain `BackedEnum` already serializes as its own scalar
  * value).
  */

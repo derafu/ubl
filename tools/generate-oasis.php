@@ -11,7 +11,7 @@ declare(strict_types=1);
  */
 
 /**
- * (Re)generates Derafu\Ubl\Oasis\{Cbc,Cac,Doc,Enum} from the official OASIS UBL XSD, with
+ * (Re)generates Derafu\Ubl\Oasis\{Cbc,Cac,Doc,Enum,Ext,Sac,Sig} from the official OASIS UBL XSD, with
  * xterr/php-ubl-generator. Downloads the XSD into resources/xsd/<version>/ if not already
  * there, and generates from that same committed copy.
  *

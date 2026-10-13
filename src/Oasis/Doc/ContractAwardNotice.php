@@ -23,9 +23,9 @@ use Derafu\Ubl\Oasis\Cac\Signature;
 use Derafu\Ubl\Oasis\Cac\TenderingProcess;
 use Derafu\Ubl\Oasis\Cac\TenderingTerms;
 use Derafu\Ubl\Oasis\Cac\TenderResult;
-use Derafu\Ubl\Oasis\Cac\UBLExtensions;
 use Derafu\Ubl\Oasis\Cbc\Identifier;
 use Derafu\Ubl\Oasis\Cbc\Text;
+use Derafu\Ubl\Oasis\Ext\UBLExtensions;
 use Derafu\Ubl\Trait\ArraySerializableTrait;
 use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
@@ -55,7 +55,7 @@ final class ContractAwardNotice implements JsonSerializable
                 'name' => 'UBLExtensions',
                 'kind' => 'element',
                 'list' => false,
-                'item' => 'Derafu\Ubl\Oasis\Cac\UBLExtensions',
+                'item' => 'Derafu\Ubl\Oasis\Ext\UBLExtensions',
                 'format' => null,
             ],
             1 => [

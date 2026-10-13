@@ -10,7 +10,7 @@ declare(strict_types=1);
  * See LICENSE file for more details.
  */
 
-namespace Derafu\Ubl\Oasis\Cac;
+namespace Derafu\Ubl\Oasis\Ext;
 
 use Derafu\Ubl\Trait\ArraySerializableTrait;
 use JsonSerializable;

@@ -10,8 +10,9 @@ declare(strict_types=1);
  * See LICENSE file for more details.
  */
 
-namespace Derafu\Ubl\Oasis\Cac;
+namespace Derafu\Ubl\Oasis\Sig;
 
+use Derafu\Ubl\Oasis\Sac\SignatureInformation;
 use Derafu\Ubl\Trait\ArraySerializableTrait;
 use JsonSerializable;
 use Xterr\UBL\Xml\Mapping\XmlElement;
@@ -39,7 +40,7 @@ final class UBLDocumentSignatures implements JsonSerializable
                 'name' => 'SignatureInformation',
                 'kind' => 'element',
                 'list' => true,
-                'item' => 'Derafu\Ubl\Oasis\Cac\SignatureInformation',
+                'item' => 'Derafu\Ubl\Oasis\Sac\SignatureInformation',
                 'format' => null,
             ],
         ],

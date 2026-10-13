@@ -10,7 +10,7 @@ declare(strict_types=1);
  * See LICENSE file for more details.
  */
 
-namespace Derafu\Ubl\Oasis\Cac;
+namespace Derafu\Ubl\Oasis\Ext;
 
 use Derafu\Ubl\Trait\ArraySerializableTrait;
 use JsonSerializable;
@@ -36,7 +36,7 @@ final class UBLExtensions implements JsonSerializable
                 'name' => 'UBLExtension',
                 'kind' => 'element',
                 'list' => true,
-                'item' => 'Derafu\Ubl\Oasis\Cac\UBLExtension',
+                'item' => 'Derafu\Ubl\Oasis\Ext\UBLExtension',
                 'format' => null,
             ],
         ],

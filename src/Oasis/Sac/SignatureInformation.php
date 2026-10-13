@@ -10,7 +10,7 @@ declare(strict_types=1);
  * See LICENSE file for more details.
  */
 
-namespace Derafu\Ubl\Oasis\Cac;
+namespace Derafu\Ubl\Oasis\Sac;
 
 use Derafu\Ubl\Oasis\Cbc\Identifier;
 use Derafu\Ubl\Trait\ArraySerializableTrait;
