@@ -29,13 +29,16 @@ use Derafu\Ubl\Oasis\Ext\UBLExtension;
 use Derafu\Ubl\Oasis\Ext\UBLExtensions;
 use Derafu\Ubl\Oasis\Xml\DocumentRegistry;
 use Derafu\Ubl\Service\Deserializer;
+use Derafu\Ubl\Service\ExtensionContentCodecs;
+use Derafu\Ubl\Service\Format\EmptyObjects;
 use Derafu\Ubl\Service\Format\JsonHandler;
 use Derafu\Ubl\Service\Format\XmlHandler;
 use Derafu\Ubl\Service\Format\YamlHandler;
 use Derafu\Ubl\Service\FormatHandlerFactory;
+use Derafu\Ubl\Service\Normalizer;
 use Derafu\Ubl\Service\RootElementResolver;
-use Derafu\Ubl\Service\SchemaValidator;
 use Derafu\Ubl\Service\Serializer;
+use Derafu\Ubl\Service\XmlSchemaValidator;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\UsesClass;
@@ -57,6 +60,7 @@ use PHPUnit\Framework\TestCase;
 #[UsesClass(Identifier::class)]
 #[UsesClass(Item::class)]
 #[UsesClass(JsonHandler::class)]
+#[UsesClass(EmptyObjects::class)]
 #[UsesClass(LineItem::class)]
 #[UsesClass(MonetaryTotal::class)]
 #[UsesClass(Party::class)]
@@ -64,7 +68,7 @@ use PHPUnit\Framework\TestCase;
 #[UsesClass(Quotation::class)]
 #[UsesClass(QuotationLine::class)]
 #[UsesClass(RootElementResolver::class)]
-#[UsesClass(SchemaValidator::class)]
+#[UsesClass(XmlSchemaValidator::class)]
 #[UsesClass(Serializer::class)]
 #[UsesClass(SupplierParty::class)]
 #[UsesClass(Text::class)]
@@ -72,6 +76,8 @@ use PHPUnit\Framework\TestCase;
 #[UsesClass(UBLExtensions::class)]
 #[UsesClass(XmlHandler::class)]
 #[UsesClass(YamlHandler::class)]
+#[UsesClass(ExtensionContentCodecs::class)]
+#[UsesClass(Normalizer::class)]
 final class UblExtensionsTest extends TestCase
 {
     /**
@@ -108,7 +114,7 @@ final class UblExtensionsTest extends TestCase
             $xml
         );
 
-        (new SchemaValidator())->validate($xml);
+        (new XmlSchemaValidator())->validate($xml);
 
         $this->addToAssertionCount(1);
     }
@@ -133,7 +139,7 @@ final class UblExtensionsTest extends TestCase
         $fromYaml = $deserializer->deserialize($serializer->serialize($fromJson, 'yaml'), 'yaml');
         $finalXml = $serializer->serialize($fromYaml, 'xml');
 
-        (new SchemaValidator())->validate($finalXml);
+        (new XmlSchemaValidator())->validate($finalXml);
 
         $final = $deserializer->deserialize($finalXml, 'xml');
         $this->assertInstanceOf(Quotation::class, $final);

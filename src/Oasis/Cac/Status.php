@@ -132,7 +132,7 @@ final class Status implements JsonSerializable
                 'name' => 'Condition',
                 'kind' => 'element',
                 'list' => true,
-                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'item' => 'Derafu\Ubl\Oasis\Cac\Condition',
                 'format' => null,
             ],
         ],
@@ -174,8 +174,8 @@ final class Status implements JsonSerializable
     #[XmlElement(name: 'ReliabilityPercent', namespace: Ns::CBC)]
     private ?Numeric $reliabilityPercent = null;
 
-    /** @var list<Text> */
-    #[XmlElement(name: 'Condition', namespace: Ns::CAC, type: Text::class)]
+    /** @var list<Condition> */
+    #[XmlElement(name: 'Condition', namespace: Ns::CAC, type: Condition::class)]
     private array $conditions = [];
 
     public function getConditionCode(): ?Code
@@ -381,7 +381,7 @@ final class Status implements JsonSerializable
     }
 
     /**
-     * @return list<Text>
+     * @return list<Condition>
      */
     public function getConditions(): array
     {
@@ -389,7 +389,7 @@ final class Status implements JsonSerializable
     }
 
     /**
-     * @param list<Text> $conditions
+     * @param list<Condition> $conditions
      */
     public function setConditions(array $conditions): self
     {
@@ -398,7 +398,7 @@ final class Status implements JsonSerializable
         return $this;
     }
 
-    public function addToConditions(Text $item): self
+    public function addToConditions(Condition $item): self
     {
         $this->conditions[] = $item;
         return $this;
@@ -410,9 +410,9 @@ final class Status implements JsonSerializable
     private static function validateConditions(array $values): void
     {
         foreach ($values as $value) {
-            if (!$value instanceof Text) {
+            if (!$value instanceof Condition) {
                 throw new \InvalidArgumentException(
-                    sprintf('Expected instance of Text, got %s', get_debug_type($value)),
+                    sprintf('Expected instance of Condition, got %s', get_debug_type($value)),
                 );
             }
         }

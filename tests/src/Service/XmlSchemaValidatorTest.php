@@ -26,17 +26,18 @@ use Derafu\Ubl\Oasis\Cbc\Identifier;
 use Derafu\Ubl\Oasis\Cbc\Text;
 use Derafu\Ubl\Oasis\Doc\Quotation;
 use Derafu\Ubl\Oasis\Xml\DocumentRegistry;
+use Derafu\Ubl\Service\ExtensionContentCodecs;
 use Derafu\Ubl\Service\Format\XmlHandler;
 use Derafu\Ubl\Service\FormatHandlerFactory;
 use Derafu\Ubl\Service\RootElementResolver;
-use Derafu\Ubl\Service\SchemaValidator;
 use Derafu\Ubl\Service\Serializer;
+use Derafu\Ubl\Service\XmlSchemaValidator;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(SchemaValidator::class)]
+#[CoversClass(XmlSchemaValidator::class)]
 #[UsesClass(Amount::class)]
 #[UsesClass(DocumentRegistry::class)]
 #[UsesClass(FormatHandlerFactory::class)]
@@ -54,7 +55,8 @@ use PHPUnit\Framework\TestCase;
 #[UsesClass(Text::class)]
 #[UsesClass(ValidationException::class)]
 #[UsesClass(XmlHandler::class)]
-final class SchemaValidatorTest extends TestCase
+#[UsesClass(ExtensionContentCodecs::class)]
+final class XmlSchemaValidatorTest extends TestCase
 {
     /**
      * QuotationLine is required (at least one), so this document - missing it entirely - is
@@ -69,7 +71,7 @@ final class SchemaValidatorTest extends TestCase
 
         $this->expectException(ValidationException::class);
 
-        (new SchemaValidator())->validate($xml);
+        (new XmlSchemaValidator())->validate($xml);
     }
 
     #[Test]
@@ -77,17 +79,7 @@ final class SchemaValidatorTest extends TestCase
     {
         $xml = (new Serializer())->serialize($this->quotation(), 'xml');
 
-        (new SchemaValidator())->validate($xml);
-
-        $this->addToAssertionCount(1);
-    }
-
-    #[Test]
-    public function anExplicitClassSkipsAutoDetection(): void
-    {
-        $xml = (new Serializer())->serialize($this->quotation(), 'xml');
-
-        (new SchemaValidator())->validate($xml, Quotation::class);
+        (new XmlSchemaValidator())->validate($xml);
 
         $this->addToAssertionCount(1);
     }
@@ -97,7 +89,7 @@ final class SchemaValidatorTest extends TestCase
     {
         $this->expectException(ValidationException::class);
 
-        (new SchemaValidator())->validate('not xml at all <<<');
+        (new XmlSchemaValidator())->validate('not xml at all <<<');
     }
 
     #[Test]
@@ -105,22 +97,7 @@ final class SchemaValidatorTest extends TestCase
     {
         $this->expectException(ValidationException::class);
 
-        (new SchemaValidator())->validate('<Bogus xmlns="urn:x"/>');
-    }
-
-    /**
-     * `stdClass` is a real class, just not an `Oasis\Doc\*` one: enough to reach
-     * `xsdPathFor()`'s own guard, since the class itself is not what matters to resolve an XSD
-     * path, only its short name is.
-     */
-    #[Test]
-    public function aClassWithNoBundledXsdThrows(): void
-    {
-        $xml = (new Serializer())->serialize($this->quotation(), 'xml');
-
-        $this->expectException(ValidationException::class);
-
-        (new SchemaValidator())->validate($xml, \stdClass::class);
+        (new XmlSchemaValidator())->validate('<Bogus xmlns="urn:x"/>');
     }
 
     /**
@@ -133,7 +110,7 @@ final class SchemaValidatorTest extends TestCase
         $xml = (new Serializer())->serialize($this->quotationWithNoLines(), 'xml');
 
         try {
-            (new SchemaValidator())->validate($xml);
+            (new XmlSchemaValidator())->validate($xml);
             $this->fail('Expected a ValidationException.');
         } catch (ValidationException $e) {
             $this->assertNotEmpty($e->getErrors());

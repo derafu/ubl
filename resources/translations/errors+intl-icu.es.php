@@ -25,6 +25,22 @@ return [
     'Unknown UBL document type "{key}".' =>
         'Tipo de documento UBL desconocido: "{key}".',
 
+    // Array wire format: the shape of the data (model-based JSON of the OASIS note).
+    'The value of {class} must have a "_" property with its content.' =>
+        'El valor de {class} debe tener una propiedad "_" con su contenido.',
+    'The "_" of {class} must be a scalar, got {type}.' =>
+        'El "_" de {class} debe ser un escalar, se encontró {type}.',
+    '"{property}" of {class} must be an array of exactly one item.' =>
+        '"{property}" de {class} debe ser un arreglo de exactamente un elemento.',
+    '"{property}" of {class} must be an array, got {type}.' =>
+        '"{property}" de {class} debe ser un arreglo, se encontró {type}.',
+    '"{property}" of {class} must be an object, got {type}.' =>
+        '"{property}" de {class} debe ser un objeto, se encontró {type}.',
+    '"{property}" of {class} must have a "_" property with its content.' =>
+        '"{property}" de {class} debe tener una propiedad "_" con su contenido.',
+    'The content of the extension "{uri}" is not XML fragments and no codec supports it.' =>
+        'El contenido de la extensión "{uri}" no son fragmentos XML y ningún codec lo soporta.',
+
     // JSON.
     'Could not encode {class} as JSON: {message}' =>
         'No se pudo codificar {class} como JSON: {message}',
@@ -56,4 +72,16 @@ return [
         '{class} no valida contra su esquema UBL: {errors}',
     'No bundled XSD for "{class}" ("{path}" does not exist).' =>
         'No hay un XSD empaquetado para "{class}" ("{path}" no existe).',
+    'No bundled JSON schema for "{class}" ("{path}" does not exist).' =>
+        'No hay un esquema JSON empaquetado para "{class}" ("{path}" no existe).',
+    'Could not turn the data into JSON to validate it: {message}' =>
+        'No se pudieron convertir los datos a JSON para validarlos: {message}',
+    'Validating JSON or YAML needs the "opis/json-schema" package: composer require opis/json-schema.' =>
+        'Validar JSON o YAML requiere el paquete "opis/json-schema": composer require opis/json-schema.',
+    'Could not resolve a UBL document type from the data: expected exactly one top-level key naming it, got {count}.' =>
+        'No se pudo resolver un tipo de documento UBL a partir de los datos: se esperaba exactamente una clave de primer nivel que lo nombre, hay {count}.',
+    'The content is a {actual}, not the {expected} that was asked for.' =>
+        'El contenido es un {actual}, no el {expected} que se pidió.',
+    'Unknown deserialization option "{option}".' =>
+        'Opción de deserialización desconocida "{option}".',
 ];

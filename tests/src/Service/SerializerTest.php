@@ -26,16 +26,19 @@ use Derafu\Ubl\Oasis\Cbc\Amount;
 use Derafu\Ubl\Oasis\Cbc\Identifier;
 use Derafu\Ubl\Oasis\Cbc\Text;
 use Derafu\Ubl\Oasis\Doc\Quotation;
-use Derafu\Ubl\Service\Format\ArrayWireFormatTrait;
+use Derafu\Ubl\Oasis\Xml\DocumentRegistry;
+use Derafu\Ubl\Service\ExtensionContentCodecs;
+use Derafu\Ubl\Service\Format\ArrayFormatHandler;
+use Derafu\Ubl\Service\Format\EmptyObjects;
 use Derafu\Ubl\Service\Format\JsonHandler;
 use Derafu\Ubl\Service\Format\XmlHandler;
 use Derafu\Ubl\Service\Format\YamlHandler;
 use Derafu\Ubl\Service\FormatHandlerFactory;
+use Derafu\Ubl\Service\Normalizer;
 use Derafu\Ubl\Service\Serializer;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\UsesClass;
-use PHPUnit\Framework\Attributes\UsesTrait;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Serializer::class)]
@@ -55,38 +58,47 @@ use PHPUnit\Framework\TestCase;
 #[UsesClass(Text::class)]
 #[UsesClass(XmlHandler::class)]
 #[UsesClass(YamlHandler::class)]
-#[UsesTrait(ArrayWireFormatTrait::class)]
+#[UsesClass(ArrayFormatHandler::class)]
+#[UsesClass(EmptyObjects::class)]
+#[UsesClass(ExtensionContentCodecs::class)]
+#[UsesClass(Normalizer::class)]
+#[UsesClass(DocumentRegistry::class)]
 final class SerializerTest extends TestCase
 {
     /**
-     * JSON wraps the document's own toArray() under a single top-level key naming its type,
-     * the same convention `yaml` uses so both can be auto-detected on the way back.
+     * JSON is the model-based representation of the OASIS note: the apex with the namespaces
+     * (`_D`, `_A`, `_B`) and the property named as the document, whose leaves are objects with
+     * their content under `_` (numbers as JSON numbers) and their attributes next to it.
      */
     #[Test]
-    public function serializesToJsonWrappedUnderTheDocumentTypeKey(): void
+    public function serializesToJsonInTheModelBasedRepresentationOfTheOasisNote(): void
     {
         $json = (new Serializer())->serialize($this->quotation(), 'json');
 
         $this->assertJsonStringEqualsJsonString(
-            '{"Quotation":{"ID":"1","IssueDate":"2026-01-15",'
-            . '"SellerSupplierParty":{"Party":{"PartyName":[{"Name":"Acme Corp"}]}},'
-            . '"QuotedMonetaryTotal":{"PayableAmount":{"@value":"100","@attributes":{"currencyID":"EUR"}}},'
-            . '"QuotationLine":[{"ID":"1","LineItem":{"ID":"1",'
-            . '"Price":{"PriceAmount":{"@value":"100","@attributes":{"currencyID":"EUR"}}},'
-            . '"Item":{"Name":"Widget"}}}]}}',
+            '{"_D":"urn:oasis:names:specification:ubl:schema:xsd:Quotation-2",'
+            . '"_A":"urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2",'
+            . '"_B":"urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2",'
+            . '"Quotation":{"ID":{"_":"1"},"IssueDate":{"_":"2026-01-15"},'
+            . '"SellerSupplierParty":{"Party":{"PartyName":[{"Name":{"_":"Acme Corp"}}]}},'
+            . '"QuotedMonetaryTotal":{"PayableAmount":{"_":100,"currencyID":"EUR"}},'
+            . '"QuotationLine":[{"ID":{"_":"1"},"LineItem":{"ID":{"_":"1"},'
+            . '"Price":{"PriceAmount":{"_":100,"currencyID":"EUR"}},'
+            . '"Item":{"Name":{"_":"Widget"}}}}]}}',
             $json
         );
     }
 
     /**
-     * Same wrapping convention as JSON, in YAML's own syntax.
+     * The same structure as JSON, in YAML's own syntax.
      */
     #[Test]
-    public function serializesToYamlWrappedUnderTheDocumentTypeKey(): void
+    public function serializesToYamlWithTheSameStructureAsJson(): void
     {
         $yaml = (new Serializer())->serialize($this->quotation(), 'yaml');
 
-        $this->assertStringStartsWith("Quotation:\n", $yaml);
+        $this->assertStringStartsWith("_D: 'urn:oasis:names:specification:ubl:schema:xsd:Quotation-2'\n", $yaml);
+        $this->assertStringContainsString("\nQuotation:\n", $yaml);
         $this->assertStringContainsString("  SellerSupplierParty:\n", $yaml);
         $this->assertStringContainsString("currencyID: EUR\n", $yaml);
     }

@@ -25,12 +25,13 @@ interface FormatHandlerInterface
     /**
      * Converts a string in this format back into a document.
      *
-     * When `$class` is `null`, the target class is resolved from the content itself (the XML
-     * root element, or the single top-level key of the decoded JSON/YAML).
+     * The target class is resolved from the content itself (the XML root element, or the single
+     * top-level key of the decoded JSON/YAML).
      *
-     * @param class-string|null $class
+     * @param array{validate?: bool} $options See `DeserializerInterface` (its `class` option is
+     * checked by the `Deserializer`, not by the handlers).
      */
-    public function deserialize(string $content, ?string $class = null): object;
+    public function deserialize(string $content, array $options = []): object;
 
     /**
      * The format name this handler is registered under (`json`, `yaml`, `xml`).

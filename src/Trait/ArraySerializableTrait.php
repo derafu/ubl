@@ -15,11 +15,34 @@ namespace Derafu\Ubl\Trait;
 use BackedEnum;
 use DateTimeImmutable;
 use DateTimeZone;
+use Derafu\Ubl\Exception\DeserializationException;
+use Derafu\Ubl\Oasis\Cbc\Amount;
+use Derafu\Ubl\Oasis\Cbc\Measure;
+use Derafu\Ubl\Oasis\Cbc\Numeric;
+use Derafu\Ubl\Oasis\Cbc\Quantity;
 use Exception;
 
 /**
- * `toArray()`, `fromArray()` and `jsonSerialize()` for an `Oasis` class, keyed by the UBL
- * element and attribute names (the same ones the XML uses), not by the PHP property name.
+ * `toArray()`, `fromArray()` and `jsonSerialize()` for an `Oasis` class, in the model-based
+ * JSON representation of "UBL 2.1 JSON Alternative Representation" v2.0 (OASIS Committee Note
+ * 01, https://docs.oasis-open.org/ubl/UBL-2.1-JSON/v2.0/cn01/): keyed by the UBL element names
+ * (the same ones the XML uses), not by the PHP property name. `Service\Format\JsonHandler` and
+ * `YamlHandler` add the apex of that note (`_D`, `_A`, `_B`, `_E` and the document key).
+ *
+ * The rules this trait applies, all from the note:
+ *
+ *  - A BBIE (a leaf) is always an object: its content under the `_` property and its
+ *    supplementary components (XML attributes, `currencyID`, `unitCode`...) as sibling
+ *    properties: `{"_": 100.0, "currencyID": "CAD"}`. Never a bare scalar.
+ *  - Model-based cardinality: a property whose maximum cardinality is unbounded is an array
+ *    (even with one item); one that is bounded to 1 is the object itself.
+ *  - Typing: the content of an `Amount`, `Quantity`, `Measure` or `Numeric` is a JSON number,
+ *    an indicator is a boolean; every other content (dates and times included) is a string.
+ *  - The extension scaffolding (`UBLExtensions` and everything in `Oasis\Ext`) is always made of
+ *    arrays of exactly one item, as the note's schemas define it, even in model-based JSON.
+ *  - What is inside `ExtensionContent` is out of the scope of the note ("trading partners must
+ *    agree"): here it is the list of the XML fragments under `any`, as strings, which
+ *    `Service\ExtensionContentCodecs` can turn into something else per extension.
  *
  * None of it uses reflection: `tools/patch-oasis.php` reads each class's `#[XmlElement]`/
  * `#[XmlAttribute]`/`#[XmlValue]` attributes once, at generation time, and writes the result
@@ -27,11 +50,8 @@ use Exception;
  * called by name (`get`/`set` + the property name from that constant), never a raw property
  * access: `fromArray()` goes through the same `validate*()` guard a direct call would.
  *
- * A class with an `#[XmlValue]` property (`Identifier`, `Amount`, `Text`...) is a value with
- * attributes, not a list of elements: `toArray()` gives it as `['@value' => ..., '@attributes'
- * => [...]]`. A parent embeds that value as the plain scalar when it has no attributes, and
- * only keeps the `@value`/`@attributes` shape when it does - `fromArray()` accepts either form
- * back, so a plain `['ID' => 'Q-1']` and the attribute-bearing form both work.
+ * `fromArray()` only reads that representation. Tolerating other shapes (the legacy-based
+ * form of the note, bare scalars...) is the job of `Service\Normalizer`, before it gets here.
  */
 trait ArraySerializableTrait
 {
@@ -47,6 +67,7 @@ trait ArraySerializableTrait
 
     /**
      * @param array<string, mixed> $data
+     * @throws DeserializationException When `$data` is not shaped as the note says.
      */
     public static function fromArray(array $data): static
     {
@@ -76,12 +97,10 @@ trait ArraySerializableTrait
     {
         $attributes = [];
         $value = null;
-        $format = null;
 
         foreach (self::ARRAY_METADATA['properties'] as $property) {
             if ($property['kind'] === 'value') {
                 $value = self::get($this, $property['property']);
-                $format = $property['format'];
             } elseif ($property['kind'] === 'attribute') {
                 $raw = self::get($this, $property['property']);
                 if ($raw !== null) {
@@ -90,22 +109,24 @@ trait ArraySerializableTrait
             }
         }
 
-        return ['@value' => self::exportScalar($value, $format), '@attributes' => $attributes];
+        // An element that is there with no content (`<cbc:ID/>`) is the empty string: the note
+        // asks for the content of every leaf, and its schemas for a string.
+        return ['_' => self::isNumericValueType() ? self::exportNumber($value) ?? '' : $value ?? ''] + $attributes;
     }
 
     /**
      * A property is included whenever it was actually set, never based on whether its own
      * exported shape happens to be empty: an aggregate present but with every field of its own
      * empty (`<cac:Item/>`) still exports as `[]`, which is not the same as the property never
-     * having been set at all - the same distinction `exportSingle()` makes for a value leaf.
-     * `fromArray()` already treats `[]` as "a real but empty object", via the same `fromArray()`
-     * every nested class gets from this trait.
+     * having been set at all. `fromArray()` already treats `[]` as "a real but empty object",
+     * via the same `fromArray()` every nested class gets from this trait.
      *
      * @return array<string, mixed>
      */
     private function elementsToArray(): array
     {
         $result = [];
+        $scaffolding = self::isScaffolding(static::class);
 
         foreach (self::ARRAY_METADATA['properties'] as $property) {
             if ($property['name'] === null) {
@@ -118,64 +139,45 @@ trait ArraySerializableTrait
                 if (!is_array($raw) || $raw === []) {
                     continue;
                 }
-                $result[$property['name']] = self::exportList($raw, $property['format']);
+                $result[$property['name']] = array_values(array_map(
+                    fn (mixed $item): mixed => self::exportSingle($item, $property),
+                    $raw
+                ));
             } else {
                 if ($raw === null) {
                     continue;
                 }
-                $result[$property['name']] = self::exportOne($raw, $property['kind'], $property['format']);
+                $exported = self::exportSingle($raw, $property);
+                // The scaffolding of the extensions is arrays of one item, in every mode.
+                $result[$property['name']] = $scaffolding || self::isScaffolding($property['item'])
+                    ? [$exported]
+                    : $exported;
             }
         }
 
         return $result;
     }
 
-    private static function exportList(mixed $raw, ?string $format): mixed
-    {
-        if (!is_array($raw) || $raw === []) {
-            return null;
-        }
-
-        return array_values(array_map(
-            fn (mixed $item): mixed => self::exportSingle($item, $format),
-            $raw
-        ));
-    }
-
-    private static function exportOne(mixed $raw, string $kind, ?string $format): mixed
-    {
-        if ($raw === null) {
-            return null;
-        }
-
-        return $kind === 'attribute' ? self::exportScalar($raw, null) : self::exportSingle($raw, $format);
-    }
-
     /**
-     * A leaf with no attributes simplifies to its bare `@value` - except when that value is
-     * itself `null`: the leaf object is still there (a required property genuinely never set
-     * would already have returned `null` in `exportOne()`, before even reaching here), it is
-     * just empty, the same as an XML element present with no content (`<cbc:ID/>`). Keeping the
-     * `@value`/`@attributes` shape in that case is what lets `fromArray()` tell "present but
-     * empty" apart from "absent" and reconstruct the same empty-but-set object, instead of
-     * leaving a required property genuinely uninitialized - which `ArraySerializableTrait`
-     * itself tolerates, but `Xterr\UBL\Xml\XmlSerializer` does not.
+     * @param array{kind: string, item: ?string, format: ?string} $property
      */
-    private static function exportSingle(mixed $raw, ?string $format): mixed
+    private static function exportSingle(mixed $raw, array $property): mixed
     {
         if (is_object($raw) && method_exists($raw, 'toArray')) {
-            /** @var array<string, mixed> $exported */
-            $exported = $raw->toArray();
-            $attributes = $exported['@attributes'] ?? [];
-
-            if (array_key_exists('@value', $exported) && $attributes === [] && $exported['@value'] !== null) {
-                return $exported['@value'];
-            }
-
-            return $exported;
+            return $raw->toArray();
         }
 
-        return self::exportScalar($raw, $format);
+        if ($property['kind'] === 'attribute') {
+            return self::exportScalar($raw, null);
+        }
+
+        // A fragment of XML of a wildcard (`xs:any`): kept as the string it is.
+        if ($property['item'] === 'string') {
+            return $raw;
+        }
+
+        // A leaf that is not a class of its own (a date, a boolean) is still a BBIE.
+        return ['_' => self::exportScalar($raw, $property['format'])];
     }
 
     private static function exportScalar(mixed $raw, ?string $format): mixed
@@ -187,19 +189,85 @@ trait ArraySerializableTrait
         };
     }
 
-    private static function hydrateValue(object $instance, mixed $data): void
+    /**
+     * The decimal text of a numeric content, as the JSON number it is. A text that is not a
+     * number (an invalid document being converted anyway) stays as it is, never lost.
+     */
+    private static function exportNumber(mixed $value): mixed
     {
-        $value = is_array($data) ? ($data['@value'] ?? null) : $data;
-        $rawAttributes = is_array($data) ? ($data['@attributes'] ?? null) : null;
-        $attributes = is_array($rawAttributes) ? $rawAttributes : [];
+        if (!is_string($value) || !is_numeric($value)) {
+            return $value;
+        }
+
+        if (preg_match('/^[+-]?\d{1,18}$/', $value) === 1) {
+            return (int) $value;
+        }
+
+        return (float) $value;
+    }
+
+    /**
+     * The inverse of `exportNumber()`: the decimal text of a JSON number, without exponent.
+     */
+    private static function importNumber(int|float|string $raw): string
+    {
+        if (!is_float($raw)) {
+            return (string) $raw;
+        }
+
+        $text = rtrim(rtrim(sprintf('%.12F', $raw), '0'), '.');
+
+        return $text === '' || $text === '-' ? '0' : $text;
+    }
+
+    /**
+     * `Amount`, `Quantity`, `Measure` and `Numeric` are the only contents that are numbers in
+     * the note.
+     */
+    private static function isNumericValueType(): bool
+    {
+        return in_array(static::class, [Amount::class, Quantity::class, Measure::class, Numeric::class], true);
+    }
+
+    /**
+     * The extension scaffolding is what lives in `Oasis\Ext`.
+     */
+    private static function isScaffolding(?string $class): bool
+    {
+        return $class !== null && str_starts_with($class, 'Derafu\\Ubl\\Oasis\\Ext\\');
+    }
+
+    /**
+     * @param array<string, mixed> $data
+     */
+    private static function hydrateValue(object $instance, array $data): void
+    {
+        if (!array_key_exists('_', $data)) {
+            throw new DeserializationException([
+                'The value of {class} must have a "_" property with its content.',
+                'class' => static::class,
+            ]);
+        }
 
         foreach (self::ARRAY_METADATA['properties'] as $property) {
             if ($property['kind'] === 'value') {
-                if ($value !== null) {
-                    self::set($instance, $property['property'], $value);
+                $value = $data['_'];
+                if (is_array($value)) {
+                    throw new DeserializationException([
+                        'The "_" of {class} must be a scalar, got {type}.',
+                        'class' => static::class,
+                        'type' => get_debug_type($value),
+                    ]);
                 }
-            } elseif (array_key_exists($property['name'], $attributes)) {
-                self::set($instance, $property['property'], $attributes[$property['name']]);
+                // The content of an element that is there with no content is the empty string
+                // (see `valueToArray()`), which is no content at all.
+                if ($value !== null && $value !== '') {
+                    self::set($instance, $property['property'], is_scalar($value) && !is_string($value)
+                        ? self::importNumber(is_bool($value) ? (int) $value : $value)
+                        : $value);
+                }
+            } elseif (array_key_exists($property['name'], $data)) {
+                self::set($instance, $property['property'], $data[$property['name']]);
             }
         }
     }
@@ -209,6 +277,8 @@ trait ArraySerializableTrait
      */
     private static function hydrateElements(object $instance, array $data): void
     {
+        $scaffolding = self::isScaffolding(static::class);
+
         foreach (self::ARRAY_METADATA['properties'] as $property) {
             if ($property['name'] === null || !array_key_exists($property['name'], $data)) {
                 continue;
@@ -217,13 +287,35 @@ trait ArraySerializableTrait
             if ($property['list']) {
                 self::hydrateList($instance, $property, $data[$property['name']]);
             } else {
-                self::hydrateSingle($instance, $property, $data[$property['name']]);
+                $raw = $data[$property['name']];
+                if ($scaffolding || self::isScaffolding($property['item'])) {
+                    $raw = self::unwrapOne($property, $raw);
+                }
+                self::hydrateSingle($instance, $property, $raw);
             }
         }
     }
 
     /**
-     * @param array{property: string, kind: string, item: ?string, format: ?string} $property
+     * The scaffolding of the extensions is an array of exactly one item.
+     *
+     * @param array{name: ?string} $property
+     */
+    private static function unwrapOne(array $property, mixed $raw): mixed
+    {
+        if (!is_array($raw) || !array_is_list($raw) || count($raw) !== 1) {
+            throw new DeserializationException([
+                '"{property}" of {class} must be an array of exactly one item.',
+                'property' => (string) $property['name'],
+                'class' => static::class,
+            ]);
+        }
+
+        return $raw[0];
+    }
+
+    /**
+     * @param array{property: string, name: ?string, kind: string, item: ?string, format: ?string} $property
      */
     private static function hydrateList(object $instance, array $property, mixed $raw): void
     {
@@ -231,34 +323,77 @@ trait ArraySerializableTrait
             return;
         }
 
+        if (!is_array($raw) || !array_is_list($raw)) {
+            throw new DeserializationException([
+                '"{property}" of {class} must be an array, got {type}.',
+                'property' => (string) $property['name'],
+                'class' => static::class,
+                'type' => get_debug_type($raw),
+            ]);
+        }
+
         self::set($instance, $property['property'], array_map(
-            fn (mixed $item): mixed => self::importValue($property['item'], $item, $property['format']),
-            is_array($raw) ? $raw : []
+            fn (mixed $item): mixed => self::importSingle($property, $item),
+            $raw
         ));
     }
 
     /**
-     * @param array{property: string, kind: string, item: ?string, format: ?string} $property
+     * @param array{property: string, name: ?string, kind: string, item: ?string, format: ?string} $property
      */
     private static function hydrateSingle(object $instance, array $property, mixed $raw): void
     {
         $value = $property['kind'] === 'attribute'
             ? $raw
-            : self::importValue($property['item'], $raw, $property['format']);
+            : self::importSingle($property, $raw);
 
         if ($value !== null) {
             self::set($instance, $property['property'], $value);
         }
     }
 
-    private static function importValue(?string $type, mixed $raw, ?string $format): mixed
+    /**
+     * @param array{name: ?string, kind: string, item: ?string, format: ?string} $property
+     */
+    private static function importSingle(array $property, mixed $raw): mixed
+    {
+        $type = $property['item'];
+
+        // A fragment of XML of a wildcard (`xs:any`): kept as the string it is.
+        if ($type === null || $type === 'string') {
+            return $raw;
+        }
+
+        // Everything else, a leaf of a class of its own or one that is not, is an object.
+        if (!is_array($raw) || array_is_list($raw) && $raw !== []) {
+            throw new DeserializationException([
+                '"{property}" of {class} must be an object, got {type}.',
+                'property' => (string) $property['name'],
+                'class' => static::class,
+                'type' => get_debug_type($raw),
+            ]);
+        }
+
+        if (method_exists($type, 'fromArray')) {
+            return $type::fromArray($raw);
+        }
+
+        if (!array_key_exists('_', $raw)) {
+            throw new DeserializationException([
+                '"{property}" of {class} must have a "_" property with its content.',
+                'property' => (string) $property['name'],
+                'class' => static::class,
+            ]);
+        }
+
+        return self::importScalar($type, $raw['_'], $property['format']);
+    }
+
+    private static function importScalar(string $type, mixed $raw, ?string $format): mixed
     {
         return match (true) {
-            $type === null => $raw,
             $type === DateTimeImmutable::class => self::importDate($raw, $format),
             is_a($type, BackedEnum::class, true) => self::importEnum($type, $raw),
-            method_exists($type, 'fromArray') => $type::fromArray(is_array($raw) ? $raw : ['@value' => $raw]),
-            $type === 'string' && is_scalar($raw) => (string) $raw,
             $type === 'bool' => (bool) $raw,
             $type === 'int' && is_scalar($raw) => (int) $raw,
             $type === 'float' && is_scalar($raw) => (float) $raw,

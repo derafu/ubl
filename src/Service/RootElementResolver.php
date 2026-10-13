@@ -18,7 +18,7 @@ use DOMDocument;
 /**
  * Resolves an `Oasis\Doc\*` class from an XML string's own root element, via the generated
  * `DocumentRegistry`. Shared by `Format\XmlHandler` (to auto-detect what to deserialize into)
- * and `SchemaValidator` (to auto-detect which XSD to validate against): both need exactly this,
+ * and `XmlSchemaValidator` (to auto-detect which XSD to validate against): both need exactly this,
  * and nothing else about the XML.
  */
 final class RootElementResolver

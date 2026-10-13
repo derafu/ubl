@@ -14,6 +14,7 @@ namespace Derafu\Ubl\Service;
 
 use Derafu\Ubl\Contract\DeserializerInterface;
 use Derafu\Ubl\Contract\FormatHandlerFactoryInterface;
+use Derafu\Ubl\Exception\DeserializationException;
 
 final class Deserializer implements DeserializerInterface
 {
@@ -22,8 +23,26 @@ final class Deserializer implements DeserializerInterface
     ) {
     }
 
-    public function deserialize(string $content, string $format, ?string $class = null): object
+    public function deserialize(string $content, string $format, array $options = []): object
     {
-        return $this->factory->createHandler($format)->deserialize($content, $class);
+        foreach (array_diff(array_keys($options), [self::VALIDATE, self::CLASS_NAME]) as $option) {
+            throw new DeserializationException([
+                'Unknown deserialization option "{option}".',
+                'option' => (string) $option,
+            ]);
+        }
+
+        $document = $this->factory->createHandler($format)->deserialize($content, $options);
+
+        $expected = $options[self::CLASS_NAME] ?? null;
+        if ($expected !== null && !$document instanceof $expected) {
+            throw new DeserializationException([
+                'The content is a {actual}, not the {expected} that was asked for.',
+                'actual' => $document::class,
+                'expected' => $expected,
+            ]);
+        }
+
+        return $document;
     }
 }

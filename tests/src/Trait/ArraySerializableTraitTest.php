@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Derafu\TestsUbl\Trait;
 
 use DateTimeImmutable;
+use Derafu\Ubl\Exception\DeserializationException;
 use Derafu\Ubl\Oasis\Cac\MonetaryTotal;
 use Derafu\Ubl\Oasis\Cac\QuotationLine;
 use Derafu\Ubl\Oasis\Cac\SupplierParty;
@@ -35,47 +36,57 @@ use PHPUnit\Framework\TestCase;
 final class ArraySerializableTraitTest extends TestCase
 {
     /**
-     * The base case of the "value with attributes" shape: text plus one XML attribute.
+     * The base case of the model-based representation of the OASIS note: the content under
+     * `_` and the XML attributes next to it. Amounts are JSON numbers.
      */
     #[Test]
-    public function aLeafWithAnAttributeKeepsItUnderAtAttributes(): void
+    public function aLeafWithAnAttributeKeepsItNextToItsContent(): void
     {
         $amount = (new Amount())->setValue('100')->setCurrencyID('CLP');
 
-        $this->assertSame(
-            ['@value' => '100', '@attributes' => ['currencyID' => 'CLP']],
-            $amount->toArray()
-        );
+        $this->assertSame(['_' => 100, 'currencyID' => 'CLP'], $amount->toArray());
     }
 
     /**
-     * Called on its own (not embedded in a parent), toArray() never simplifies to a bare
-     * scalar: that is a decision the embedding parent makes, not the leaf itself.
+     * A leaf is always an object, even with no attribute: never a bare scalar.
      */
     #[Test]
-    public function aLeafWithoutAnAttributeIsStillTheFullShapeOnItsOwn(): void
+    public function aLeafWithoutAnAttributeIsStillAnObject(): void
     {
         $id = (new Identifier())->setValue('Q-1');
 
-        $this->assertSame(['@value' => 'Q-1', '@attributes' => []], $id->toArray());
+        $this->assertSame(['_' => 'Q-1'], $id->toArray());
     }
 
     /**
-     * Four things at once: keys are the UBL names, not the PHP property names; an
-     * attributeless leaf (ID) IS simplified here, unlike called on its own above; a leaf with
-     * an attribute (PayableAmount) keeps its full shape even nested; a list exports as an
-     * array of its items.
+     * Only the content of `Amount`, `Quantity`, `Measure` and `Numeric` is a JSON number: the
+     * decimal text becomes an int when it is whole, a float otherwise, and a text that is not
+     * a number stays as it is. Any other content, even if it looks like a number, is a string.
      */
     #[Test]
-    public function anAggregateIsKeyedByTheUblNamesAndSimplifiesAnAttributelessLeaf(): void
+    public function onlyNumericContentsAreNumbers(): void
+    {
+        $this->assertSame(['_' => 100.5, 'currencyID' => 'CLP'], (new Amount())->setValue('100.50')->setCurrencyID('CLP')->toArray());
+        $this->assertSame(['_' => 100.0, 'currencyID' => 'CLP'], (new Amount())->setValue('100.00')->setCurrencyID('CLP')->toArray());
+        $this->assertSame(['_' => 'abc', 'currencyID' => 'CLP'], (new Amount())->setValue('abc')->setCurrencyID('CLP')->toArray());
+        $this->assertSame(['_' => '123'], (new Identifier())->setValue('123')->toArray());
+    }
+
+    /**
+     * Keys are the UBL names, not the PHP property names; every leaf is an object (the date
+     * too, a `DateTimeImmutable` that has no class of its own); an aggregate that is bounded to
+     * one is the object itself and a list (unbounded) is an array of them.
+     */
+    #[Test]
+    public function anAggregateIsKeyedByTheUblNamesAndEveryLeafIsAnObject(): void
     {
         $quotation = $this->quotation();
 
         $this->assertSame([
-            'ID' => 'Q-1',
-            'IssueDate' => '2026-10-10',
+            'ID' => ['_' => 'Q-1'],
+            'IssueDate' => ['_' => '2026-10-10'],
             'QuotedMonetaryTotal' => [
-                'PayableAmount' => ['@value' => '100', '@attributes' => ['currencyID' => 'CLP']],
+                'PayableAmount' => ['_' => 100, 'currencyID' => 'CLP'],
             ],
             'QuotationLine' => [[]],
         ], $quotation->toArray());
@@ -110,15 +121,44 @@ final class ArraySerializableTraitTest extends TestCase
     }
 
     /**
-     * toArray() simplifies an attributeless leaf to a bare scalar (see above), so fromArray()
-     * has to accept that same simplified shape back, not only the full one.
+     * `fromArray()` only reads the shape of the note: what asks for an object is not given a
+     * bare scalar (turning other shapes into this one is `Service\Normalizer`'s job, not its).
      */
     #[Test]
-    public function fromArrayAcceptsAPlainScalarForAnAttributelessLeaf(): void
+    public function fromArrayDoesNotAcceptAPlainScalarForALeaf(): void
     {
-        $quotation = Quotation::fromArray(['ID' => 'Q-1']);
+        $this->expectException(DeserializationException::class);
+
+        Quotation::fromArray(['ID' => 'Q-1']);
+    }
+
+    #[Test]
+    public function fromArrayDoesNotAcceptAnArrayWhereAnObjectIsExpected(): void
+    {
+        $this->expectException(DeserializationException::class);
+
+        // The legacy-based form of the note, where everything is an array.
+        Quotation::fromArray(['ID' => [['_' => 'Q-1']]]);
+    }
+
+    #[Test]
+    public function fromArrayDoesNotAcceptAnObjectWhereAnArrayIsExpected(): void
+    {
+        $this->expectException(DeserializationException::class);
+
+        Quotation::fromArray(['QuotationLine' => ['ID' => ['_' => '1']]]);
+    }
+
+    #[Test]
+    public function fromArrayReadsTheNumbersAndTheContentOfALeaf(): void
+    {
+        $quotation = Quotation::fromArray([
+            'ID' => ['_' => 'Q-1'],
+            'QuotedMonetaryTotal' => ['PayableAmount' => ['_' => 100.5, 'currencyID' => 'CLP']],
+        ]);
 
         $this->assertSame('Q-1', $quotation->getId()?->getValue());
+        $this->assertSame('100.5', $quotation->getQuotedMonetaryTotal()->getPayableAmount()->getValue());
     }
 
     /**

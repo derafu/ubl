@@ -17,16 +17,14 @@ use Derafu\Ubl\Exception\ValidationException;
 /**
  * Validates a UBL document's XML against the official OASIS XSD.
  */
-interface ValidatorInterface
+interface XmlValidatorInterface
 {
     /**
-     * When `$class` is `null`, the document type is resolved from the XML root element, the
-     * same way `DeserializerInterface::deserialize()` does for `xml`.
-     *
-     * @param class-string|null $class
+     * The document type is resolved from the XML root element, the same way
+     * `DeserializerInterface::deserialize()` does for `xml`.
      *
      * @throws ValidationException If `$xml` is not well-formed, its document type cannot be
      * resolved, or it does not validate against that type's XSD.
      */
-    public function validate(string $xml, ?string $class = null): void;
+    public function validate(string $xml): void;
 }

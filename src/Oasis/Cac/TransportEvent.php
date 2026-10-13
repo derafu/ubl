@@ -115,7 +115,7 @@ final class TransportEvent implements JsonSerializable
                 'name' => 'Location',
                 'kind' => 'element',
                 'list' => false,
-                'item' => 'Derafu\Ubl\Oasis\Cbc\Text',
+                'item' => 'Derafu\Ubl\Oasis\Cac\Location',
                 'format' => null,
             ],
             10 => [
@@ -168,7 +168,7 @@ final class TransportEvent implements JsonSerializable
     private array $contacts = [];
 
     #[XmlElement(name: 'Location', namespace: Ns::CAC)]
-    private ?Text $location = null;
+    private ?Location $location = null;
 
     #[XmlElement(name: 'Signature', namespace: Ns::CAC)]
     private ?Signature $signature = null;
@@ -357,12 +357,12 @@ final class TransportEvent implements JsonSerializable
         }
     }
 
-    public function getLocation(): ?Text
+    public function getLocation(): ?Location
     {
         return $this->location;
     }
 
-    public function setLocation(?Text $location = null): self
+    public function setLocation(?Location $location = null): self
     {
         $this->location = $location;
         return $this;

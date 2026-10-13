@@ -7,31 +7,44 @@
 # `CataloguePricingUpdateLine` are the only elements `CataloguePricingUpdate` marks
 # `required: true` at the top level (see src/Oasis/Doc/CataloguePricingUpdate.php).
 #
-# Keys are the UBL element and attribute names, the same ones
-# `Derafu\Ubl\Trait\ArraySerializableTrait::fromArray()` reads, e.g.
-# `CataloguePricingUpdate::fromArray(Yaml::parseFile(...)['CataloguePricingUpdate'])`. A value with no attributes is a
-# plain scalar (`ID`, `IssueDate`); a value that has one, like an amount's currency, needs
-# the `@value`/`@attributes` form. Each field's comment below is UBL's own definition for
+# The structure is the model-based JSON representation of OASIS's "UBL 2.1 JSON Alternative
+# Representation" (Committee Note v2.0), carried as YAML: the keys are the UBL element names
+# (the same ones `Derafu\Ubl\Trait\ArraySerializableTrait::fromArray()` reads, e.g.
+# `Invoice::fromArray(Yaml::parseFile(...)['Invoice'])`), a value (a BBIE) is always an object
+# with its content under `_` and its attributes (an amount's currency) next to it, and only what
+# UBL allows more than once is a list. `_D`, `_A` and `_B` are the namespaces of the apex.
+#
+# Each field's comment below is UBL's own definition for
 # it (see the `ccts:Definition` of the matching type in `resources/xsd/2.1/`), not a
 # restatement of its name. A handful of required substructures UBL itself leaves with no
 # required fields of their own also carry one further optional, identifying field purely
 # for readability (a party's name, an item's name): everything else below is genuinely
 # `required: true`.
+_D: urn:oasis:names:specification:ubl:schema:xsd:CataloguePricingUpdate-2
+_A: urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2
+_B: urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2
 CataloguePricingUpdate:
-  ID: '1' # An identifier for this document, assigned by the sender.
-  IssueDate: '2026-01-15' # The date, assigned by the sender, on which this document was issued.
+  ID: # An identifier for this document, assigned by the sender.
+    _: '1'
+  IssueDate: # The date, assigned by the sender, on which this document was issued.
+    _: '2026-01-15'
   RelatedCatalogueReference: # A reference to the Catalogue being updated.
-    ID: '1' # An identifier for a specific catalogue.
-    IssueDate: '2026-01-15' # The date on which the catalogue was issued.
+    ID: # An identifier for a specific catalogue.
+      _: '1'
+    IssueDate: # The date on which the catalogue was issued.
+      _: '2026-01-15'
   ProviderParty: # The party sending the Catalogue Pricing Update.
     # A name for this party.
     PartyName:
-      - Name: Acme Corp # The name of the party.
+      - Name: # The name of the party.
+          _: Acme Corp
   ReceiverParty: # The party receiving the Catalogue Pricing Update.
     # A name for this party.
     PartyName:
-      - Name: Acme Corp # The name of the party.
+      - Name: # The name of the party.
+          _: Acme Corp
   # One or more lines in the Catalogue Pricing Update, each line updating a specific catalogue
   # item.
   CataloguePricingUpdateLine:
-    - ID: '1' # An identifier for the catalogue line to be updated.
+    - ID: # An identifier for the catalogue line to be updated.
+        _: '1'

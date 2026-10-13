@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Derafu\TestsUbl\Service;
 
 use Derafu\Ubl\Exception\UnsupportedFormatException;
+use Derafu\Ubl\Service\ExtensionContentCodecs;
+use Derafu\Ubl\Service\Format\EmptyObjects;
 use Derafu\Ubl\Service\Format\JsonHandler;
 use Derafu\Ubl\Service\Format\XmlHandler;
 use Derafu\Ubl\Service\Format\YamlHandler;
@@ -24,8 +26,10 @@ use PHPUnit\Framework\TestCase;
 
 #[CoversClass(FormatHandlerFactory::class)]
 #[UsesClass(JsonHandler::class)]
+#[UsesClass(EmptyObjects::class)]
 #[UsesClass(YamlHandler::class)]
 #[UsesClass(XmlHandler::class)]
+#[UsesClass(ExtensionContentCodecs::class)]
 final class FormatHandlerFactoryTest extends TestCase
 {
     #[Test]

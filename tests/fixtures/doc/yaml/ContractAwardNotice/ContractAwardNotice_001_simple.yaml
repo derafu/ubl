@@ -7,26 +7,36 @@
 # elements `ContractAwardNotice` marks `required: true` at the top level (see
 # src/Oasis/Doc/ContractAwardNotice.php).
 #
-# Keys are the UBL element and attribute names, the same ones
-# `Derafu\Ubl\Trait\ArraySerializableTrait::fromArray()` reads, e.g.
-# `ContractAwardNotice::fromArray(Yaml::parseFile(...)['ContractAwardNotice'])`. A value with no attributes is a
-# plain scalar (`ID`, `IssueDate`); a value that has one, like an amount's currency, needs
-# the `@value`/`@attributes` form. Each field's comment below is UBL's own definition for
+# The structure is the model-based JSON representation of OASIS's "UBL 2.1 JSON Alternative
+# Representation" (Committee Note v2.0), carried as YAML: the keys are the UBL element names
+# (the same ones `Derafu\Ubl\Trait\ArraySerializableTrait::fromArray()` reads, e.g.
+# `Invoice::fromArray(Yaml::parseFile(...)['Invoice'])`), a value (a BBIE) is always an object
+# with its content under `_` and its attributes (an amount's currency) next to it, and only what
+# UBL allows more than once is a list. `_D`, `_A` and `_B` are the namespaces of the apex.
+#
+# Each field's comment below is UBL's own definition for
 # it (see the `ccts:Definition` of the matching type in `resources/xsd/2.1/`), not a
 # restatement of its name. A handful of required substructures UBL itself leaves with no
 # required fields of their own also carry one further optional, identifying field purely
 # for readability (a party's name, an item's name): everything else below is genuinely
 # `required: true`.
+_D: urn:oasis:names:specification:ubl:schema:xsd:ContractAwardNotice-2
+_A: urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2
+_B: urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2
 ContractAwardNotice:
   # An identifier, assigned by the sender, for the process file (i.e., record) to which this
   # document belongs.
-  ContractFolderID: '1'
-  IssueDate: '2026-01-15' # The date, assigned by the sender, on which this document was issued.
+  ContractFolderID:
+    _: '1'
+  IssueDate: # The date, assigned by the sender, on which this document was issued.
+    _: '2026-01-15'
   ContractingParty: # The contracting party.
     Party: # The contracting party itself.
       # A name for this party.
       PartyName:
-        - Name: Acme Corp # The name of the party.
+        - Name: # The name of the party.
+            _: Acme Corp
   # A result of the bid opening in the tendering process.
   TenderResult:
-    - AwardDate: '2026-01-15' # The date on which this result was formalized.
+    - AwardDate: # The date on which this result was formalized.
+        _: '2026-01-15'

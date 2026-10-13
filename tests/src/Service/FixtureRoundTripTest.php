@@ -13,8 +13,8 @@ declare(strict_types=1);
 namespace Derafu\TestsUbl\Service;
 
 use Derafu\Ubl\Service\Deserializer;
-use Derafu\Ubl\Service\SchemaValidator;
 use Derafu\Ubl\Service\Serializer;
+use Derafu\Ubl\Service\XmlSchemaValidator;
 use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -23,13 +23,16 @@ use Symfony\Component\Yaml\Yaml;
 
 /**
  * Round-trips every committed fixture under tests/fixtures/doc/ through Serializer/Deserializer,
- * and every xml and yaml one additionally through SchemaValidator, against the real OASIS XSD.
+ * and every xml and yaml one additionally through XmlSchemaValidator, against the real OASIS XSD.
  * Fixtures are discovered by glob, never listed by hand: adding a new one under
  * tests/fixtures/doc/<format>/<Document>/ picks it up here automatically, for whichever
  * document types and formats happen to have one today. There is no dedicated json data
- * provider: no json fixture is committed (see CLAUDE.md on why), so json is only exercised
- * with real data here by the format-hopping chain below, which starts and ends at a real,
- * committed xml fixture.
+ * provider for the hand-authored shape: the json fixtures are the official OASIS ones (the
+ * model-based JSON examples of the "UBL 2.1 JSON Alternative Representation", fetched by
+ * tools/fetch-oasis-json.php), and the yaml ones are this package's own.
+ *
+ * A decimal is a JSON number, so "100.00" in XML comes back from JSON as "100": every
+ * comparison here treats the numbers by their value (see `canonical()`).
  *
  * Covers many different Oasis\Doc\* classes depending on which fixtures exist, the same reason
  * tests/src/Oasis/GeneratedCodeTest.php is also #[CoversNothing].
@@ -37,6 +40,8 @@ use Symfony\Component\Yaml\Yaml;
 #[CoversNothing]
 final class FixtureRoundTripTest extends TestCase
 {
+    use CanonicalizesDataTrait;
+
     /**
      * The fixture's raw content, decoded with nothing but the format's own standard library
      * parser (json_decode()/Yaml::parse(), not a line of this package's own code), must equal
@@ -61,6 +66,23 @@ final class FixtureRoundTripTest extends TestCase
         $this->assertSymmetry($path, 'yaml');
     }
 
+    /**
+     * The official OASIS JSON examples are read exactly as the note writes them.
+     */
+    #[Test]
+    #[DataProvider('jsonFixtures')]
+    public function jsonFixtureIsReadExactlyAsAuthored(string $path): void
+    {
+        $this->assertFidelity($path, 'json');
+    }
+
+    #[Test]
+    #[DataProvider('jsonFixtures')]
+    public function jsonFixtureRoundTrips(string $path): void
+    {
+        $this->assertSymmetry($path, 'json');
+    }
+
     #[Test]
     #[DataProvider('xmlFixtures')]
     public function xmlFixtureRoundTrips(string $path): void
@@ -79,7 +101,7 @@ final class FixtureRoundTripTest extends TestCase
     {
         $content = (string) file_get_contents($path);
 
-        (new SchemaValidator())->validate($content);
+        (new XmlSchemaValidator())->validate($content);
 
         $this->addToAssertionCount(1);
     }
@@ -99,7 +121,24 @@ final class FixtureRoundTripTest extends TestCase
         $document = (new Deserializer())->deserialize($content, 'yaml');
         $xml = (new Serializer())->serialize($document, 'xml');
 
-        (new SchemaValidator())->validate($xml);
+        (new XmlSchemaValidator())->validate($xml);
+
+        $this->addToAssertionCount(1);
+    }
+
+    /**
+     * The official JSON examples are valid UBL documents too: read from JSON and written as
+     * XML, they validate against the real XSD.
+     */
+    #[Test]
+    #[DataProvider('jsonFixtures')]
+    public function jsonFixtureValidatesAgainstItsRealSchema(string $path): void
+    {
+        $content = (string) file_get_contents($path);
+        $document = (new Deserializer())->deserialize($content, 'json');
+        $xml = (new Serializer())->serialize($document, 'xml');
+
+        (new XmlSchemaValidator())->validate($xml);
 
         $this->addToAssertionCount(1);
     }
@@ -159,10 +198,10 @@ final class FixtureRoundTripTest extends TestCase
         $finalXml = $serializer->serialize($fromYaml, 'xml');
         $final = $deserializer->deserialize($finalXml, 'xml');
 
-        (new SchemaValidator())->validate($finalXml);
+        (new XmlSchemaValidator())->validate($finalXml);
 
-        $this->assertSame($this->toArray($original), $this->toArray($final), $path);
-        $this->assertSame(serialize($original), serialize($final), $path);
+        $this->assertSame($this->canonical($this->toArray($original)), $this->canonical($this->toArray($final)), $path);
+        $this->assertSame($this->canonicalSerialize($original), $this->canonicalSerialize($final), $path);
     }
 
     private function assertFidelity(string $path, string $format): void
@@ -174,14 +213,15 @@ final class FixtureRoundTripTest extends TestCase
             $this->fail("$path did not decode to an array.");
         }
 
-        $key = array_key_first($raw);
-        if ($key === null) {
-            $this->fail("$path decoded to an empty array.");
+        // The document is the one key that is not a namespace of the apex (`_D`, `_A`...).
+        $keys = array_values(array_filter(array_keys($raw), static fn ($key): bool => !str_starts_with((string) $key, '_')));
+        if (count($keys) !== 1) {
+            $this->fail("$path does not have exactly one document key.");
         }
 
         $document = (new Deserializer())->deserialize($content, $format);
 
-        $this->assertSame($raw[$key], $this->toArray($document), $path);
+        $this->assertSame($this->canonical($raw[$keys[0]]), $this->canonical($this->toArray($document)), $path);
     }
 
     private function assertSymmetry(string $path, string $format): void
@@ -195,7 +235,20 @@ final class FixtureRoundTripTest extends TestCase
             $format
         );
 
-        $this->assertSame($this->toArray($document), $this->toArray($again), $path);
+        $this->assertSame($this->canonical($this->toArray($document)), $this->canonical($this->toArray($again)), $path);
+    }
+
+    /**
+     * PHP's own `serialize()` of the object graph, with the decimal texts by their value
+     * ("100.00" and "100" are the same decimal).
+     */
+    private function canonicalSerialize(object $document): string
+    {
+        return (string) preg_replace_callback(
+            '/s:\d+:"(-?\d+(?:\.\d+)?)";/',
+            static fn (array $match): string => 'n:' . (float) $match[1] . ';',
+            serialize($document)
+        );
     }
 
     /**
@@ -216,6 +269,14 @@ final class FixtureRoundTripTest extends TestCase
     public static function yamlFixtures(): array
     {
         return self::glob('yaml');
+    }
+
+    /**
+     * @return array<string, array{0: string}>
+     */
+    public static function jsonFixtures(): array
+    {
+        return self::glob('json');
     }
 
     /**

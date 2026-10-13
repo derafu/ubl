@@ -12,10 +12,13 @@ declare(strict_types=1);
 
 namespace Derafu\Ubl\Service\Format;
 
+use Derafu\Ubl\Contract\DeserializerInterface;
 use Derafu\Ubl\Contract\FormatHandlerInterface;
+use Derafu\Ubl\Contract\XmlValidatorInterface;
 use Derafu\Ubl\Exception\DeserializationException;
 use Derafu\Ubl\Exception\SerializationException;
 use Derafu\Ubl\Service\RootElementResolver;
+use Derafu\Ubl\Service\XmlSchemaValidator;
 use Xterr\UBL\Exception\DeserializationException as XterrDeserializationException;
 use Xterr\UBL\Exception\SerializationException as XterrSerializationException;
 use Xterr\UBL\Xml\XmlDeserializer;
@@ -31,6 +34,7 @@ final class XmlHandler implements FormatHandlerInterface
     public function __construct(
         private readonly XmlSerializer $serializer = new XmlSerializer(),
         private readonly XmlDeserializer $deserializer = new XmlDeserializer(),
+        private readonly XmlValidatorInterface $validator = new XmlSchemaValidator(),
     ) {
     }
 
@@ -47,12 +51,13 @@ final class XmlHandler implements FormatHandlerInterface
         }
     }
 
-    /**
-     * @param class-string|null $class
-     */
-    public function deserialize(string $content, ?string $class = null): object
+    public function deserialize(string $content, array $options = []): object
     {
-        $class ??= $this->detectClass($content);
+        $class = $this->detectClass($content);
+
+        if (($options[DeserializerInterface::VALIDATE] ?? false) === true) {
+            $this->validator->validate($content);
+        }
 
         try {
             return $this->deserializer->deserialize($content, $class);

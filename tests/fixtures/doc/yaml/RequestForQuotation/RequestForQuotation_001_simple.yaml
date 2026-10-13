@@ -7,29 +7,40 @@
 # only elements `RequestForQuotation` marks `required: true` at the top level (see
 # src/Oasis/Doc/RequestForQuotation.php).
 #
-# Keys are the UBL element and attribute names, the same ones
-# `Derafu\Ubl\Trait\ArraySerializableTrait::fromArray()` reads, e.g.
-# `RequestForQuotation::fromArray(Yaml::parseFile(...)['RequestForQuotation'])`. A value with no attributes is a
-# plain scalar (`ID`, `IssueDate`); a value that has one, like an amount's currency, needs
-# the `@value`/`@attributes` form. Each field's comment below is UBL's own definition for
+# The structure is the model-based JSON representation of OASIS's "UBL 2.1 JSON Alternative
+# Representation" (Committee Note v2.0), carried as YAML: the keys are the UBL element names
+# (the same ones `Derafu\Ubl\Trait\ArraySerializableTrait::fromArray()` reads, e.g.
+# `Invoice::fromArray(Yaml::parseFile(...)['Invoice'])`), a value (a BBIE) is always an object
+# with its content under `_` and its attributes (an amount's currency) next to it, and only what
+# UBL allows more than once is a list. `_D`, `_A` and `_B` are the namespaces of the apex.
+#
+# Each field's comment below is UBL's own definition for
 # it (see the `ccts:Definition` of the matching type in `resources/xsd/2.1/`), not a
 # restatement of its name. A handful of required substructures UBL itself leaves with no
 # required fields of their own also carry one further optional, identifying field purely
 # for readability (a party's name, an item's name): everything else below is genuinely
 # `required: true`.
+_D: urn:oasis:names:specification:ubl:schema:xsd:RequestForQuotation-2
+_A: urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2
+_B: urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2
 RequestForQuotation:
-  IssueDate: '2026-01-15' # The date, assigned by the sender, on which this document was issued.
-  IssueTime: 00:00:00-03:00 # The time, assigned by the sender, at which this document was issued.
+  IssueDate: # The date, assigned by the sender, on which this document was issued.
+    _: '2026-01-15'
+  IssueTime: # The time, assigned by the sender, at which this document was issued.
+    _: 00:00:00-03:00
   SellerSupplierParty: # The seller.
     Party: # The supplier party itself.
       # A name for this party.
       PartyName:
-        - Name: Acme Corp # The name of the party.
+        - Name: # The name of the party.
+            _: Acme Corp
   # A line specifying a kind of item of sale.
   RequestForQuotationLine:
     - LineItem: # A description of the item for which a quotation is requested.
-        ID: '1' # An identifier for this line item, assigned by the buyer.
+        ID: # An identifier for this line item, assigned by the buyer.
+          _: '1'
         Item: # The item of trade associated with this line item.
           # A short name optionally given to this item, such as a name from a catalogue, as distinct from a
           # description.
-          Name: Widget
+          Name:
+            _: Widget

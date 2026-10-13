@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Derafu\Ubl\Service\Format;
 
-use Derafu\Ubl\Contract\FormatHandlerInterface;
 use Derafu\Ubl\Exception\DeserializationException;
 use Derafu\Ubl\Exception\SerializationException;
 use Symfony\Component\Yaml\Exception\DumpException;
@@ -20,29 +19,32 @@ use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * A document as YAML, with its `toArray()` wrapped under a single top-level key naming the
- * document type (`Quotation: {...}`), the same convention `json` uses. Requires
- * `symfony/yaml`, which this package does not require on its own (see CLAUDE.md): only
- * autoloaded when a caller actually asks for the `yaml` format.
+ * A document as YAML: the same structure as `json` (the model-based representation of the OASIS
+ * note, see `ArrayFormatHandler`), carried in YAML. Requires `symfony/yaml`, which this package
+ * does not require on its own (see CLAUDE.md): only autoloaded when a caller actually asks for
+ * the `yaml` format.
  */
-final class YamlHandler implements FormatHandlerInterface
+final class YamlHandler extends ArrayFormatHandler
 {
-    use ArrayWireFormatTrait;
+    public function getFormat(): string
+    {
+        return 'yaml';
+    }
 
-    public function serialize(object $document): string
+    protected function encode(array $data, string $class): string
     {
         try {
-            return Yaml::dump($this->wrap($document), 20, 2);
+            return Yaml::dump(EmptyObjects::of($data), 20, 2, Yaml::DUMP_OBJECT_AS_MAP);
         } catch (DumpException $e) {
             throw new SerializationException([
                 'Could not encode {class} as YAML: {message}',
-                'class' => $document::class,
+                'class' => $class,
                 'message' => $e->getMessage(),
             ], previous: $e);
         }
     }
 
-    public function deserialize(string $content, ?string $class = null): object
+    protected function decode(string $content): array
     {
         try {
             $data = Yaml::parse($content);
@@ -60,13 +62,6 @@ final class YamlHandler implements FormatHandlerInterface
             ]);
         }
 
-        [$resolvedClass, $payload] = $this->unwrap($data, $class);
-
-        return $resolvedClass::fromArray($payload);
-    }
-
-    public function getFormat(): string
-    {
-        return 'yaml';
+        return $data;
     }
 }

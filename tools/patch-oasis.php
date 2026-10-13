@@ -39,6 +39,7 @@ $totalChanged += fixValidatorDocblocks($files);
 $totalChanged += fixTimeFormat(dirname(__DIR__) . '/src/Oasis');
 $totalChanged += fixDocumentRegistry(dirname(__DIR__) . '/src/Oasis/Xml/DocumentRegistry.php');
 $totalChanged += fixSignatureInformationSignatureType(dirname(__DIR__) . '/src/Oasis/Sac/SignatureInformation.php');
+$totalChanged += fixCacElementsTypedAsCbc($oasisDir);
 $totalChanged += fixAnyWildcards($oasisDir);
 $totalChanged += addCopyrightHeader(dirname(__DIR__) . '/src/Oasis');
 $totalChanged += addArraySerializableTrait(dirname(__DIR__) . '/src/Oasis');
@@ -321,7 +322,7 @@ function fixDocumentRegistry(string $path): int
 /**
  * `cac:SignatureInformationType`'s `ds:Signature` element is a real W3C XML-DSig signature
  * envelope (`SignedInfo`/`SignatureValue`/`KeyInfo`/`Object` - a completely different schema,
- * bundled at `resources/xsd/2.1/common/UBL-xmldsig-core-schema-2.1.xsd`, not part of UBL
+ * bundled at `resources/schemas/xsd/2.1/common/UBL-xmldsig-core-schema-2.1.xsd`, not part of UBL
  * itself), never a UBL `Cac\Signature` (plain metadata: ID/ValidationDate/SignatoryParty/...,
  * what `cac:Signature` actually is). `UblTypeRegistry::COMPONENT_NAMESPACES` never processes
  * that schema's namespace, so its `TypeResolver` resolves the `ds:Signature` reference by its
@@ -366,6 +367,99 @@ function fixSignatureInformationSignatureType(string $path): int
     }
 
     return 0;
+}
+
+/**
+ * A `cac:` element whose name is also the name of a `cbc:` element (`Location`, `Condition`) is
+ * typed by the generator as the `cbc:` one: `TypeResolver::resolveElement()` asks for the PHP
+ * type of every element of a component namespace by its local name alone, and finds the basic
+ * component (`Text`) of the same name. The XSD says those two are aggregates (`LocationType`,
+ * `ConditionType`), so every value of them was read as the text of an element that has children,
+ * and silently lost: `TransportEvent`'s `<cac:Location>` came back out of a round trip as
+ * `<cac:Location/>`.
+ *
+ * Gives each its real class, which already exists in `Cac` (same namespace, no import), in every
+ * place the generator wrote the wrong one: the property, its getter, setter and `addTo` method
+ * (documented and typed), and the guard that checks the items of a list.
+ *
+ * Safe to run on an already corrected tree, and over a freshly generated one. Fails if the
+ * generator output is not the one expected, or if any other `cac:` element is still typed as a
+ * basic component afterwards.
+ *
+ * @return int Number of files changed.
+ */
+function fixCacElementsTypedAsCbc(string $oasisDir): int
+{
+    $fixes = [
+        'Cac/TransportEvent.php' => ['property' => 'location', 'element' => 'Location', 'class' => 'Location', 'list' => false],
+        'Cac/Status.php' => ['property' => 'conditions', 'element' => 'Condition', 'class' => 'Condition', 'list' => true],
+    ];
+    $changed = 0;
+
+    foreach ($fixes as $file => $fix) {
+        $path = "$oasisDir/$file";
+        if (!is_file($path)) {
+            fwrite(STDERR, "patch-oasis: expected file not found: $path\n");
+            exit(1);
+        }
+
+        $source = (string) file_get_contents($path);
+        $patched = $source;
+        $property = $fix['property'];
+        $method = ucfirst($property);
+        $element = preg_quote($fix['element'], '/');
+
+        // The property, with the attribute that maps it, and every method that types it.
+        $chunks = [
+            $fix['list']
+                ? '/    \/\*\* @var list<\w+> \*\/\n    #\[XmlElement\(name: \'' . $element . '\', namespace: Ns::CAC, type: \w+::class\)\]\n    private array \$' . $property . ' = \[\];\n/'
+                : '/    #\[XmlElement\(name: \'' . $element . '\', namespace: Ns::CAC\)\]\n    private \?\w+ \$' . $property . ' = null;\n/',
+        ];
+        $methods = $fix['list']
+            ? ['get' . $method, 'set' . $method, 'addTo' . $method, 'validate' . $method]
+            : ['get' . $method, 'set' . $method];
+        foreach ($methods as $name) {
+            $chunks[] = '/(?:    \/\*\*(?:(?!\*\/).)*?\*\/\n)?    (?:public|private) (?:static )?function ' . $name . '\(.*?\n    }\n/s';
+        }
+
+        foreach ($chunks as $chunk) {
+            $patched = preg_replace_callback(
+                $chunk,
+                static fn (array $match): string => preg_replace('/\bText\b/', $fix['class'], $match[0]),
+                $patched,
+                1,
+                $count
+            );
+            if ($count !== 1) {
+                fwrite(STDERR, "patch-oasis: a piece of {$fix['element']} was not found in $path (generator output changed?)\n");
+                exit(1);
+            }
+        }
+
+        if (!str_contains($patched, '\\' . $fix['class'] . ' $') && !str_contains($patched, '?' . $fix['class'] . ' $') && !str_contains($patched, 'list<' . $fix['class'] . '>')) {
+            fwrite(STDERR, "patch-oasis: {$fix['element']} is not typed as {$fix['class']} in $path after patching\n");
+            exit(1);
+        }
+
+        if ($patched !== $source) {
+            file_put_contents($path, $patched);
+            $changed++;
+        }
+    }
+
+    $basic = 'Text|Code|Identifier|Amount|Quantity|Measure|Numeric|BinaryObject';
+    assertNoneMatch(
+        $oasisDir,
+        '/Ns::CAC, type: (?:' . $basic . ')::class\)\]/',
+        'a cac: element is typed as a cbc: basic component of the same name'
+    );
+    assertNoneMatch(
+        $oasisDir,
+        '/Ns::CAC\)\]\n    private \?(?:' . $basic . ') \$/',
+        'a cac: element is typed as a cbc: basic component of the same name'
+    );
+
+    return $changed;
 }
 
 /**

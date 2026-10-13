@@ -17,14 +17,15 @@ use LibXMLError;
 use Throwable;
 
 /**
- * Thrown when an XML document is not well-formed, its document type cannot be resolved, or it
- * does not validate against the official OASIS XSD.
+ * Thrown when a document is not well-formed, its document type cannot be resolved, or it
+ * does not validate against the official OASIS XSD or JSON schema.
  */
 final class ValidationException extends UblException
 {
     /**
      * @param string|array<int|string, mixed>|TranslatableInterface $message
-     * @param list<LibXMLError> $errors The libxml errors that caused this exception, if any.
+     * @param list<LibXMLError|string> $errors The errors that caused this exception, if any: the
+     * libxml ones of an XML document, the `pointer: message` lines of a JSON one.
      */
     public function __construct(
         string|array|TranslatableInterface $message,
@@ -36,7 +37,7 @@ final class ValidationException extends UblException
     }
 
     /**
-     * @return list<LibXMLError>
+     * @return list<LibXMLError|string>
      */
     public function getErrors(): array
     {

@@ -12,23 +12,23 @@ declare(strict_types=1);
 
 namespace Derafu\Ubl\Service;
 
-use Derafu\Ubl\Contract\ValidatorInterface;
+use Derafu\Ubl\Contract\XmlValidatorInterface;
 use Derafu\Ubl\Exception\ValidationException;
 use DOMDocument;
 use LibXMLError;
 
 /**
  * Validates a document's XML directly against the official OASIS XSD bundled in
- * `resources/xsd/2.1/`, with nothing but `DOMDocument::schemaValidate()` and libxml's own error
+ * `resources/schemas/xsd/2.1/`, with nothing but `DOMDocument::schemaValidate()` and libxml's own error
  * reporting: no `derafu/xml` dependency, so this package does not inherit its non-translatable
  * `XmlException`. The document type (and so, which XSD file to use) is resolved the same way
  * `Format\XmlHandler` resolves it for deserializing, via the shared `RootElementResolver`.
  */
-final class SchemaValidator implements ValidatorInterface
+final class XmlSchemaValidator implements XmlValidatorInterface
 {
-    public function validate(string $xml, ?string $class = null): void
+    public function validate(string $xml): void
     {
-        $class ??= RootElementResolver::resolve($xml);
+        $class = RootElementResolver::resolve($xml);
 
         if ($class === null) {
             throw new ValidationException([
@@ -74,7 +74,7 @@ final class SchemaValidator implements ValidatorInterface
     {
         $parts = explode('\\', $class);
         $shortName = (string) end($parts);
-        $path = dirname(__DIR__, 2) . "/resources/xsd/2.1/maindoc/UBL-{$shortName}-2.1.xsd";
+        $path = dirname(__DIR__, 2) . "/resources/schemas/xsd/2.1/maindoc/UBL-{$shortName}-2.1.xsd";
 
         if (!is_file($path)) {
             throw new ValidationException([

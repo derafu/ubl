@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 /**
  * (Re)generates Derafu\Ubl\Oasis\{Cbc,Cac,Doc,Enum,Ext,Sac,Sig} from the official OASIS UBL XSD, with
- * xterr/php-ubl-generator. Downloads the XSD into resources/xsd/<version>/ if not already
+ * xterr/php-ubl-generator. Downloads the XSD into resources/schemas/xsd/<version>/ if not already
  * there, and generates from that same committed copy.
  *
  * Run with: composer run generate-oasis (which also runs tools/patch-oasis.php and
@@ -22,7 +22,7 @@ declare(strict_types=1);
 const UBL_VERSION = '2.1';
 
 $rootDir = dirname(__DIR__);
-$schemaDir = "$rootDir/resources/xsd/" . UBL_VERSION;
+$schemaDir = "$rootDir/resources/schemas/xsd/" . UBL_VERSION;
 $zipUrl = 'https://docs.oasis-open.org/ubl/os-UBL-' . UBL_VERSION . '/UBL-' . UBL_VERSION . '.zip';
 $zipFile = "$rootDir/var/UBL-" . UBL_VERSION . '.zip';
 $outputDir = "$rootDir/src/Oasis";
@@ -60,7 +60,7 @@ if (!is_dir($schemaDir)) {
 
     mkdir($schemaDir, 0775, true);
     // Only the schemas are needed to generate the model, extracted without the zip's own
-    // leading xsd/ directory so resources/xsd/<version>/ holds their contents directly.
+    // leading xsd/ directory so resources/schemas/xsd/<version>/ holds their contents directly.
     for ($i = 0; $i < $zip->numFiles; $i++) {
         $entry = $zip->getNameIndex($i);
         if ($entry === false || !str_starts_with($entry, 'xsd/')) {

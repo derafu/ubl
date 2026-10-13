@@ -12,33 +12,36 @@ declare(strict_types=1);
 
 namespace Derafu\Ubl\Service\Format;
 
-use Derafu\Ubl\Contract\FormatHandlerInterface;
 use Derafu\Ubl\Exception\DeserializationException;
 use Derafu\Ubl\Exception\SerializationException;
 use JsonException;
 
 /**
- * A document as JSON, with its `toArray()` wrapped under a single top-level key naming the
- * document type (`{"Quotation": {...}}`), the same convention `yaml` uses.
+ * A document as JSON, in the model-based representation of the OASIS note (see
+ * `ArrayFormatHandler`): `{"_D": "...", "_A": "...", "_B": "...", "Quotation": {...}}`.
+ * The same structure `yaml` uses.
  */
-final class JsonHandler implements FormatHandlerInterface
+final class JsonHandler extends ArrayFormatHandler
 {
-    use ArrayWireFormatTrait;
+    public function getFormat(): string
+    {
+        return 'json';
+    }
 
-    public function serialize(object $document): string
+    protected function encode(array $data, string $class): string
     {
         try {
-            return (string) json_encode($this->wrap($document), JSON_THROW_ON_ERROR);
+            return (string) json_encode(EmptyObjects::of($data), JSON_THROW_ON_ERROR | JSON_PRESERVE_ZERO_FRACTION);
         } catch (JsonException $e) {
             throw new SerializationException([
                 'Could not encode {class} as JSON: {message}',
-                'class' => $document::class,
+                'class' => $class,
                 'message' => $e->getMessage(),
             ], previous: $e);
         }
     }
 
-    public function deserialize(string $content, ?string $class = null): object
+    protected function decode(string $content): array
     {
         try {
             $data = json_decode($content, true, flags: JSON_THROW_ON_ERROR);
@@ -56,13 +59,6 @@ final class JsonHandler implements FormatHandlerInterface
             ]);
         }
 
-        [$resolvedClass, $payload] = $this->unwrap($data, $class);
-
-        return $resolvedClass::fromArray($payload);
-    }
-
-    public function getFormat(): string
-    {
-        return 'json';
+        return $data;
     }
 }

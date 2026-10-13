@@ -16,38 +16,46 @@
 # meaningful are kept too: `Quotation.ID`, the seller's and the item's `Name`, and the
 # line's `Price`.
 #
-# Keys are the UBL element and attribute names, the same ones
-# `Derafu\Ubl\Trait\ArraySerializableTrait::fromArray()` reads, e.g.
-# `Quotation::fromArray(Yaml::parseFile(...)['Quotation'])`. A value with no attributes is a
-# plain scalar (`ID`, `IssueDate`, `Name`); a value that has one, like an amount's currency,
-# needs the `@value`/`@attributes` form. Each field's comment below is UBL's own definition
+# The structure is the model-based JSON representation of OASIS's "UBL 2.1 JSON Alternative
+# Representation" (Committee Note v2.0), carried as YAML: the keys are the UBL element names
+# (the same ones `Derafu\Ubl\Trait\ArraySerializableTrait::fromArray()` reads, e.g.
+# `Invoice::fromArray(Yaml::parseFile(...)['Invoice'])`), a value (a BBIE) is always an object
+# with its content under `_` and its attributes (an amount's currency) next to it, and only what
+# UBL allows more than once is a list. `_D`, `_A` and `_B` are the namespaces of the apex. Each field's comment below is UBL's own definition
 # for it (see the `ccts:Definition` of the matching type in `resources/xsd/2.1/common/`),
 # not a restatement of its name.
 
+_D: urn:oasis:names:specification:ubl:schema:xsd:Quotation-2
+_A: urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2
+_B: urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2
 Quotation:
-  ID: '1' # An identifier for this document, assigned by the sender.
-  IssueDate: '2026-01-15' # The date, assigned by the sender, on which this document was issued.
+  ID: # An identifier for this document, assigned by the sender.
+    _: '1'
+  IssueDate: # The date, assigned by the sender, on which this document was issued.
+    _: '2026-01-15'
   # The seller. Wrapped in SupplierParty rather than a bare Party: UBL's way of letting a
   # party carry supplier-specific data (e.g. a customer-assigned account id) alongside its
   # identity - unused here, so only the identity underneath is actually filled in.
   SellerSupplierParty:
     Party: # A class to describe an organization, sub-organization, or individual.
       PartyName: # A name for this party (a list: a party can have more than one name).
-        - Name: Acme Corp # The name of the party.
+        - Name: # The name of the party.
+            _: Acme Corp
   QuotedMonetaryTotal: # The total amount of the Quotation.
     PayableAmount: # The amount of the monetary total to be paid.
-      '@value': '100'
-      '@attributes':
-        currencyID: EUR
+      _: 100
+      currencyID: EUR
   # A line quoting a cost for one kind of item - at least one is required.
   QuotationLine:
-    - ID: '1' # An identifier for this quotation line.
+    - ID: # An identifier for this quotation line.
+        _: '1'
       LineItem: # The item that is the subject of this quotation line.
-        ID: '1' # An identifier for this line item, assigned by the buyer.
+        ID: # An identifier for this line item, assigned by the buyer.
+          _: '1'
         Price: # The price of the item of trade associated with this line item.
           PriceAmount: # The amount of the price.
-            '@value': '100'
-            '@attributes':
-              currencyID: EUR
+            _: 100
+            currencyID: EUR
         Item: # The item of trade associated with this line item.
-          Name: Widget # A short name optionally given to this item.
+          Name: # A short name optionally given to this item.
+            _: Widget

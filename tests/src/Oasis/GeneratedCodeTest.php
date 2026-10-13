@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Derafu\TestsUbl\Oasis;
 
+use Derafu\Ubl\Service\Deserializer;
+use Derafu\Ubl\Service\Serializer;
 use Generator;
 use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\Attributes\Test;
@@ -100,6 +102,40 @@ final class GeneratedCodeTest extends TestCase
         }
 
         $this->assertGreaterThan(200, $checked, 'the directories were not scanned');
+    }
+
+    #[Test]
+    public function noCacElementIsTypedAsACbcBasicComponent(): void
+    {
+        // The generator typed a `cac:` element whose name is also a `cbc:` element's (`Location`,
+        // `Condition`) as the text of the `cbc:` one, and the aggregate lost all its content
+        // (a `<cac:Location>` read back as `<cac:Location/>`); patch-oasis.php gives them their
+        // own class.
+        $basic = 'Text|Code|Identifier|Amount|Quantity|Measure|Numeric|BinaryObject';
+
+        $this->assertNoFileMatches(
+            '/Ns::CAC, type: (?:' . $basic . ')::class\)\]/',
+            'has a list of cac: elements typed as a cbc: basic component'
+        );
+        $this->assertNoFileMatches(
+            '/Ns::CAC\)\]\n    private \?(?:' . $basic . ') \$/',
+            'has a cac: element typed as a cbc: basic component'
+        );
+    }
+
+    #[Test]
+    public function aCacElementNamedLikeACbcOneKeepsItsContentThroughXml(): void
+    {
+        $xml = (string) file_get_contents(
+            dirname(__DIR__, 2) . '/fixtures/doc/xml/GoodsItemItinerary/GoodsItemItinerary_001_official_example.xml'
+        );
+
+        $serializer = new Serializer();
+        $out = $serializer->serialize((new Deserializer())->deserialize($xml, 'xml'), 'xml');
+
+        // The `<cac:Location>` of the transport events holds an address, not text.
+        $this->assertStringNotContainsString('<cac:Location/>', $out);
+        $this->assertStringContainsString('Neuer Wandrahm 4', $out);
     }
 
     #[Test]

@@ -14,7 +14,11 @@ namespace Derafu\Ubl\Service;
 
 use Derafu\Ubl\Contract\FormatHandlerFactoryInterface;
 use Derafu\Ubl\Contract\FormatHandlerInterface;
+use Derafu\Ubl\Contract\JsonValidatorInterface;
+use Derafu\Ubl\Contract\NormalizerInterface;
+use Derafu\Ubl\Contract\XmlValidatorInterface;
 use Derafu\Ubl\Exception\UnsupportedFormatException;
+use Derafu\Ubl\Service\Format\ArrayFormatHandler;
 use Derafu\Ubl\Service\Format\JsonHandler;
 use Derafu\Ubl\Service\Format\XmlHandler;
 use Derafu\Ubl\Service\Format\YamlHandler;
@@ -38,9 +42,19 @@ final class FormatHandlerFactory implements FormatHandlerFactoryInterface
     /**
      * @param array<string, class-string<FormatHandlerInterface>> $handlers Overrides the
      * default `json`/`yaml`/`xml` map entirely when not empty.
+     * @param NormalizerInterface $normalizer Given to the handlers of a plain array format
+     * (`ArrayFormatHandler`, like `json` and `yaml`).
+     * @param ExtensionContentCodecs $extensions Same.
+     * @param XmlValidatorInterface $xmlValidator Given to the `XmlHandler`.
+     * @param JsonValidatorInterface $jsonValidator Given to the handlers of a plain array format.
      */
-    public function __construct(array $handlers = [])
-    {
+    public function __construct(
+        array $handlers = [],
+        private readonly NormalizerInterface $normalizer = new Normalizer(),
+        private readonly ExtensionContentCodecs $extensions = new ExtensionContentCodecs(),
+        private readonly XmlValidatorInterface $xmlValidator = new XmlSchemaValidator(),
+        private readonly JsonValidatorInterface $jsonValidator = new JsonSchemaValidator(),
+    ) {
         if ($handlers !== []) {
             $this->handlers = $handlers;
         }
@@ -59,7 +73,13 @@ final class FormatHandlerFactory implements FormatHandlerFactoryInterface
 
         $handlerClass = $this->handlers[$format];
 
-        return new $handlerClass();
+        return match (true) {
+            is_subclass_of($handlerClass, ArrayFormatHandler::class)
+                => new $handlerClass($this->normalizer, $this->extensions, $this->jsonValidator),
+            $handlerClass === XmlHandler::class
+                => new XmlHandler(validator: $this->xmlValidator),
+            default => new $handlerClass(),
+        };
     }
 
     public function registerHandler(string $format, string $handlerClass): static

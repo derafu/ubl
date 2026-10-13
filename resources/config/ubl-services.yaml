@@ -17,8 +17,22 @@ services:
     Derafu\Ubl\Contract\DeserializerInterface:
         class: Derafu\Ubl\Service\Deserializer
 
-    Derafu\Ubl\Contract\ValidatorInterface:
-        class: Derafu\Ubl\Service\SchemaValidator
+    Derafu\Ubl\Contract\XmlValidatorInterface:
+        class: Derafu\Ubl\Service\XmlSchemaValidator
+
+    # Needs opis/json-schema (only suggested) when validation of JSON or YAML is requested.
+    Derafu\Ubl\Contract\JsonValidatorInterface:
+        class: Derafu\Ubl\Service\JsonSchemaValidator
+
+    Derafu\Ubl\Contract\NormalizerInterface:
+        class: Derafu\Ubl\Service\Normalizer
+
+    # The codecs of the extensions: a package that knows an extension registers its
+    # `ExtensionContentCodecInterface` with the tag `derafu_ubl.extension_content_codec`
+    # (explicit in its own file: `_instanceof` does not propagate across imported files).
+    Derafu\Ubl\Service\ExtensionContentCodecs:
+        arguments:
+            $codecs: !tagged_iterator derafu_ubl.extension_content_codec
 
     Derafu\Ubl\Contract\FormatHandlerFactoryInterface:
         class: Derafu\Ubl\Service\FormatHandlerFactory
