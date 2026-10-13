@@ -1,6 +1,6 @@
 # QualificationApplicationResponse
 #
-# UBL 2.2's own definition (UBL-QualificationApplicationResponse-2.2.xsd): "QualificationApplicationResponse"
+# UBL 2.2's own definition (UBL-QualificationApplicationResponse-2.2.xsd): "A document issued by a procurement organization to notify an economic operator whether it has been admitted to or excluded from the tendering process."
 #
 # Only what `QualificationApplicationResponse` marks `required: true` (see src/V22/Oasis/Doc/QualificationApplicationResponse.php)
 # is here: the smallest document of the model, written by tools/generate-yaml-fixtures.php.

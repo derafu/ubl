@@ -1,6 +1,6 @@
 # BusinessCard
 #
-# UBL 2.2's own definition (UBL-BusinessCard-2.2.xsd): "BusinessCard"
+# UBL 2.2's own definition (UBL-BusinessCard-2.2.xsd): "A document used to provide information about a business party and its business capabilities."
 #
 # Only what `BusinessCard` marks `required: true` (see src/V22/Oasis/Doc/BusinessCard.php)
 # is here: the smallest document of the model, written by tools/generate-yaml-fixtures.php.

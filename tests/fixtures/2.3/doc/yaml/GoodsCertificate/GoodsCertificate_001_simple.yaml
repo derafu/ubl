@@ -1,6 +1,6 @@
 # GoodsCertificate
 #
-# UBL 2.3's own definition (UBL-GoodsCertificate-2.3.xsd): "GoodsCertificate"
+# UBL 2.3's own definition (UBL-GoodsCertificate-2.3.xsd): "A document that describes a certificate of goods for importation and exportation"
 #
 # Only what `GoodsCertificate` marks `required: true` (see src/V23/Oasis/Doc/GoodsCertificate.php)
 # is here: the smallest document of the model, written by tools/generate-yaml-fixtures.php.

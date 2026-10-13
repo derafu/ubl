@@ -1,6 +1,6 @@
 # UnsubscribeFromProcedureRequest
 #
-# UBL 2.2's own definition (UBL-UnsubscribeFromProcedureRequest-2.2.xsd): "UnsubscribeFromProcedureRequest"
+# UBL 2.2's own definition (UBL-UnsubscribeFromProcedureRequest-2.2.xsd): "A request to unsubscribe from a tendering procedure. Economic Operators can subscribe to a tendering procedure using the Expression Of Interest. Upon subscription, the Economic Operator keeps receiving relevant documentation for the tendering process. The unsubscribe to procedure document allows the Economic Operator to be removed from the list of interested parties."
 #
 # Only what `UnsubscribeFromProcedureRequest` marks `required: true` (see src/V22/Oasis/Doc/UnsubscribeFromProcedureRequest.php)
 # is here: the smallest document of the model, written by tools/generate-yaml-fixtures.php.

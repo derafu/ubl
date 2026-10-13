@@ -1,6 +1,6 @@
 # ProofOfReexportationRequest
 #
-# UBL 2.3's own definition (UBL-ProofOfReexportationRequest-2.3.xsd): "ProofOfReexportationRequest"
+# UBL 2.3's own definition (UBL-ProofOfReexportationRequest-2.3.xsd): "A document requesting the status or proof that goods have been re-exported"
 #
 # Only what `ProofOfReexportationRequest` marks `required: true` (see src/V23/Oasis/Doc/ProofOfReexportationRequest.php)
 # is here: the smallest document of the model, written by tools/generate-yaml-fixtures.php.

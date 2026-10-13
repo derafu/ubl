@@ -350,9 +350,9 @@ function fixDocumentRegistry(string $path): int
  * bare, namespace-stripped name alone ("Signature") and lands on this package's own, unrelated
  * `Cac\Signature` class - the two happen to share a name, nothing else. Typed that way, a real
  * signed document would silently hydrate into the wrong shape. This does not model the real
- * `ds:SignatureType` (see CLAUDE.md's note on digital signatures for why, and for what a
- * future signing package would need to do instead) - it only stops the false claim, widening
- * the property to a plain, honestly-untyped string.
+ * `ds:SignatureType` (a signature stays XML, in the extension of the document, as the text it
+ * was read as; producing and verifying one is the job of a signing package) - it only stops the
+ * false claim, widening the property to a plain, honestly-untyped string.
  */
 function fixSignatureInformationSignatureType(string $path): int
 {

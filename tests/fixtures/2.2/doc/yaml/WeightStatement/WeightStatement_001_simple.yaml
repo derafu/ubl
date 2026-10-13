@@ -1,6 +1,6 @@
 # WeightStatement
 #
-# UBL 2.2's own definition (UBL-WeightStatement-2.2.xsd): "WeightStatement"
+# UBL 2.2's own definition (UBL-WeightStatement-2.2.xsd): "A document used to report weight or verified mass measurements in the transport chain."
 #
 # Only what `WeightStatement` marks `required: true` (see src/V22/Oasis/Doc/WeightStatement.php)
 # is here: the smallest document of the model, written by tools/generate-yaml-fixtures.php.

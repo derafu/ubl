@@ -1,6 +1,6 @@
 # Manifest
 #
-# UBL 2.3's own definition (UBL-Manifest-2.3.xsd): "Manifest"
+# UBL 2.3's own definition (UBL-Manifest-2.3.xsd): "A document listing the contents, cargo, passengers and crew of an airplane, a ship, a truck or a vagon."
 #
 # Only what `Manifest` marks `required: true` (see src/V23/Oasis/Doc/Manifest.php)
 # is here: the smallest document of the model, written by tools/generate-yaml-fixtures.php.

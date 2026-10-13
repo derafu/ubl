@@ -1,6 +1,6 @@
 # InvoiceStatusRequest
 #
-# UBL 2.5's own definition (UBL-InvoiceStatusRequest-2.5.xsd): "InvoiceStatusRequest"
+# UBL 2.5's own definition (UBL-InvoiceStatusRequest-2.5.xsd): "A document used to request the status of a previously issued Invoice."
 #
 # Only what `InvoiceStatusRequest` marks `required: true` (see src/V25/Oasis/Doc/InvoiceStatusRequest.php)
 # is here: the smallest document of the model, written by tools/generate-yaml-fixtures.php.

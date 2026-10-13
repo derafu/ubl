@@ -1,6 +1,6 @@
 # EnquiryResponse
 #
-# UBL 2.2's own definition (UBL-EnquiryResponse-2.2.xsd): "EnquiryResponse"
+# UBL 2.2's own definition (UBL-EnquiryResponse-2.2.xsd): "A document sent by a responder to a requester answering a particular enqury."
 #
 # Only what `EnquiryResponse` marks `required: true` (see src/V22/Oasis/Doc/EnquiryResponse.php)
 # is here: the smallest document of the model, written by tools/generate-yaml-fixtures.php.

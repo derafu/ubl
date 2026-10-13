@@ -1,6 +1,6 @@
 # CommonTransportationReport
 #
-# UBL 2.3's own definition (UBL-CommonTransportationReport-2.3.xsd): "CommonTransportationReport"
+# UBL 2.3's own definition (UBL-CommonTransportationReport-2.3.xsd): "A common document used for reporting transport related issues to authorities or regulators."
 #
 # Only what `CommonTransportationReport` marks `required: true` (see src/V23/Oasis/Doc/CommonTransportationReport.php)
 # is here: the smallest document of the model, written by tools/generate-yaml-fixtures.php.

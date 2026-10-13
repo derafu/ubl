@@ -1,6 +1,6 @@
 # TransitCustomsDeclaration
 #
-# UBL 2.3's own definition (UBL-TransitCustomsDeclaration-2.3.xsd): "TransitCustomsDeclaration"
+# UBL 2.3's own definition (UBL-TransitCustomsDeclaration-2.3.xsd): "A document that describes an import customs declaration."
 #
 # Only what `TransitCustomsDeclaration` marks `required: true` (see src/V23/Oasis/Doc/TransitCustomsDeclaration.php)
 # is here: the smallest document of the model, written by tools/generate-yaml-fixtures.php.

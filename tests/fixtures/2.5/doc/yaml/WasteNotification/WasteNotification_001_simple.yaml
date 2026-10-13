@@ -1,6 +1,6 @@
 # WasteNotification
 #
-# UBL 2.5's own definition (UBL-WasteNotification-2.5.xsd): "WasteNotification"
+# UBL 2.5's own definition (UBL-WasteNotification-2.5.xsd): "A document used to notify the competent authorities of planned movements of waste."
 #
 # Only what `WasteNotification` marks `required: true` (see src/V25/Oasis/Doc/WasteNotification.php)
 # is here: the smallest document of the model, written by tools/generate-yaml-fixtures.php.

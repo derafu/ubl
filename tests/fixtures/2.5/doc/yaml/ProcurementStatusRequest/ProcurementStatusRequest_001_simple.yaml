@@ -1,6 +1,6 @@
 # ProcurementStatusRequest
 #
-# UBL 2.5's own definition (UBL-ProcurementStatusRequest-2.5.xsd): "ProcurementStatusRequest"
+# UBL 2.5's own definition (UBL-ProcurementStatusRequest-2.5.xsd): "A document sent by an Economic Operator to a Contracting Party asking about the details and status of a procurement procedure, Project, or Lot."
 #
 # Only what `ProcurementStatusRequest` marks `required: true` (see src/V25/Oasis/Doc/ProcurementStatusRequest.php)
 # is here: the smallest document of the model, written by tools/generate-yaml-fixtures.php.

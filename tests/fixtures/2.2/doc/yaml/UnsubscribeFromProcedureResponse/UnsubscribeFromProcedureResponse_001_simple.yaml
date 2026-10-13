@@ -1,6 +1,6 @@
 # UnsubscribeFromProcedureResponse
 #
-# UBL 2.2's own definition (UBL-UnsubscribeFromProcedureResponse-2.2.xsd): "UnsubscribeFromProcedureResponse"
+# UBL 2.2's own definition (UBL-UnsubscribeFromProcedureResponse-2.2.xsd): "A document sent from a Contracting Party to the Economic Operator confirming that the latter has been unsubscribed from a tendering procedure."
 #
 # Only what `UnsubscribeFromProcedureResponse` marks `required: true` (see src/V22/Oasis/Doc/UnsubscribeFromProcedureResponse.php)
 # is here: the smallest document of the model, written by tools/generate-yaml-fixtures.php.

@@ -1,6 +1,6 @@
 # InvoiceStatusResponse
 #
-# UBL 2.5's own definition (UBL-InvoiceStatusResponse-2.5.xsd): "InvoiceStatusResponse"
+# UBL 2.5's own definition (UBL-InvoiceStatusResponse-2.5.xsd): "A document used to provide information about the status of a collaboration/process associated with a document."
 #
 # Only what `InvoiceStatusResponse` marks `required: true` (see src/V25/Oasis/Doc/InvoiceStatusResponse.php)
 # is here: the smallest document of the model, written by tools/generate-yaml-fixtures.php.

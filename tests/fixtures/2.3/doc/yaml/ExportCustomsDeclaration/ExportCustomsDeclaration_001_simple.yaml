@@ -1,6 +1,6 @@
 # ExportCustomsDeclaration
 #
-# UBL 2.3's own definition (UBL-ExportCustomsDeclaration-2.3.xsd): "ExportCustomsDeclaration"
+# UBL 2.3's own definition (UBL-ExportCustomsDeclaration-2.3.xsd): "A customs declaration document for exporting goods"
 #
 # Only what `ExportCustomsDeclaration` marks `required: true` (see src/V23/Oasis/Doc/ExportCustomsDeclaration.php)
 # is here: the smallest document of the model, written by tools/generate-yaml-fixtures.php.

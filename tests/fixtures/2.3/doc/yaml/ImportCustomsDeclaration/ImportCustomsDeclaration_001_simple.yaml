@@ -1,6 +1,6 @@
 # ImportCustomsDeclaration
 #
-# UBL 2.3's own definition (UBL-ImportCustomsDeclaration-2.3.xsd): "ImportCustomsDeclaration"
+# UBL 2.3's own definition (UBL-ImportCustomsDeclaration-2.3.xsd): "A customs declaration document for importing goods."
 #
 # Only what `ImportCustomsDeclaration` marks `required: true` (see src/V23/Oasis/Doc/ImportCustomsDeclaration.php)
 # is here: the smallest document of the model, written by tools/generate-yaml-fixtures.php.

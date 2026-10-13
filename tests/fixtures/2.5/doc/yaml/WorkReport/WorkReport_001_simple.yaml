@@ -1,6 +1,6 @@
 # WorkReport
 #
-# UBL 2.5's own definition (UBL-WorkReport-2.5.xsd): "WorkReport"
+# UBL 2.5's own definition (UBL-WorkReport-2.5.xsd): "A document used to report work performed."
 #
 # Only what `WorkReport` marks `required: true` (see src/V25/Oasis/Doc/WorkReport.php)
 # is here: the smallest document of the model, written by tools/generate-yaml-fixtures.php.

@@ -1,6 +1,6 @@
 # DeliveryNote
 #
-# UBL 2.5's own definition (UBL-DeliveryNote-2.5.xsd): "DeliveryNote"
+# UBL 2.5's own definition (UBL-DeliveryNote-2.5.xsd): "A document confirming the actual delivery of goods or services, detailing delivered items, quantities, and shipment information."
 #
 # Only what `DeliveryNote` marks `required: true` (see src/V25/Oasis/Doc/DeliveryNote.php)
 # is here: the smallest document of the model, written by tools/generate-yaml-fixtures.php.

@@ -1,6 +1,6 @@
 # DigitalAgreement
 #
-# UBL 2.2's own definition (UBL-DigitalAgreement-2.2.xsd): "DigitalAgreement"
+# UBL 2.2's own definition (UBL-DigitalAgreement-2.2.xsd): "A document used to support business parties agreeing on a set of digital processes, terms and conditions to ensure interoperability."
 #
 # Only what `DigitalAgreement` marks `required: true` (see src/V22/Oasis/Doc/DigitalAgreement.php)
 # is here: the smallest document of the model, written by tools/generate-yaml-fixtures.php.

@@ -1,6 +1,6 @@
 # TenderStatusRequest
 #
-# UBL 2.2's own definition (UBL-TenderStatusRequest-2.2.xsd): "TenderStatusRequest"
+# UBL 2.2's own definition (UBL-TenderStatusRequest-2.2.xsd): "A document sent by an Economic Operator asking about the details and status of a tendering procedure."
 #
 # Only what `TenderStatusRequest` marks `required: true` (see src/V22/Oasis/Doc/TenderStatusRequest.php)
 # is here: the smallest document of the model, written by tools/generate-yaml-fixtures.php.

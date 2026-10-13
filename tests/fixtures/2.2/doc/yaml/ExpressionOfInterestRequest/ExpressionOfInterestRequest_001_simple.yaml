@@ -1,6 +1,6 @@
 # ExpressionOfInterestRequest
 #
-# UBL 2.2's own definition (UBL-ExpressionOfInterestRequest-2.2.xsd): "ExpressionOfInterestRequest"
+# UBL 2.2's own definition (UBL-ExpressionOfInterestRequest-2.2.xsd): "An expression of interest to a tendering process. An Economic Operator can demonstrate interest in a tendering process issuing an Expression Of Interest document to the contracting party. Upon reception, the Contracting Party registers the interest of the Economic Operator sending the relevant information for the tendering process."
 #
 # Only what `ExpressionOfInterestRequest` marks `required: true` (see src/V22/Oasis/Doc/ExpressionOfInterestRequest.php)
 # is here: the smallest document of the model, written by tools/generate-yaml-fixtures.php.

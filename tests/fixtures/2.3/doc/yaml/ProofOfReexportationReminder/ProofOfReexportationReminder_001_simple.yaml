@@ -1,6 +1,6 @@
 # ProofOfReexportationReminder
 #
-# UBL 2.3's own definition (UBL-ProofOfReexportationReminder-2.3.xsd): "ProofOfReexportationReminder"
+# UBL 2.3's own definition (UBL-ProofOfReexportationReminder-2.3.xsd): "A reminder that a requested Proof of Reexportation is pending."
 #
 # Only what `ProofOfReexportationReminder` marks `required: true` (see src/V23/Oasis/Doc/ProofOfReexportationReminder.php)
 # is here: the smallest document of the model, written by tools/generate-yaml-fixtures.php.

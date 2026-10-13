@@ -21,8 +21,8 @@ use Symfony\Component\Yaml\Yaml;
 /**
  * A document as YAML: the same structure as `json` (the model-based representation of the OASIS
  * note, see `ArrayFormatHandler`), carried in YAML. Requires `symfony/yaml`, which this package
- * does not require on its own (see CLAUDE.md): only autoloaded when a caller actually asks for
- * the `yaml` format.
+ * does not require on its own: only autoloaded when a caller actually asks for the `yaml`
+ * format.
  */
 final class YamlHandler extends ArrayFormatHandler
 {

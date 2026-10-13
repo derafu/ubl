@@ -22,6 +22,12 @@ use Derafu\Ubl\Exception\UnsupportedVersionException;
  * The default is `2.1`, the version of Peppol BIS Billing 3.0 and of most of the world's
  * e-invoicing. An application changes it in its own services (`derafu_ubl.version`), and any call
  * can ask for another one (`['version' => '2.2']`).
+ *
+ * The version is chosen, never detected: every 2.x version has the same XML namespaces and
+ * `UBLVersionID` is optional. And each version has its own model because the versions only add and
+ * relax cardinalities, and a relaxed cardinality changes the PHP type of a property (a value that
+ * becomes a list): what is valid in a version is valid in the later ones, but not as the same
+ * class.
  */
 final class VersionRegistry implements VersionRegistryInterface
 {

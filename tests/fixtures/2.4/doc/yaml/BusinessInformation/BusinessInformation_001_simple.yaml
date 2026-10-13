@@ -1,6 +1,6 @@
 # BusinessInformation
 #
-# UBL 2.4's own definition (UBL-BusinessInformation-2.4.xsd): "BusinessInformation"
+# UBL 2.4's own definition (UBL-BusinessInformation-2.4.xsd): "A document used to provide information about a business."
 #
 # Only what `BusinessInformation` marks `required: true` (see src/V24/Oasis/Doc/BusinessInformation.php)
 # is here: the smallest document of the model, written by tools/generate-yaml-fixtures.php.

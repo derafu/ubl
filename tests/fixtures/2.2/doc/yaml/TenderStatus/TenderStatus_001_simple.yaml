@@ -1,6 +1,6 @@
 # TenderStatus
 #
-# UBL 2.2's own definition (UBL-TenderStatus-2.2.xsd): "TenderStatus"
+# UBL 2.2's own definition (UBL-TenderStatus-2.2.xsd): "A document sent by the Contracting Party to an Economic Operator describing the status of a tendering procedure."
 #
 # Only what `TenderStatus` marks `required: true` (see src/V22/Oasis/Doc/TenderStatus.php)
 # is here: the smallest document of the model, written by tools/generate-yaml-fixtures.php.

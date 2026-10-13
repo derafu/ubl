@@ -1,6 +1,6 @@
 # TenderWithdrawal
 #
-# UBL 2.2's own definition (UBL-TenderWithdrawal-2.2.xsd): "TenderWithdrawal"
+# UBL 2.2's own definition (UBL-TenderWithdrawal-2.2.xsd): "A document sent by an Economic Operator to a Contracting Party with the intention of withdrawing a previously sent Tender document."
 #
 # Only what `TenderWithdrawal` marks `required: true` (see src/V22/Oasis/Doc/TenderWithdrawal.php)
 # is here: the smallest document of the model, written by tools/generate-yaml-fixtures.php.

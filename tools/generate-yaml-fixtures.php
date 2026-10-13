@@ -119,7 +119,7 @@ final class Definitions
     {
         $xpath = $this->xpath("maindoc/UBL-$document-{$this->version}.xsd");
 
-        return $this->text($xpath->query("//xsd:element[@name='$document']/xsd:annotation/xsd:documentation//ccts:Definition")) ?: $document;
+        return $this->text($xpath->query("//xsd:complexType[@name='{$document}Type']/xsd:annotation/xsd:documentation//ccts:Definition")) ?: $document;
     }
 
     /**

@@ -1,6 +1,6 @@
 # DigitalCapability
 #
-# UBL 2.2's own definition (UBL-DigitalCapability-2.2.xsd): "DigitalCapability"
+# UBL 2.2's own definition (UBL-DigitalCapability-2.2.xsd): "A document used to provide information about a business party and its digital trade capabilities."
 #
 # Only what `DigitalCapability` marks `required: true` (see src/V22/Oasis/Doc/DigitalCapability.php)
 # is here: the smallest document of the model, written by tools/generate-yaml-fixtures.php.

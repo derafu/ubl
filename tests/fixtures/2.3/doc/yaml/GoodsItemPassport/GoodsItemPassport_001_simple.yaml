@@ -1,6 +1,6 @@
 # GoodsItemPassport
 #
-# UBL 2.3's own definition (UBL-GoodsItemPassport-2.3.xsd): "GoodsItemPassport"
+# UBL 2.3's own definition (UBL-GoodsItemPassport-2.3.xsd): "A document providing a temporary export license, also knowned as an ATA Carnet"
 #
 # Only what `GoodsItemPassport` marks `required: true` (see src/V23/Oasis/Doc/GoodsItemPassport.php)
 # is here: the smallest document of the model, written by tools/generate-yaml-fixtures.php.

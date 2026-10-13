@@ -1,6 +1,6 @@
 # TenderContract
 #
-# UBL 2.2's own definition (UBL-TenderContract-2.2.xsd): "TenderContract"
+# UBL 2.2's own definition (UBL-TenderContract-2.2.xsd): "A document published by a Contracting Party to announce the awarding of a procurement project."
 #
 # Only what `TenderContract` marks `required: true` (see src/V22/Oasis/Doc/TenderContract.php)
 # is here: the smallest document of the model, written by tools/generate-yaml-fixtures.php.
