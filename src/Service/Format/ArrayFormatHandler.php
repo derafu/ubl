@@ -16,17 +16,19 @@ use Derafu\Ubl\Contract\DeserializerInterface;
 use Derafu\Ubl\Contract\FormatHandlerInterface;
 use Derafu\Ubl\Contract\JsonValidatorInterface;
 use Derafu\Ubl\Contract\NormalizerInterface;
+use Derafu\Ubl\Contract\VersionInterface;
+use Derafu\Ubl\Contract\VersionRegistryInterface;
 use Derafu\Ubl\Exception\DeserializationException;
 use Derafu\Ubl\Exception\SerializationException;
-use Derafu\Ubl\Oasis\Xml\DocumentRegistry;
 use Derafu\Ubl\Service\ExtensionContentCodecs;
 use Derafu\Ubl\Service\JsonSchemaValidator;
 use Derafu\Ubl\Service\Normalizer;
+use Derafu\Ubl\Service\VersionRegistry;
 
 /**
  * Shared by the format handlers whose wire format is a plain array (`json`, `yaml`): the
- * model-based JSON representation of "UBL 2.1 JSON Alternative Representation" v2.0 (OASIS
- * Committee Note 01, https://docs.oasis-open.org/ubl/UBL-2.1-JSON/v2.0/cn01/), which `yaml`
+ * model-based JSON representation of "UBL JSON Alternative Representation" (OASIS
+ * Committee Note 01, https://docs.oasis-open.org/ubl/UBL-2.1-JSON/v2.0/cn01/ and its 2.2 and 2.3 editions), which `yaml`
  * carries as the very same structure.
  *
  * It is the apex of that note around a document's `toArray()`: the properties `_D`, `_A`,
@@ -54,6 +56,7 @@ abstract class ArrayFormatHandler implements FormatHandlerInterface
         private readonly NormalizerInterface $normalizer = new Normalizer(),
         private readonly ExtensionContentCodecs $extensions = new ExtensionContentCodecs(),
         private readonly JsonValidatorInterface $validator = new JsonSchemaValidator(),
+        private readonly VersionRegistryInterface $versions = new VersionRegistry(),
     ) {
     }
 
@@ -64,13 +67,17 @@ abstract class ArrayFormatHandler implements FormatHandlerInterface
 
     final public function deserialize(string $content, array $options = []): object
     {
-        [$resolvedClass, $apex, $payload] = $this->unwrap($this->decode($content));
+        $version = $this->versions->get($options[DeserializerInterface::VERSION] ?? null);
+        [$resolvedClass, $apex, $payload] = $this->unwrap($this->decode($content), $version);
 
         $payload = $this->normalizer->normalize($payload, $resolvedClass);
 
         // Validated as it is written, the extensions still as the codecs read them.
         if (($options[DeserializerInterface::VALIDATE] ?? false) === true) {
-            $this->validator->validate($apex + [self::shortClassName($resolvedClass) => $payload]);
+            $this->validator->validate(
+                $apex + [self::shortClassName($resolvedClass) => $payload],
+                $version->getId()
+            );
         }
 
         $payload = $this->extensions->decode($payload);
@@ -107,7 +114,7 @@ abstract class ArrayFormatHandler implements FormatHandlerInterface
             ]);
         }
 
-        $root = DocumentRegistry::rootElementFor($document::class);
+        $root = $this->versions->forClass($document::class)->rootElementFor($document::class);
         $data = $this->extensions->encode($document->toArray());
 
         $apex = [];
@@ -129,7 +136,7 @@ abstract class ArrayFormatHandler implements FormatHandlerInterface
      * @return array{0: class-string, 1: array<array-key, mixed>, 2: array<array-key, mixed>} The
      * class, the apex (the properties that start with `_`) and the content of the document.
      */
-    private function unwrap(array $data): array
+    private function unwrap(array $data, VersionInterface $version): array
     {
         // The namespaces of the apex (`_D`, `_A`, `_B`, `_E`) are only documentary.
         $apex = array_filter(
@@ -157,9 +164,9 @@ abstract class ArrayFormatHandler implements FormatHandlerInterface
             ]);
         }
 
-        $resolved = 'Derafu\\Ubl\\Oasis\\Doc\\' . $key;
+        $resolved = $version->getDocumentClass((string) $key);
 
-        if (!class_exists($resolved) || !method_exists($resolved, 'fromArray')) {
+        if ($resolved === null) {
             throw new DeserializationException([
                 'Unknown UBL document type "{key}".',
                 'key' => $key,

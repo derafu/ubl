@@ -1,0 +1,28 @@
+# WorkReport
+#
+# UBL 2.5's own definition (UBL-WorkReport-2.5.xsd): "WorkReport"
+#
+# Only what `WorkReport` marks `required: true` (see src/V25/Oasis/Doc/WorkReport.php)
+# is here: the smallest document of the model, written by tools/generate-yaml-fixtures.php.
+#
+# The structure is the model-based JSON representation of OASIS's "UBL JSON Alternative
+# Representation" (Committee Note), carried as YAML: the keys are the UBL element names, a value
+# (a BBIE) is always an object with its content under `_` and its attributes next to it, and only
+# what UBL allows more than once is a list. `_D`, `_A` and `_B` are the namespaces of the apex.
+#
+# Each field's comment is UBL's own definition of it (the `ccts:Definition` of the XSD).
+_D: urn:oasis:names:specification:ubl:schema:xsd:WorkReport-2
+_A: urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2
+_B: urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2
+WorkReport:
+  ID: # An identifier for this Work Report.
+    _: '1'
+  IssueDate: # The date on which this work report was issued.
+    _: '2026-01-15'
+  SellerSupplierParty: {} # The party providing the work.
+  BuyerCustomerParty: {} # The party receiving the work.
+  WorkReportLine: # A line describing reported work.
+    - ID: # An identifier for this Work Report Line.
+        _: '1'
+      Quantity: # The quantity of work reported in this line.
+        _: 1

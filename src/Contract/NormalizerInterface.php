@@ -15,7 +15,7 @@ namespace Derafu\Ubl\Contract;
 /**
  * Gets the decoded data of a document ready for `fromArray()`.
  *
- * `fromArray()` only reads the model-based JSON representation of "UBL 2.1 JSON Alternative
+ * `fromArray()` only reads the model-based JSON representation of "UBL JSON Alternative
  * Representation" (OASIS Committee Note 01), exactly. A normalizer is the one place where data
  * in other shapes (the legacy-based form of the same note, bare scalars where it asks for an
  * object...) can be brought to that one, so that no other code has to know about them.

@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Derafu\TestsUbl\Oasis;
 
-use Derafu\Ubl\Oasis\Doc\Quotation;
-use Derafu\Ubl\Oasis\Xml\DocumentRegistry;
+use Derafu\Ubl\V21\Oasis\Doc\Quotation;
+use Derafu\Ubl\V21\Oasis\Xml\DocumentRegistry;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\UsesClass;

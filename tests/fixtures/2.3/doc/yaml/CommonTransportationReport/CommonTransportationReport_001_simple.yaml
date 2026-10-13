@@ -1,0 +1,24 @@
+# CommonTransportationReport
+#
+# UBL 2.3's own definition (UBL-CommonTransportationReport-2.3.xsd): "CommonTransportationReport"
+#
+# Only what `CommonTransportationReport` marks `required: true` (see src/V23/Oasis/Doc/CommonTransportationReport.php)
+# is here: the smallest document of the model, written by tools/generate-yaml-fixtures.php.
+#
+# The structure is the model-based JSON representation of OASIS's "UBL JSON Alternative
+# Representation" (Committee Note), carried as YAML: the keys are the UBL element names, a value
+# (a BBIE) is always an object with its content under `_` and its attributes next to it, and only
+# what UBL allows more than once is a list. `_D`, `_A` and `_B` are the namespaces of the apex.
+#
+# Each field's comment is UBL's own definition of it (the `ccts:Definition` of the XSD).
+_D: urn:oasis:names:specification:ubl:schema:xsd:CommonTransportationReport-2
+_A: urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2
+_B: urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2
+CommonTransportationReport:
+  ID: # An identifier for this document.
+    _: '1'
+  IssueDate: # The date, assigned by the sender, on which this document was issued.
+    _: '2026-01-15'
+  ReporterParty: {} # The party providing this common transportation report.
+  SenderParty: {} # The party sending this report.
+  ReceiverParty: {} # The party receiving this report.

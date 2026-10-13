@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Derafu\TestsUbl\Service;
 
-use Derafu\Ubl\Oasis\Doc\Quotation;
 use Derafu\Ubl\Service\Normalizer;
+use Derafu\Ubl\V21\Oasis\Doc\Quotation;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;

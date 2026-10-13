@@ -28,8 +28,8 @@ interface FormatHandlerInterface
      * The target class is resolved from the content itself (the XML root element, or the single
      * top-level key of the decoded JSON/YAML).
      *
-     * @param array{validate?: bool} $options See `DeserializerInterface` (its `class` option is
-     * checked by the `Deserializer`, not by the handlers).
+     * @param array{validate?: bool, version?: string} $options See `DeserializerInterface` (its
+     * `class` option is checked by the `Deserializer`, not by the handlers).
      */
     public function deserialize(string $content, array $options = []): object;
 

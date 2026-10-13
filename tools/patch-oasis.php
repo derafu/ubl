@@ -11,41 +11,62 @@ declare(strict_types=1);
  */
 
 /**
- * Corrects known defects of xterr/php-ubl-generator's output in the committed src/Oasis.
+ * Corrects known defects of xterr/php-ubl-generator's output in the committed src/V<nn>/Oasis.
+ *
+ *     php tools/patch-oasis.php [2.1|2.2|2.3|2.4|2.5|all]
  *
  * Run with: composer run generate-oasis (right after tools/generate-oasis.php, before
  * composer phpcs-fix).
  */
 
 require dirname(__DIR__) . '/vendor/autoload.php';
+require __DIR__ . '/oasis-common.php';
 
 use Xterr\UBL\Xml\Mapping\XmlAny;
 use Xterr\UBL\Xml\Mapping\XmlAttribute;
 use Xterr\UBL\Xml\Mapping\XmlElement;
 use Xterr\UBL\Xml\Mapping\XmlValue;
 
-$oasisDir = dirname(__DIR__) . '/src/Oasis';
-$files = new RegexIterator(
-    new RecursiveIteratorIterator(new RecursiveDirectoryIterator($oasisDir)),
-    '/\.php$/'
-);
+foreach (array_keys(oasisSelectVersions($argv)) as $version) {
+    $totalChanged = patchVersion($version);
 
-$totalChanged = 0;
-// First, and before anything that reads a path or reflects a class: every later step, including
-// the ARRAY_METADATA one, must see each class where it finally lives.
-$totalChanged += relocateForeignNamespaceClasses($oasisDir);
-$totalChanged += removeW3cMetaschemaEnums($oasisDir);
-$totalChanged += fixValidatorDocblocks($files);
-$totalChanged += fixTimeFormat(dirname(__DIR__) . '/src/Oasis');
-$totalChanged += fixDocumentRegistry(dirname(__DIR__) . '/src/Oasis/Xml/DocumentRegistry.php');
-$totalChanged += fixSignatureInformationSignatureType(dirname(__DIR__) . '/src/Oasis/Sac/SignatureInformation.php');
-$totalChanged += fixCacElementsTypedAsCbc($oasisDir);
-$totalChanged += fixAnyWildcards($oasisDir);
-$totalChanged += addCopyrightHeader(dirname(__DIR__) . '/src/Oasis');
-$totalChanged += addArraySerializableTrait(dirname(__DIR__) . '/src/Oasis');
-$totalChanged += addArrayMetadataConstant(dirname(__DIR__) . '/src/Oasis');
+    fwrite(STDOUT, "patch-oasis: UBL $version: $totalChanged file(s) changed.\n");
+}
 
-fwrite(STDOUT, "patch-oasis: $totalChanged file(s) changed.\n");
+/**
+ * Applies every correction to the generated model of one version.
+ *
+ * @return int Number of files changed.
+ */
+function patchVersion(string $version): int
+{
+    oasisDir($version);
+
+    $oasisDir = oasisDir();
+    $files = new RegexIterator(
+        new RecursiveIteratorIterator(new RecursiveDirectoryIterator($oasisDir)),
+        '/\.php$/'
+    );
+
+    $totalChanged = 0;
+    // First, and before anything that reads a path or reflects a class: every later step,
+    // including the ARRAY_METADATA one, must see each class where it finally lives.
+    $totalChanged += relocateForeignNamespaceClasses($oasisDir);
+    $totalChanged += removeW3cMetaschemaEnums($oasisDir);
+    $totalChanged += fixValidatorDocblocks($files);
+    $totalChanged += fixTimeFormat($oasisDir);
+    $totalChanged += fixDocumentRegistry("$oasisDir/Xml/DocumentRegistry.php");
+    $totalChanged += fixSignatureInformationSignatureType("$oasisDir/Sac/SignatureInformation.php");
+    $totalChanged += fixCacElementsTypedAsCbc($oasisDir);
+    $totalChanged += fixListsOfBuiltinTypes($oasisDir);
+    $totalChanged += fixAnyWildcards($oasisDir);
+    $totalChanged += addCopyrightHeader($oasisDir);
+    $totalChanged += addArraySerializableTrait($oasisDir);
+    $totalChanged += addArrayMetadataConstant($oasisDir);
+
+    return $totalChanged;
+}
+
 
 /**
  * The generator puts every class that is not `Cbc` into `Cac`, including the few whose own
@@ -75,7 +96,7 @@ function relocateForeignNamespaceClasses(string $oasisDir): int
         'SignatureInformation' => 'Sac',
         'UBLDocumentSignatures' => 'Sig',
     ];
-    $base = 'Derafu\\Ubl\\Oasis\\';
+    $base = oasisNamespace() . '\\';
     $changed = 0;
 
     foreach ($moves as $class => $target) {
@@ -370,8 +391,88 @@ function fixSignatureInformationSignatureType(string $path): int
 }
 
 /**
- * A `cac:` element whose name is also the name of a `cbc:` element (`Location`, `Condition`) is
- * typed by the generator as the `cbc:` one: `TypeResolver::resolveElement()` asks for the PHP
+ * Finds the places where the generator typed a `cac:` element as the `cbc:` basic component of
+ * the same name: every property mapped to the `cac:` namespace whose type is a basic component
+ * and whose element has a class of its own in `Cac` (`Location`, `Condition`, `Status`). The
+ * ones of each version differ (two in 2.1 and 2.2, eight from 2.4: `Status` of `Consignment`,
+ * `Response`, `Package`...), so they are found, not listed.
+ *
+ * @return list<array{0: string, 1: array{property: string, element: string, class: string, from: string, list: bool}}>
+ */
+function findCacElementsTypedAsCbc(string $oasisDir): array
+{
+    $basic = 'Text|Code|Identifier|Amount|Quantity|Measure|Numeric|BinaryObject';
+    $found = [];
+
+    foreach (glob("$oasisDir/Cac/*.php") ?: [] as $path) {
+        $source = (string) file_get_contents($path);
+        $pattern = '/#\[XmlElement\(name: \'(\w+)\', namespace: Ns::CAC(?:, type: (' . $basic . ')::class)?(?:, required: true)?\)\]\n    private (?:\??(' . $basic . ') |array )\$(\w+)/';
+
+        if (preg_match_all($pattern, $source, $matches, PREG_SET_ORDER) === 0) {
+            continue;
+        }
+
+        foreach ($matches as $match) {
+            if (!is_file("$oasisDir/Cac/{$match[1]}.php")) {
+                continue;
+            }
+
+            $found[] = ['Cac/' . basename($path), [
+                'property' => $match[4],
+                'element' => $match[1],
+                'class' => $match[1],
+                'from' => $match[2] !== '' ? $match[2] : $match[3],
+                'list' => $match[3] === '',
+            ]];
+        }
+    }
+
+    return $found;
+}
+
+/**
+ * A list of a built-in type (`ElectronicPaymentUsageIndicator`, a list of booleans, of
+ * `PostAwardProcess` since 2.2) is generated with `type: bool::class` and a guard
+ * `!$value instanceof bool`. Neither means what it says: inside a namespace `bool::class` is
+ * `Derafu\Ubl\V22\Oasis\Cac\bool` (a class that does not exist, so the runtime does not read the
+ * items as booleans: it only knows the type as the string `'bool'`), and `instanceof bool` is
+ * always false, so `addToXxx(true)` threw for every value.
+ *
+ * Writes the type as the string the runtime reads, and the guard as `is_bool()` (`is_int()`...).
+ * Safe to run on an already corrected tree. Fails if one is left.
+ *
+ * @return int Number of files changed.
+ */
+function fixListsOfBuiltinTypes(string $oasisDir): int
+{
+    $builtin = 'bool|int|float|string';
+    $changed = 0;
+
+    $files = new RegexIterator(
+        new RecursiveIteratorIterator(new RecursiveDirectoryIterator($oasisDir)),
+        '/\.php$/'
+    );
+    foreach ($files as $file) {
+        $path = $file->getPathname();
+        $source = (string) file_get_contents($path);
+        $patched = preg_replace('/type: (' . $builtin . ')::class/', "type: '\\1'", $source);
+        $patched = preg_replace('/if \(!\$value instanceof (' . $builtin . ')\) \{/', 'if (!is_\\1($value)) {', (string) $patched);
+        $patched = preg_replace('/Expected instance of (' . $builtin . '), got/', 'Expected \\1, got', (string) $patched);
+
+        if ($patched !== null && $patched !== $source) {
+            file_put_contents($path, $patched);
+            $changed++;
+        }
+    }
+
+    assertNoneMatch($oasisDir, '/type: (?:' . $builtin . ')::class|instanceof (?:' . $builtin . ')\b/', 'a list of a built-in type is still typed as a class');
+
+    return $changed;
+}
+
+/**
+ * A `cac:` element whose name is also the name of a `cbc:` element (`Location`, `Condition`,
+ * `Status`) is typed by the generator as the `cbc:` one: `TypeResolver::resolveElement()` asks for the PHP
  * type of every element of a component namespace by its local name alone, and finds the basic
  * component (`Text`) of the same name. The XSD says those two are aggregates (`LocationType`,
  * `ConditionType`), so every value of them was read as the text of an element that has children,
@@ -390,13 +491,9 @@ function fixSignatureInformationSignatureType(string $path): int
  */
 function fixCacElementsTypedAsCbc(string $oasisDir): int
 {
-    $fixes = [
-        'Cac/TransportEvent.php' => ['property' => 'location', 'element' => 'Location', 'class' => 'Location', 'list' => false],
-        'Cac/Status.php' => ['property' => 'conditions', 'element' => 'Condition', 'class' => 'Condition', 'list' => true],
-    ];
     $changed = 0;
 
-    foreach ($fixes as $file => $fix) {
+    foreach (findCacElementsTypedAsCbc($oasisDir) as [$file, $fix]) {
         $path = "$oasisDir/$file";
         if (!is_file($path)) {
             fwrite(STDERR, "patch-oasis: expected file not found: $path\n");
@@ -412,8 +509,8 @@ function fixCacElementsTypedAsCbc(string $oasisDir): int
         // The property, with the attribute that maps it, and every method that types it.
         $chunks = [
             $fix['list']
-                ? '/    \/\*\* @var list<\w+> \*\/\n    #\[XmlElement\(name: \'' . $element . '\', namespace: Ns::CAC, type: \w+::class\)\]\n    private array \$' . $property . ' = \[\];\n/'
-                : '/    #\[XmlElement\(name: \'' . $element . '\', namespace: Ns::CAC\)\]\n    private \?\w+ \$' . $property . ' = null;\n/',
+                ? '/    \/\*\* @var list<\w+> \*\/\n    #\[XmlElement\(name: \'' . $element . '\', namespace: Ns::CAC, type: \w+::class(?:, required: true)?\)\]\n    private array \$' . $property . ' = \[\];\n/'
+                : '/    #\[XmlElement\(name: \'' . $element . '\', namespace: Ns::CAC(?:, required: true)?\)\]\n    private \??\w+ \$' . $property . '(?: = null)?;\n/',
         ];
         $methods = $fix['list']
             ? ['get' . $method, 'set' . $method, 'addTo' . $method, 'validate' . $method]
@@ -425,7 +522,7 @@ function fixCacElementsTypedAsCbc(string $oasisDir): int
         foreach ($chunks as $chunk) {
             $patched = preg_replace_callback(
                 $chunk,
-                static fn (array $match): string => preg_replace('/\bText\b/', $fix['class'], $match[0]),
+                static fn (array $match): string => preg_replace('/\b' . $fix['from'] . '\b/', $fix['class'], $match[0]),
                 $patched,
                 1,
                 $count
@@ -436,7 +533,7 @@ function fixCacElementsTypedAsCbc(string $oasisDir): int
             }
         }
 
-        if (!str_contains($patched, '\\' . $fix['class'] . ' $') && !str_contains($patched, '?' . $fix['class'] . ' $') && !str_contains($patched, 'list<' . $fix['class'] . '>')) {
+        if (preg_match('/(?:[\\\\? ]' . $fix['class'] . ' \$|list<' . $fix['class'] . '>)/', $patched) !== 1) {
             fwrite(STDERR, "patch-oasis: {$fix['element']} is not typed as {$fix['class']} in $path after patching\n");
             exit(1);
         }
@@ -450,12 +547,12 @@ function fixCacElementsTypedAsCbc(string $oasisDir): int
     $basic = 'Text|Code|Identifier|Amount|Quantity|Measure|Numeric|BinaryObject';
     assertNoneMatch(
         $oasisDir,
-        '/Ns::CAC, type: (?:' . $basic . ')::class\)\]/',
+        '/Ns::CAC, type: (?:' . $basic . ')::class(?:, required: true)?\)\]/',
         'a cac: element is typed as a cbc: basic component of the same name'
     );
     assertNoneMatch(
         $oasisDir,
-        '/Ns::CAC\)\]\n    private \?(?:' . $basic . ') \$/',
+        '/Ns::CAC(?:, required: true)?\)\]\n    private \??(?:' . $basic . ') \$/',
         'a cac: element is typed as a cbc: basic component of the same name'
     );
 
@@ -674,14 +771,30 @@ function addArrayMetadataConstant(string $dir): int
         }
 
         $source = file_get_contents($path);
-        if (preg_match($missingConstant, $source) !== 1) {
-            continue;
-        }
-
         $class = classFor($dir, $path);
         $metadata = classArrayMetadata($class);
         $constant = '    private const ARRAY_METADATA = ' . exportMetadata($metadata) . ";\n\n";
-        $patched = preg_replace($missingConstant, "use ArraySerializableTrait;\n\n$constant", $source, 1);
+
+        if (preg_match($missingConstant, $source) === 1) {
+            $patched = preg_replace($missingConstant, "use ArraySerializableTrait;\n\n$constant", $source, 1);
+        } else {
+            // Already there: brought up to date if it is not what the class says now, since a
+            // later correction of the class (the type of a property) changes it.
+            if ((new ReflectionClass($class))->getReflectionConstant('ARRAY_METADATA')?->getValue() === $metadata) {
+                continue;
+            }
+
+            $patched = preg_replace_callback(
+                '/    private const ARRAY_METADATA = \[\n.*?\n    \];\n\n/s',
+                static fn (): string => $constant,
+                $source,
+                1
+            );
+        }
+
+        if ($patched === $source || $patched === null) {
+            continue;
+        }
 
         file_put_contents($path, $patched);
         $changed++;
@@ -696,7 +809,7 @@ function classFor(string $oasisDir, string $path): string
 {
     $relative = substr($path, strlen($oasisDir) + 1, -4);
 
-    return 'Derafu\\Ubl\\Oasis\\' . str_replace('/', '\\', $relative);
+    return oasisNamespace() . '\\' . str_replace('/', '\\', $relative);
 }
 
 /**
@@ -816,7 +929,23 @@ function assertNoneMatch(string $dir, string $pattern, string $message, array $e
     }
 }
 
-function oasisDir(): string
+/**
+ * The generated model that is being patched: set by `oasisDir('2.2')`, read by `oasisDir()`.
+ */
+function oasisDir(?string $version = null): string
 {
-    return dirname(__DIR__) . '/src/Oasis';
+    static $current = null;
+
+    if ($version !== null) {
+        $current = $version;
+    }
+
+    return oasisSourceDirOf((string) $current);
+}
+
+function oasisNamespace(): string
+{
+    $parts = explode('/', substr(oasisDir(), strlen(dirname(__DIR__) . '/src/')));
+
+    return 'Derafu\\Ubl\\' . $parts[0] . '\\' . $parts[1];
 }

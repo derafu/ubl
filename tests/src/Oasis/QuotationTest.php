@@ -13,12 +13,12 @@ declare(strict_types=1);
 namespace Derafu\TestsUbl\Oasis;
 
 use DateTimeImmutable;
-use Derafu\Ubl\Oasis\Cac\MonetaryTotal;
-use Derafu\Ubl\Oasis\Cac\QuotationLine;
-use Derafu\Ubl\Oasis\Cac\SupplierParty;
-use Derafu\Ubl\Oasis\Cbc\Amount;
-use Derafu\Ubl\Oasis\Cbc\Identifier;
-use Derafu\Ubl\Oasis\Doc\Quotation;
+use Derafu\Ubl\V21\Oasis\Cac\MonetaryTotal;
+use Derafu\Ubl\V21\Oasis\Cac\QuotationLine;
+use Derafu\Ubl\V21\Oasis\Cac\SupplierParty;
+use Derafu\Ubl\V21\Oasis\Cbc\Amount;
+use Derafu\Ubl\V21\Oasis\Cbc\Identifier;
+use Derafu\Ubl\V21\Oasis\Doc\Quotation;
 use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;

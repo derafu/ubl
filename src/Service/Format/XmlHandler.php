@@ -14,10 +14,13 @@ namespace Derafu\Ubl\Service\Format;
 
 use Derafu\Ubl\Contract\DeserializerInterface;
 use Derafu\Ubl\Contract\FormatHandlerInterface;
+use Derafu\Ubl\Contract\VersionInterface;
+use Derafu\Ubl\Contract\VersionRegistryInterface;
 use Derafu\Ubl\Contract\XmlValidatorInterface;
 use Derafu\Ubl\Exception\DeserializationException;
 use Derafu\Ubl\Exception\SerializationException;
 use Derafu\Ubl\Service\RootElementResolver;
+use Derafu\Ubl\Service\VersionRegistry;
 use Derafu\Ubl\Service\XmlSchemaValidator;
 use Xterr\UBL\Exception\DeserializationException as XterrDeserializationException;
 use Xterr\UBL\Exception\SerializationException as XterrSerializationException;
@@ -35,6 +38,7 @@ final class XmlHandler implements FormatHandlerInterface
         private readonly XmlSerializer $serializer = new XmlSerializer(),
         private readonly XmlDeserializer $deserializer = new XmlDeserializer(),
         private readonly XmlValidatorInterface $validator = new XmlSchemaValidator(),
+        private readonly VersionRegistryInterface $versions = new VersionRegistry(),
     ) {
     }
 
@@ -53,10 +57,11 @@ final class XmlHandler implements FormatHandlerInterface
 
     public function deserialize(string $content, array $options = []): object
     {
-        $class = $this->detectClass($content);
+        $version = $this->versions->get($options[DeserializerInterface::VERSION] ?? null);
+        $class = $this->detectClass($content, $version);
 
         if (($options[DeserializerInterface::VALIDATE] ?? false) === true) {
-            $this->validator->validate($content);
+            $this->validator->validate($content, $version->getId());
         }
 
         try {
@@ -81,9 +86,9 @@ final class XmlHandler implements FormatHandlerInterface
      *
      * @return class-string
      */
-    private function detectClass(string $content): string
+    private function detectClass(string $content, VersionInterface $version): string
     {
-        $class = RootElementResolver::resolve($content);
+        $class = RootElementResolver::resolve($content, $version);
 
         if ($class === null) {
             throw new DeserializationException([

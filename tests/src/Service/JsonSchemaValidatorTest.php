@@ -15,6 +15,8 @@ namespace Derafu\TestsUbl\Service;
 use Derafu\Ubl\Exception\ValidationException;
 use Derafu\Ubl\Service\Format\EmptyObjects;
 use Derafu\Ubl\Service\JsonSchemaValidator;
+use Derafu\Ubl\Service\Version;
+use Derafu\Ubl\Service\VersionRegistry;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\UsesClass;
@@ -24,11 +26,13 @@ use stdClass;
 #[CoversClass(JsonSchemaValidator::class)]
 #[UsesClass(EmptyObjects::class)]
 #[UsesClass(ValidationException::class)]
+#[UsesClass(Version::class)]
+#[UsesClass(VersionRegistry::class)]
 final class JsonSchemaValidatorTest extends TestCase
 {
-    private const INVOICE = __DIR__ . '/../../fixtures/doc/json/Invoice/Invoice_001_official_example.json';
+    private const INVOICE = __DIR__ . '/../../fixtures/2.1/doc/json/Invoice/Invoice_001_official_example.json';
 
-    private const ORDER_RESPONSE = __DIR__ . '/../../fixtures/doc/json/OrderResponse/OrderResponse_001_official_example.json';
+    private const ORDER_RESPONSE = __DIR__ . '/../../fixtures/2.1/doc/json/OrderResponse/OrderResponse_001_official_example.json';
 
     #[Test]
     public function anOfficialExampleValidatesAgainstTheSchemaOfItsOwnType(): void

@@ -16,6 +16,7 @@ use Derafu\Ubl\Contract\FormatHandlerFactoryInterface;
 use Derafu\Ubl\Contract\FormatHandlerInterface;
 use Derafu\Ubl\Contract\JsonValidatorInterface;
 use Derafu\Ubl\Contract\NormalizerInterface;
+use Derafu\Ubl\Contract\VersionRegistryInterface;
 use Derafu\Ubl\Contract\XmlValidatorInterface;
 use Derafu\Ubl\Exception\UnsupportedFormatException;
 use Derafu\Ubl\Service\Format\ArrayFormatHandler;
@@ -47,6 +48,7 @@ final class FormatHandlerFactory implements FormatHandlerFactoryInterface
      * @param ExtensionContentCodecs $extensions Same.
      * @param XmlValidatorInterface $xmlValidator Given to the `XmlHandler`.
      * @param JsonValidatorInterface $jsonValidator Given to the handlers of a plain array format.
+     * @param VersionRegistryInterface $versions Given to every handler that needs a UBL version.
      */
     public function __construct(
         array $handlers = [],
@@ -54,6 +56,7 @@ final class FormatHandlerFactory implements FormatHandlerFactoryInterface
         private readonly ExtensionContentCodecs $extensions = new ExtensionContentCodecs(),
         private readonly XmlValidatorInterface $xmlValidator = new XmlSchemaValidator(),
         private readonly JsonValidatorInterface $jsonValidator = new JsonSchemaValidator(),
+        private readonly VersionRegistryInterface $versions = new VersionRegistry(),
     ) {
         if ($handlers !== []) {
             $this->handlers = $handlers;
@@ -75,9 +78,9 @@ final class FormatHandlerFactory implements FormatHandlerFactoryInterface
 
         return match (true) {
             is_subclass_of($handlerClass, ArrayFormatHandler::class)
-                => new $handlerClass($this->normalizer, $this->extensions, $this->jsonValidator),
+                => new $handlerClass($this->normalizer, $this->extensions, $this->jsonValidator, $this->versions),
             $handlerClass === XmlHandler::class
-                => new XmlHandler(validator: $this->xmlValidator),
+                => new XmlHandler(validator: $this->xmlValidator, versions: $this->versions),
             default => new $handlerClass(),
         };
     }

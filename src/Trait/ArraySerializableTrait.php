@@ -16,16 +16,12 @@ use BackedEnum;
 use DateTimeImmutable;
 use DateTimeZone;
 use Derafu\Ubl\Exception\DeserializationException;
-use Derafu\Ubl\Oasis\Cbc\Amount;
-use Derafu\Ubl\Oasis\Cbc\Measure;
-use Derafu\Ubl\Oasis\Cbc\Numeric;
-use Derafu\Ubl\Oasis\Cbc\Quantity;
 use Exception;
 
 /**
  * `toArray()`, `fromArray()` and `jsonSerialize()` for an `Oasis` class, in the model-based
- * JSON representation of "UBL 2.1 JSON Alternative Representation" v2.0 (OASIS Committee Note
- * 01, https://docs.oasis-open.org/ubl/UBL-2.1-JSON/v2.0/cn01/): keyed by the UBL element names
+ * JSON representation of "UBL JSON Alternative Representation" (OASIS Committee Note
+ * 01, https://docs.oasis-open.org/ubl/UBL-2.1-JSON/v2.0/cn01/ and its 2.2 and 2.3 editions): keyed by the UBL element names
  * (the same ones the XML uses), not by the PHP property name. `Service\Format\JsonHandler` and
  * `YamlHandler` add the apex of that note (`_D`, `_A`, `_B`, `_E` and the document key).
  *
@@ -226,7 +222,7 @@ trait ArraySerializableTrait
      */
     private static function isNumericValueType(): bool
     {
-        return in_array(static::class, [Amount::class, Quantity::class, Measure::class, Numeric::class], true);
+        return preg_match('/\\\\Cbc\\\\(?:Amount|Quantity|Measure|Numeric)$/', static::class) === 1;
     }
 
     /**
@@ -234,7 +230,7 @@ trait ArraySerializableTrait
      */
     private static function isScaffolding(?string $class): bool
     {
-        return $class !== null && str_starts_with($class, 'Derafu\\Ubl\\Oasis\\Ext\\');
+        return $class !== null && preg_match('/\\\\Oasis\\\\Ext\\\\/', $class) === 1;
     }
 
     /**

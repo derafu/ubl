@@ -14,24 +14,27 @@ namespace Derafu\TestsUbl\Service;
 
 use DateTimeImmutable;
 use Derafu\Ubl\Exception\ValidationException;
-use Derafu\Ubl\Oasis\Cac\Item;
-use Derafu\Ubl\Oasis\Cac\LineItem;
-use Derafu\Ubl\Oasis\Cac\MonetaryTotal;
-use Derafu\Ubl\Oasis\Cac\Party;
-use Derafu\Ubl\Oasis\Cac\PartyName;
-use Derafu\Ubl\Oasis\Cac\QuotationLine;
-use Derafu\Ubl\Oasis\Cac\SupplierParty;
-use Derafu\Ubl\Oasis\Cbc\Amount;
-use Derafu\Ubl\Oasis\Cbc\Identifier;
-use Derafu\Ubl\Oasis\Cbc\Text;
-use Derafu\Ubl\Oasis\Doc\Quotation;
-use Derafu\Ubl\Oasis\Xml\DocumentRegistry;
 use Derafu\Ubl\Service\ExtensionContentCodecs;
 use Derafu\Ubl\Service\Format\XmlHandler;
 use Derafu\Ubl\Service\FormatHandlerFactory;
+use Derafu\Ubl\Service\JsonSchemaValidator;
 use Derafu\Ubl\Service\RootElementResolver;
 use Derafu\Ubl\Service\Serializer;
+use Derafu\Ubl\Service\Version;
+use Derafu\Ubl\Service\VersionRegistry;
 use Derafu\Ubl\Service\XmlSchemaValidator;
+use Derafu\Ubl\V21\Oasis\Cac\Item;
+use Derafu\Ubl\V21\Oasis\Cac\LineItem;
+use Derafu\Ubl\V21\Oasis\Cac\MonetaryTotal;
+use Derafu\Ubl\V21\Oasis\Cac\Party;
+use Derafu\Ubl\V21\Oasis\Cac\PartyName;
+use Derafu\Ubl\V21\Oasis\Cac\QuotationLine;
+use Derafu\Ubl\V21\Oasis\Cac\SupplierParty;
+use Derafu\Ubl\V21\Oasis\Cbc\Amount;
+use Derafu\Ubl\V21\Oasis\Cbc\Identifier;
+use Derafu\Ubl\V21\Oasis\Cbc\Text;
+use Derafu\Ubl\V21\Oasis\Doc\Quotation;
+use Derafu\Ubl\V21\Oasis\Xml\DocumentRegistry;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\UsesClass;
@@ -56,6 +59,9 @@ use PHPUnit\Framework\TestCase;
 #[UsesClass(ValidationException::class)]
 #[UsesClass(XmlHandler::class)]
 #[UsesClass(ExtensionContentCodecs::class)]
+#[UsesClass(JsonSchemaValidator::class)]
+#[UsesClass(Version::class)]
+#[UsesClass(VersionRegistry::class)]
 final class XmlSchemaValidatorTest extends TestCase
 {
     /**

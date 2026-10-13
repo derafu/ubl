@@ -33,6 +33,8 @@ use Composer\InstalledVersions;
 const PATCHES = [
     'parseDateTimeFallsBackToTheLenientParserWhenTheStrictFormatFails',
     'parseDateTimeCanonicalizesItsResult',
+    'unmappedChildrenKeepTheNamespacesInScope',
+    'rawFragmentsAreWrittenWithoutReconcilingTheirNamespaces',
 ];
 
 $installPath = InstalledVersions::getInstallPath('xterr/php-ubl');
@@ -170,6 +172,208 @@ function parseDateTimeCanonicalizesItsResult(string $installPath): bool
 
     $result = file_get_contents($file);
     if ($result === false || !str_contains($result, $patched)) {
+        fwrite(STDERR, "Patched $file but the expected result is not there afterwards.\n");
+        exit(1);
+    }
+
+    return true;
+}
+
+/**
+ * `XmlDeserializer` keeps every child it has no mapping for (the content of an `ExtensionContent`,
+ * a signature) as the string of `saveXML($child)`. That string only declares the namespaces the
+ * child itself declares: one declared by an ancestor (`xmlns:sig` on the `ext:UBLExtension` of
+ * UBL's own signed example, `UBL-Invoice-2.0-Enveloped.xml`) is lost, and the fragment is no
+ * longer well-formed XML on its own: written back, the document is not even XML ("Namespace
+ * prefix sig on UBLDocumentSignatures is not defined").
+ *
+ * Adds to the start tag of the fragment a declaration for each namespace that an ancestor declared
+ * and that the fragment uses (by an element or attribute prefix, or by its default namespace), so
+ * it stands on its own wherever it ends up. Nothing else changes: not a byte of what the child
+ * already had, which a digital signature over it depends on (a copy of the node, which libxml
+ * reconciles, rewrote its default namespaces as prefixed ones).
+ */
+function unmappedChildrenKeepTheNamespacesInScope(string $installPath): bool
+{
+    $file = "$installPath/src/Xml/XmlDeserializer.php";
+    $source = file_get_contents($file);
+
+    if ($source === false) {
+        fwrite(STDERR, "Could not read $file.\n");
+        exit(1);
+    }
+
+    $patchedCall = '$anyFragments[] = $this->serializeFragment($child);';
+    if (str_contains($source, $patchedCall)) {
+        return false;
+    }
+
+    $originalCall = '$anyFragments[] = $element->ownerDocument?->saveXML($child);';
+    $anchor = '    private function getDirectTextContent(\DOMElement $element): string';
+
+    if (!str_contains($source, $originalCall) || !str_contains($source, $anchor)) {
+        fwrite(
+            STDERR,
+            "xterr/php-ubl's XmlDeserializer no longer matches the expected source for its unmapped "
+                . "children (the installed version may have changed); patch skipped, needs review.\n"
+        );
+        exit(1);
+    }
+
+    $method = <<<'PHP'
+    /**
+     * An unmapped child as an XML string that stands on its own: the serialization of the
+     * child, with the declarations of the namespaces that an ancestor declared and the child
+     * (its elements, its attributes) uses, which `saveXML()` leaves out.
+     */
+    private function serializeFragment(\DOMElement $child): string
+    {
+        $document = $child->ownerDocument;
+        $parent = $child->parentNode;
+        $xml = (string) $document?->saveXML($child);
+
+        if ($document === null || !$parent instanceof \DOMElement) {
+            return $xml;
+        }
+
+        $xpath = new \DOMXPath($document);
+        $used = [];
+        $usedDefault = [];
+        foreach ($xpath->query('descendant-or-self::*', $child) ?: [] as $element) {
+            if ($element->prefix !== '') {
+                $used['xmlns:' . $element->prefix] = true;
+            } elseif ($element->namespaceURI !== null && $element->namespaceURI !== '') {
+                $usedDefault[] = $element->namespaceURI;
+            }
+            foreach ($element->attributes ?? [] as $attribute) {
+                if ($attribute->prefix !== '') {
+                    $used['xmlns:' . $attribute->prefix] = true;
+                }
+            }
+        }
+
+        $missing = '';
+        foreach ($xpath->query('namespace::*', $parent) ?: [] as $declaration) {
+            $name = $declaration->nodeName;
+            $isUsed = $name === 'xmlns' ? in_array($declaration->nodeValue, $usedDefault, true) : isset($used[$name]);
+            if ($name === 'xmlns:xml' || !$isUsed || $child->hasAttribute($name)) {
+                continue;
+            }
+            $missing .= ' ' . $name . '="' . htmlspecialchars($declaration->nodeValue, ENT_QUOTES | ENT_XML1) . '"';
+        }
+
+        return $missing === '' ? $xml : (string) preg_replace_callback(
+            '/^<[^\s\/>]+/',
+            static fn (array $tag): string => $tag[0] . $missing,
+            $xml,
+            1
+        );
+    }
+
+
+PHP;
+
+    $patched = str_replace($originalCall, $patchedCall, $source);
+    $patched = str_replace($anchor, $method . $anchor, $patched);
+    file_put_contents($file, $patched);
+
+    $result = file_get_contents($file);
+    if ($result === false || !str_contains($result, $patchedCall) || !str_contains($result, 'function serializeFragment')) {
+        fwrite(STDERR, "Patched $file but the expected result is not there afterwards.\n");
+        exit(1);
+    }
+
+    return true;
+}
+
+/**
+ * `XmlSerializer::injectRawXml()` writes the fragments of a `#[XmlAny]` property by importing
+ * their nodes into the document (`importNode()`), and DOM reconciles the namespaces of what it
+ * imports (and of what it appends): the default namespace that a fragment declares for itself
+ * (`<QualifyingProperties xmlns="http://uri.etsi.org/01903/v1.3.2#">` of a XAdES signature)
+ * comes out as a prefixed one (`default:`), with declarations it did not have. The same XML
+ * infoset, another text: what is written is not what was read, and the canonical form that a
+ * digital signature over the fragment depends on is not the same.
+ *
+ * Writes a placeholder (a comment) where the fragment goes and, once the document is a string,
+ * puts the fragment in its place: as it is, byte by byte. The check of the fragment before
+ * (well-formed, no DOCTYPE or entities) stays.
+ */
+function rawFragmentsAreWrittenWithoutReconcilingTheirNamespaces(string $installPath): bool
+{
+    $file = "$installPath/src/Xml/XmlSerializer.php";
+    $source = file_get_contents($file);
+
+    if ($source === false) {
+        fwrite(STDERR, "Could not read $file.\n");
+        exit(1);
+    }
+
+    if (str_contains($source, 'rawFragments')) {
+        return false;
+    }
+
+    $replacements = [
+        [
+            '    private MetadataFactory $metadataFactory;
+',
+            '    private MetadataFactory $metadataFactory;
+
+    /** @var array<string, string> The raw fragments of the document being written, by placeholder. */
+    private array $rawFragments = [];
+',
+        ],
+        [
+            '        // Serialize the object into the root element
+        $this->serializeObject($dom, $root, $object);
+
+        $xml = $dom->saveXML();
+        if ($xml === false) {
+            throw new SerializationException(\'Failed to serialize XML.\');
+        }
+',
+            '        // Serialize the object into the root element
+        $this->rawFragments = [];
+        $this->serializeObject($dom, $root, $object);
+
+        $xml = $dom->saveXML();
+        if ($xml === false) {
+            throw new SerializationException(\'Failed to serialize XML.\');
+        }
+
+        foreach ($this->rawFragments as $placeholder => $fragment) {
+            $xml = str_replace(\'<!--\' . $placeholder . \'-->\', $fragment, $xml);
+        }
+',
+        ],
+        [
+            '        foreach ($rootEl->childNodes as $node) {
+            $imported = $dom->importNode($node, true);
+            $parent->appendChild($imported);
+        }',
+            '        $placeholder = \'xterr-raw-fragment-\' . \count($this->rawFragments);
+        $this->rawFragments[$placeholder] = $fragment;
+        $parent->appendChild($dom->createComment($placeholder));',
+        ],
+    ];
+
+    $patched = $source;
+    foreach ($replacements as [$original, $replacement]) {
+        if (!str_contains($patched, $original)) {
+            fwrite(
+                STDERR,
+                "xterr/php-ubl's XmlSerializer no longer matches the expected source for its raw "
+                    . "fragments (the installed version may have changed); patch skipped, needs review.\n"
+            );
+            exit(1);
+        }
+        $patched = str_replace($original, $replacement, $patched);
+    }
+
+    file_put_contents($file, $patched);
+
+    $result = file_get_contents($file);
+    if ($result === false || substr_count($result, 'rawFragments') < 4) {
         fwrite(STDERR, "Patched $file but the expected result is not there afterwards.\n");
         exit(1);
     }

@@ -65,6 +65,14 @@ return [
     'Could not resolve a UBL document type from the XML root element.' =>
         'No se pudo resolver un tipo de documento UBL a partir del elemento raíz del XML.',
 
+    // Versions.
+    'UBL version "{version}" is not supported.' =>
+        'La versión {version} de UBL no está soportada.',
+    '{class} is not part of the model of any supported UBL version.' =>
+        '{class} no es parte del modelo de ninguna versión de UBL soportada.',
+    'OASIS has published no JSON schemas for UBL {version}, so its JSON and YAML cannot be validated.' =>
+        'OASIS no ha publicado esquemas JSON para UBL {version}, por lo que su JSON y YAML no se pueden validar.',
+
     // Schema validation.
     'Could not parse the XML to validate it: {errors}' =>
         'No se pudo parsear el XML para validarlo: {errors}',

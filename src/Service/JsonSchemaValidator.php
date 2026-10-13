@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Derafu\Ubl\Service;
 
 use Derafu\Ubl\Contract\JsonValidatorInterface;
+use Derafu\Ubl\Contract\VersionInterface;
+use Derafu\Ubl\Contract\VersionRegistryInterface;
 use Derafu\Ubl\Exception\ValidationException;
 use Derafu\Ubl\Service\Format\EmptyObjects;
 use JsonException;
@@ -21,8 +23,9 @@ use Opis\JsonSchema\Validator;
 
 /**
  * Validates a document in its JSON representation against the official model-based JSON schemas
- * of the OASIS note, bundled in `resources/schemas/json/2.1/`. It needs `opis/json-schema`,
- * which is only suggested: the package works without it, until validation is requested.
+ * of the OASIS note, bundled in `resources/schemas/json/<version>/` for the versions that the
+ * note covers (2.1, 2.2 and 2.3). It needs `opis/json-schema`, which is only suggested: the
+ * package works without it, until validation is requested.
  *
  * The same validator instance serves every call, so the schemas are loaded once.
  */
@@ -32,10 +35,28 @@ final class JsonSchemaValidator implements JsonValidatorInterface
 
     private ?Validator $validator = null;
 
-    public function validate(array $data): void
+    /**
+     * @var array<string, true>
+     */
+    private array $registered = [];
+
+    public function __construct(
+        private readonly VersionRegistryInterface $versions = new VersionRegistry(),
+    ) {
+    }
+
+    public function validate(array $data, ?string $version = null): void
     {
+        $version = $this->versions->get($version);
         $document = $this->documentName($data);
-        $schema = dirname(__DIR__, 2) . "/resources/schemas/json/2.1/maindoc/UBL-{$document}-2.1.json";
+        $schema = $version->getJsonSchemaPath($document);
+
+        if ($schema === null) {
+            throw new ValidationException([
+                'OASIS has published no JSON schemas for UBL {version}, so its JSON and YAML cannot be validated.',
+                'version' => $version->getId(),
+            ]);
+        }
 
         if (!is_file($schema)) {
             throw new ValidationException([
@@ -57,9 +78,9 @@ final class JsonSchemaValidator implements JsonValidatorInterface
             ], previous: $e);
         }
 
-        $result = $this->validator()->validate(
+        $result = $this->validator($version)->validate(
             $json,
-            self::SCHEMA_PREFIX . "maindoc/UBL-{$document}-2.1.json"
+            self::SCHEMA_PREFIX . $version->getId() . "/maindoc/UBL-{$document}-{$version->getId()}.json"
         );
 
         if ($result->isValid()) {
@@ -77,7 +98,7 @@ final class JsonSchemaValidator implements JsonValidatorInterface
         ], $errors);
     }
 
-    private function validator(): Validator
+    private function validator(VersionInterface $version): Validator
     {
         if (!class_exists(Validator::class)) {
             throw new ValidationException([
@@ -85,13 +106,16 @@ final class JsonSchemaValidator implements JsonValidatorInterface
             ]);
         }
 
-        if ($this->validator === null) {
-            $this->validator = new Validator();
-            $this->validator->setMaxErrors(10);
+        $this->validator ??= new Validator();
+        $this->validator->setMaxErrors(10);
+
+        $directory = $version->getJsonSchemaDirectory();
+        if ($directory !== null && !isset($this->registered[$version->getId()])) {
             $this->validator->resolver()?->registerPrefix(
-                self::SCHEMA_PREFIX,
-                dirname(__DIR__, 2) . '/resources/schemas/json/2.1'
+                self::SCHEMA_PREFIX . $version->getId() . '/',
+                $directory
             );
+            $this->registered[$version->getId()] = true;
         }
 
         return $this->validator;

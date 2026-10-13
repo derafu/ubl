@@ -1,0 +1,30 @@
+# PurchaseReceipt
+#
+# UBL 2.4's own definition (UBL-PurchaseReceipt-2.4.xsd): "PurchaseReceipt"
+#
+# Only what `PurchaseReceipt` marks `required: true` (see src/V24/Oasis/Doc/PurchaseReceipt.php)
+# is here: the smallest document of the model, written by tools/generate-yaml-fixtures.php.
+#
+# The structure is the model-based JSON representation of OASIS's "UBL JSON Alternative
+# Representation" (Committee Note), carried as YAML: the keys are the UBL element names, a value
+# (a BBIE) is always an object with its content under `_` and its attributes next to it, and only
+# what UBL allows more than once is a list. `_D`, `_A` and `_B` are the namespaces of the apex.
+#
+# Each field's comment is UBL's own definition of it (the `ccts:Definition` of the XSD).
+_D: urn:oasis:names:specification:ubl:schema:xsd:PurchaseReceipt-2
+_A: urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2
+_B: urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2
+PurchaseReceipt:
+  ID: # An identifier for this purchase receipt, assigned by the seller.
+    _: '1'
+  IssueDate: # The date when the purchase receipt was issued.
+    _: '2026-01-15'
+  AccountingSupplierParty: {} # The accounting supplier party.
+  LegalMonetaryTotal: # The total amount payable on the Invoice, including Allowances, Charges, and Taxes.
+    PayableAmount: # The amount of the monetary total to be paid.
+      _: 1
+      currencyID: EUR
+  PurchaseReceiptLine: # One or more line items that describe this purchase.
+    - ID: # An identifier for this purchase receipt line.
+        _: '1'
+      Item: {} # The item associated with this invoice line.

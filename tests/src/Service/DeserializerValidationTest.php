@@ -15,9 +15,9 @@ namespace Derafu\TestsUbl\Service;
 use Derafu\Ubl\Contract\DeserializerInterface;
 use Derafu\Ubl\Exception\DeserializationException;
 use Derafu\Ubl\Exception\ValidationException;
-use Derafu\Ubl\Oasis\Doc\Invoice;
-use Derafu\Ubl\Oasis\Doc\Order;
 use Derafu\Ubl\Service\Deserializer;
+use Derafu\Ubl\V21\Oasis\Doc\Invoice;
+use Derafu\Ubl\V21\Oasis\Doc\Order;
 use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -30,7 +30,7 @@ use PHPUnit\Framework\TestCase;
 #[CoversNothing]
 final class DeserializerValidationTest extends TestCase
 {
-    private const DIRECTORY = __DIR__ . '/../../fixtures/doc';
+    private const DIRECTORY = __DIR__ . '/../../fixtures/2.1/doc';
 
     /**
      * @return array<string, array{0: string, 1: string}>

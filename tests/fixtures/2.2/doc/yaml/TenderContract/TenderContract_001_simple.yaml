@@ -1,0 +1,28 @@
+# TenderContract
+#
+# UBL 2.2's own definition (UBL-TenderContract-2.2.xsd): "TenderContract"
+#
+# Only what `TenderContract` marks `required: true` (see src/V22/Oasis/Doc/TenderContract.php)
+# is here: the smallest document of the model, written by tools/generate-yaml-fixtures.php.
+#
+# The structure is the model-based JSON representation of OASIS's "UBL JSON Alternative
+# Representation" (Committee Note), carried as YAML: the keys are the UBL element names, a value
+# (a BBIE) is always an object with its content under `_` and its attributes next to it, and only
+# what UBL allows more than once is a list. `_D`, `_A` and `_B` are the namespaces of the apex.
+#
+# Each field's comment is UBL's own definition of it (the `ccts:Definition` of the XSD).
+_D: urn:oasis:names:specification:ubl:schema:xsd:TenderContract-2
+_A: urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2
+_B: urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2
+TenderContract:
+  ContractFolderID: # An identifier, assigned by the sender, for the process file (i.e., record) to which this document belongs.
+    _: '1'
+  IssueDate: # The date, assigned by the sender, on which this document was issued.
+    _: '2026-01-15'
+  ContractingParty: # The contracting party.
+    - Party: {} # The contracting party itself.
+  EconomicOperatorParty: # The Economic Operator issuing the inquiry on the status of a tendering process.
+    - Party: {} # The party information about the economic operator in a tender.
+  TenderResult: # A result of the bid opening in the tendering process.
+    - AwardDate: # The date on which this result was formalized.
+        _: '2026-01-15'

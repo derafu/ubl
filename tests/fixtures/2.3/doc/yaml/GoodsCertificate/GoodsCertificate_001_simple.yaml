@@ -1,0 +1,21 @@
+# GoodsCertificate
+#
+# UBL 2.3's own definition (UBL-GoodsCertificate-2.3.xsd): "GoodsCertificate"
+#
+# Only what `GoodsCertificate` marks `required: true` (see src/V23/Oasis/Doc/GoodsCertificate.php)
+# is here: the smallest document of the model, written by tools/generate-yaml-fixtures.php.
+#
+# The structure is the model-based JSON representation of OASIS's "UBL JSON Alternative
+# Representation" (Committee Note), carried as YAML: the keys are the UBL element names, a value
+# (a BBIE) is always an object with its content under `_` and its attributes next to it, and only
+# what UBL allows more than once is a list. `_D`, `_A` and `_B` are the namespaces of the apex.
+#
+# Each field's comment is UBL's own definition of it (the `ccts:Definition` of the XSD).
+_D: urn:oasis:names:specification:ubl:schema:xsd:GoodsCertificate-2
+_A: urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2
+_B: urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2
+GoodsCertificate:
+  ID: # An identifier for this document, assigned by the sender.
+    _: '1'
+  IssuerParty: {} # The party issuing this goods certificate
+  Shipment: {} # The shipment for which this goods certificate is issued

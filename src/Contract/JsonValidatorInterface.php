@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Derafu\Ubl\Contract;
 
+use Derafu\Ubl\Exception\UnsupportedVersionException;
 use Derafu\Ubl\Exception\ValidationException;
 
 /**
@@ -21,14 +22,17 @@ use Derafu\Ubl\Exception\ValidationException;
 interface JsonValidatorInterface
 {
     /**
-     * @param array<array-key, mixed> $data The decoded JSON or YAML: the apex (`_D`, `_A`, `_B`
-     * and `_E`, if any) and the property named as the document (`Invoice`).
      * The document type is resolved from the single property of `$data` that does not start
      * with `_`, like `DeserializerInterface::deserialize()` does.
      *
+     * @param array<array-key, mixed> $data The decoded JSON or YAML: the apex (`_D`, `_A`, `_B`
+     * and `_E`, if any) and the property named as the document (`Invoice`).
+     * @param string|null $version The UBL version (`2.2`), `null` for the default one.
+     *
+     * @throws UnsupportedVersionException If the version is not supported.
      * @throws ValidationException If the document type cannot be resolved, there is no JSON
-     * validator available (`opis/json-schema` is not installed), or `$data` does not validate
-     * against the schema of that type.
+     * validator available (`opis/json-schema` is not installed), OASIS has published no JSON
+     * schemas for the version, or `$data` does not validate against the schema of that type.
      */
-    public function validate(array $data): void;
+    public function validate(array $data, ?string $version = null): void;
 }

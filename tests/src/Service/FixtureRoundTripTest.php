@@ -22,14 +22,14 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Round-trips every committed fixture under tests/fixtures/doc/ through Serializer/Deserializer,
+ * Round-trips every committed fixture under tests/fixtures/<version>/doc/ through Serializer/Deserializer,
  * and every xml and yaml one additionally through XmlSchemaValidator, against the real OASIS XSD.
  * Fixtures are discovered by glob, never listed by hand: adding a new one under
- * tests/fixtures/doc/<format>/<Document>/ picks it up here automatically, for whichever
- * document types and formats happen to have one today. There is no dedicated json data
+ * tests/fixtures/<version>/doc/<format>/<Document>/ picks it up here automatically, for
+ * whichever versions, document types and formats happen to have one today. There is no dedicated json data
  * provider for the hand-authored shape: the json fixtures are the official OASIS ones (the
- * model-based JSON examples of the "UBL 2.1 JSON Alternative Representation", fetched by
- * tools/fetch-oasis-json.php), and the yaml ones are this package's own.
+ * model-based JSON examples of the "UBL JSON Alternative Representation" of 2.1, 2.2 and 2.3,
+ * fetched by tools/fetch-oasis-json.php), and the yaml ones are this package's own.
  *
  * A decimal is a JSON number, so "100.00" in XML comes back from JSON as "100": every
  * comparison here treats the numbers by their value (see `canonical()`).
@@ -41,6 +41,7 @@ use Symfony\Component\Yaml\Yaml;
 final class FixtureRoundTripTest extends TestCase
 {
     use CanonicalizesDataTrait;
+    use FixturesTrait;
 
     /**
      * The fixture's raw content, decoded with nothing but the format's own standard library
@@ -50,9 +51,9 @@ final class FixtureRoundTripTest extends TestCase
      */
     #[Test]
     #[DataProvider('yamlFixtures')]
-    public function yamlFixtureIsReadExactlyAsAuthored(string $path): void
+    public function yamlFixtureIsReadExactlyAsAuthored(string $version, string $path): void
     {
-        $this->assertFidelity($path, 'yaml');
+        $this->assertFidelity($version, $path, 'yaml');
     }
 
     /**
@@ -61,9 +62,9 @@ final class FixtureRoundTripTest extends TestCase
      */
     #[Test]
     #[DataProvider('yamlFixtures')]
-    public function yamlFixtureRoundTrips(string $path): void
+    public function yamlFixtureRoundTrips(string $version, string $path): void
     {
-        $this->assertSymmetry($path, 'yaml');
+        $this->assertSymmetry($version, $path, 'yaml');
     }
 
     /**
@@ -71,23 +72,23 @@ final class FixtureRoundTripTest extends TestCase
      */
     #[Test]
     #[DataProvider('jsonFixtures')]
-    public function jsonFixtureIsReadExactlyAsAuthored(string $path): void
+    public function jsonFixtureIsReadExactlyAsAuthored(string $version, string $path): void
     {
-        $this->assertFidelity($path, 'json');
+        $this->assertFidelity($version, $path, 'json');
     }
 
     #[Test]
     #[DataProvider('jsonFixtures')]
-    public function jsonFixtureRoundTrips(string $path): void
+    public function jsonFixtureRoundTrips(string $version, string $path): void
     {
-        $this->assertSymmetry($path, 'json');
+        $this->assertSymmetry($version, $path, 'json');
     }
 
     #[Test]
     #[DataProvider('xmlFixtures')]
-    public function xmlFixtureRoundTrips(string $path): void
+    public function xmlFixtureRoundTrips(string $version, string $path): void
     {
-        $this->assertSymmetry($path, 'xml');
+        $this->assertSymmetry($version, $path, 'xml');
     }
 
     /**
@@ -97,11 +98,11 @@ final class FixtureRoundTripTest extends TestCase
      */
     #[Test]
     #[DataProvider('xmlFixtures')]
-    public function xmlFixtureValidatesAgainstItsRealSchema(string $path): void
+    public function xmlFixtureValidatesAgainstItsRealSchema(string $version, string $path): void
     {
         $content = (string) file_get_contents($path);
 
-        (new XmlSchemaValidator())->validate($content);
+        (new XmlSchemaValidator())->validate($content, $version);
 
         $this->addToAssertionCount(1);
     }
@@ -111,17 +112,17 @@ final class FixtureRoundTripTest extends TestCase
      * is what actually proves each one is not just internally consistent (round-trips, reads as
      * authored) but a genuinely valid UBL document - the same guarantee
      * xmlFixtureValidatesAgainstItsRealSchema() already gives the xml fixtures, closing the gap
-     * for the minimal, one-per-document-type yaml fixtures under tests/fixtures/doc/yaml/.
+     * for the minimal, one-per-document-type yaml fixtures under tests/fixtures/<version>/doc/yaml/.
      */
     #[Test]
     #[DataProvider('yamlFixtures')]
-    public function yamlFixtureValidatesAgainstItsRealSchema(string $path): void
+    public function yamlFixtureValidatesAgainstItsRealSchema(string $version, string $path): void
     {
         $content = (string) file_get_contents($path);
-        $document = (new Deserializer())->deserialize($content, 'yaml');
+        $document = (new Deserializer())->deserialize($content, 'yaml', ['version' => $version]);
         $xml = (new Serializer())->serialize($document, 'xml');
 
-        (new XmlSchemaValidator())->validate($xml);
+        (new XmlSchemaValidator())->validate($xml, $version);
 
         $this->addToAssertionCount(1);
     }
@@ -132,13 +133,13 @@ final class FixtureRoundTripTest extends TestCase
      */
     #[Test]
     #[DataProvider('jsonFixtures')]
-    public function jsonFixtureValidatesAgainstItsRealSchema(string $path): void
+    public function jsonFixtureValidatesAgainstItsRealSchema(string $version, string $path): void
     {
         $content = (string) file_get_contents($path);
-        $document = (new Deserializer())->deserialize($content, 'json');
+        $document = (new Deserializer())->deserialize($content, 'json', ['version' => $version]);
         $xml = (new Serializer())->serialize($document, 'xml');
 
-        (new XmlSchemaValidator())->validate($xml);
+        (new XmlSchemaValidator())->validate($xml, $version);
 
         $this->addToAssertionCount(1);
     }
@@ -150,9 +151,9 @@ final class FixtureRoundTripTest extends TestCase
      */
     #[Test]
     #[DataProvider('allFixtures')]
-    public function everyFixtureRoundTrips(string $path, string $format): void
+    public function everyFixtureRoundTrips(string $version, string $path, string $format): void
     {
-        $this->assertSymmetry($path, $format);
+        $this->assertSymmetry($version, $path, $format);
     }
 
     /**
@@ -179,32 +180,36 @@ final class FixtureRoundTripTest extends TestCase
      */
     #[Test]
     #[DataProvider('xmlFixtures')]
-    public function officialXmlExampleSurvivesEveryFormatHop(string $path): void
+    public function officialXmlExampleSurvivesEveryFormatHop(string $version, string $path): void
     {
         $content = (string) file_get_contents($path);
         $serializer = new Serializer();
         $deserializer = new Deserializer();
 
-        $original = $deserializer->deserialize($content, 'xml');
+        $options = ['version' => $version];
+
+        $original = $deserializer->deserialize($content, 'xml', $options);
 
         $fromJson = $deserializer->deserialize(
             $serializer->serialize($original, 'json'),
-            'json'
+            'json',
+            $options
         );
         $fromYaml = $deserializer->deserialize(
             $serializer->serialize($fromJson, 'yaml'),
-            'yaml'
+            'yaml',
+            $options
         );
         $finalXml = $serializer->serialize($fromYaml, 'xml');
-        $final = $deserializer->deserialize($finalXml, 'xml');
+        $final = $deserializer->deserialize($finalXml, 'xml', $options);
 
-        (new XmlSchemaValidator())->validate($finalXml);
+        (new XmlSchemaValidator())->validate($finalXml, $version);
 
         $this->assertSame($this->canonical($this->toArray($original)), $this->canonical($this->toArray($final)), $path);
         $this->assertSame($this->canonicalSerialize($original), $this->canonicalSerialize($final), $path);
     }
 
-    private function assertFidelity(string $path, string $format): void
+    private function assertFidelity(string $version, string $path, string $format): void
     {
         $content = (string) file_get_contents($path);
         $raw = $format === 'json' ? json_decode($content, true) : Yaml::parse($content);
@@ -219,20 +224,22 @@ final class FixtureRoundTripTest extends TestCase
             $this->fail("$path does not have exactly one document key.");
         }
 
-        $document = (new Deserializer())->deserialize($content, $format);
+        $document = (new Deserializer())->deserialize($content, $format, ['version' => $version]);
 
         $this->assertSame($this->canonical($raw[$keys[0]]), $this->canonical($this->toArray($document)), $path);
     }
 
-    private function assertSymmetry(string $path, string $format): void
+    private function assertSymmetry(string $version, string $path, string $format): void
     {
         $content = (string) file_get_contents($path);
         $deserializer = new Deserializer();
+        $options = ['version' => $version];
 
-        $document = $deserializer->deserialize($content, $format);
+        $document = $deserializer->deserialize($content, $format, $options);
         $again = $deserializer->deserialize(
             (new Serializer())->serialize($document, $format),
-            $format
+            $format,
+            $options
         );
 
         $this->assertSame($this->canonical($this->toArray($document)), $this->canonical($this->toArray($again)), $path);
@@ -264,53 +271,39 @@ final class FixtureRoundTripTest extends TestCase
     }
 
     /**
-     * @return array<string, array{0: string}>
+     * @return array<string, array{0: string, 1: string}>
      */
     public static function yamlFixtures(): array
     {
-        return self::glob('yaml');
-    }
-
-    /**
-     * @return array<string, array{0: string}>
-     */
-    public static function jsonFixtures(): array
-    {
-        return self::glob('json');
-    }
-
-    /**
-     * @return array<string, array{0: string}>
-     */
-    public static function xmlFixtures(): array
-    {
-        return self::glob('xml');
+        return self::fixtures('yaml');
     }
 
     /**
      * @return array<string, array{0: string, 1: string}>
      */
+    public static function jsonFixtures(): array
+    {
+        return self::fixtures('json');
+    }
+
+    /**
+     * @return array<string, array{0: string, 1: string}>
+     */
+    public static function xmlFixtures(): array
+    {
+        return self::fixtures('xml');
+    }
+
+    /**
+     * @return array<string, array{0: string, 1: string, 2: string}>
+     */
     public static function allFixtures(): array
     {
         $cases = [];
         foreach (['yaml', 'json', 'xml'] as $format) {
-            foreach (self::glob($format) as $label => $case) {
-                $cases["$format/$label"] = [$case[0], $format];
+            foreach (self::fixtures($format) as $label => [$version, $path]) {
+                $cases["$format/$label"] = [$version, $path, $format];
             }
-        }
-
-        return $cases;
-    }
-
-    /**
-     * @return array<string, array{0: string}>
-     */
-    private static function glob(string $format): array
-    {
-        $dir = dirname(__DIR__, 3) . "/tests/fixtures/doc/$format";
-        $cases = [];
-        foreach (glob("$dir/*/*.$format") ?: [] as $file) {
-            $cases[basename(dirname($file)) . '/' . basename($file)] = [$file];
         }
 
         return $cases;

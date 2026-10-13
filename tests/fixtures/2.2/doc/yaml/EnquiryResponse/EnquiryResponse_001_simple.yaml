@@ -1,0 +1,24 @@
+# EnquiryResponse
+#
+# UBL 2.2's own definition (UBL-EnquiryResponse-2.2.xsd): "EnquiryResponse"
+#
+# Only what `EnquiryResponse` marks `required: true` (see src/V22/Oasis/Doc/EnquiryResponse.php)
+# is here: the smallest document of the model, written by tools/generate-yaml-fixtures.php.
+#
+# The structure is the model-based JSON representation of OASIS's "UBL JSON Alternative
+# Representation" (Committee Note), carried as YAML: the keys are the UBL element names, a value
+# (a BBIE) is always an object with its content under `_` and its attributes next to it, and only
+# what UBL allows more than once is a list. `_D`, `_A` and `_B` are the namespaces of the apex.
+#
+# Each field's comment is UBL's own definition of it (the `ccts:Definition` of the XSD).
+_D: urn:oasis:names:specification:ubl:schema:xsd:EnquiryResponse-2
+_A: urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2
+_B: urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2
+EnquiryResponse:
+  IssueDate: # The date, assigned by the responder, at which this enquiry response was issued.
+    _: '2026-01-15'
+  RequestorParty: {} # The party issuing the enquiry.
+  ResponderParty: {} # The party that has to respond to the enquiry.
+  ParentDocumentReference: # Reference to the enquiry that this response refers to.
+    ID: # An identifier for the referenced document.
+      _: '1'

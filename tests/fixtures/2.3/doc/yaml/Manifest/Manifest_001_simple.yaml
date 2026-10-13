@@ -1,0 +1,20 @@
+# Manifest
+#
+# UBL 2.3's own definition (UBL-Manifest-2.3.xsd): "Manifest"
+#
+# Only what `Manifest` marks `required: true` (see src/V23/Oasis/Doc/Manifest.php)
+# is here: the smallest document of the model, written by tools/generate-yaml-fixtures.php.
+#
+# The structure is the model-based JSON representation of OASIS's "UBL JSON Alternative
+# Representation" (Committee Note), carried as YAML: the keys are the UBL element names, a value
+# (a BBIE) is always an object with its content under `_` and its attributes next to it, and only
+# what UBL allows more than once is a list. `_D`, `_A` and `_B` are the namespaces of the apex.
+#
+# Each field's comment is UBL's own definition of it (the `ccts:Definition` of the XSD).
+_D: urn:oasis:names:specification:ubl:schema:xsd:Manifest-2
+_A: urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2
+_B: urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2
+Manifest:
+  ID: # An identifier for this document.
+    _: '1'
+  SendingLogisticsOperatorParty: {} # The logistics operator party issuing this manifest

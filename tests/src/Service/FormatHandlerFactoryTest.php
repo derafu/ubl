@@ -19,6 +19,9 @@ use Derafu\Ubl\Service\Format\JsonHandler;
 use Derafu\Ubl\Service\Format\XmlHandler;
 use Derafu\Ubl\Service\Format\YamlHandler;
 use Derafu\Ubl\Service\FormatHandlerFactory;
+use Derafu\Ubl\Service\JsonSchemaValidator;
+use Derafu\Ubl\Service\VersionRegistry;
+use Derafu\Ubl\Service\XmlSchemaValidator;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\UsesClass;
@@ -30,6 +33,9 @@ use PHPUnit\Framework\TestCase;
 #[UsesClass(YamlHandler::class)]
 #[UsesClass(XmlHandler::class)]
 #[UsesClass(ExtensionContentCodecs::class)]
+#[UsesClass(JsonSchemaValidator::class)]
+#[UsesClass(VersionRegistry::class)]
+#[UsesClass(XmlSchemaValidator::class)]
 final class FormatHandlerFactoryTest extends TestCase
 {
     #[Test]

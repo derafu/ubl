@@ -27,7 +27,7 @@
     "require": {
         "php": "^8.5",
         "derafu/translation": "dev-main",
-        "xterr/php-ubl": "^1.2"
+        "xterr/php-ubl": "1.2.0"
     },
     "require-dev": {
         "ext-curl": "*",
@@ -50,6 +50,7 @@
         "phpstan-export": "vendor/bin/phpstan analyse --configuration=phpstan.neon --level 9 --generate-baseline",
         "generate-oasis": "php tools/generate-oasis.php && php tools/patch-oasis.php && composer phpcs-fix",
         "fetch-oasis-examples": "php tools/fetch-oasis-examples.php",
+        "fetch-oasis-json": "php tools/fetch-oasis-json.php",
         "post-install-cmd": "php tools/patch-xterr-ubl.php",
         "post-update-cmd": "php tools/patch-xterr-ubl.php"
     },

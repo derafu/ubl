@@ -14,8 +14,10 @@ namespace Derafu\TestsUbl\Oasis;
 
 use Derafu\Ubl\Service\Deserializer;
 use Derafu\Ubl\Service\Serializer;
+use Derafu\Ubl\Service\VersionRegistry;
 use Generator;
 use PHPUnit\Framework\Attributes\CoversNothing;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use RecursiveDirectoryIterator;
@@ -24,35 +26,41 @@ use RegexIterator;
 use SplFileInfo;
 
 /**
- * Checks that tools/patch-oasis.php's corrections are present in the committed src/Oasis,
- * independent of whether that script was run: a regeneration without it must fail here, not
- * only in the script's own postcondition.
+ * Checks that tools/patch-oasis.php's corrections are present in the committed generated model
+ * of every version (src/V21/Oasis, src/V22/Oasis...), independent of whether that script was
+ * run: a regeneration without it must fail here, not only in the script's own postcondition.
  */
 #[CoversNothing]
 final class GeneratedCodeTest extends TestCase
 {
     #[Test]
-    public function noValidatorHelperClaimsAnUnprovenElementType(): void
+    #[DataProvider('versions')]
+    public function noValidatorHelperClaimsAnUnprovenElementType(string $version): void
     {
         $this->assertNoFileMatches(
+            $version,
             '/@param list<(?!mixed>)[^>]+> \$values\n\s*\*\/\n\s*private static function validate/',
             'still has a non-mixed list<> docblock on a validate*() helper'
         );
     }
 
     #[Test]
-    public function everyTimeElementDeclaresATimeFormat(): void
+    #[DataProvider('versions')]
+    public function everyTimeElementDeclaresATimeFormat(string $version): void
     {
         $this->assertNoFileMatches(
+            $version,
             '/#\[XmlElement\(name: \'\w*Time\', namespace: Ns::CBC(?:, required: true)?\)\]/',
             "has a '*Time' XmlElement missing format:"
         );
     }
 
     #[Test]
-    public function everyGeneratedClassIsArraySerializable(): void
+    #[DataProvider('versions')]
+    public function everyGeneratedClassIsArraySerializable(string $version): void
     {
         $this->assertNoFileMatches(
+            $version,
             '/^final class \w+\n\{\n/m',
             'is still missing ArraySerializableTrait',
             ['/Xml/', '/Enum/']
@@ -60,9 +68,11 @@ final class GeneratedCodeTest extends TestCase
     }
 
     #[Test]
-    public function everyGeneratedClassHasPrecomputedArrayMetadata(): void
+    #[DataProvider('versions')]
+    public function everyGeneratedClassHasPrecomputedArrayMetadata(string $version): void
     {
         $this->assertNoFileMatches(
+            $version,
             '/use ArraySerializableTrait;\n\n(?!    private const ARRAY_METADATA)/',
             'is still missing ARRAY_METADATA (ArraySerializableTrait would have to reflect it at runtime instead)',
             ['/Xml/', '/Enum/']
@@ -70,7 +80,8 @@ final class GeneratedCodeTest extends TestCase
     }
 
     #[Test]
-    public function everyClassLivesInTheDirectoryOfItsOwnXmlNamespace(): void
+    #[DataProvider('versions')]
+    public function everyClassLivesInTheDirectoryOfItsOwnXmlNamespace(string $version): void
     {
         // The generator puts everything that is not `Cbc` into `Cac`; patch-oasis.php moves the
         // few classes of other UBL component families (extension, signature) out of it.
@@ -84,7 +95,7 @@ final class GeneratedCodeTest extends TestCase
 
         $checked = 0;
         foreach ($namespaceOf as $directory => $constant) {
-            foreach (glob(self::oasisDir() . "/$directory/*.php") ?: [] as $path) {
+            foreach (glob(self::oasisDir($version) . "/$directory/*.php") ?: [] as $path) {
                 $source = file_get_contents($path);
                 $this->assertNotFalse($source);
 
@@ -105,7 +116,8 @@ final class GeneratedCodeTest extends TestCase
     }
 
     #[Test]
-    public function noCacElementIsTypedAsACbcBasicComponent(): void
+    #[DataProvider('versions')]
+    public function noCacElementIsTypedAsACbcBasicComponent(string $version): void
     {
         // The generator typed a `cac:` element whose name is also a `cbc:` element's (`Location`,
         // `Condition`) as the text of the `cbc:` one, and the aggregate lost all its content
@@ -114,24 +126,42 @@ final class GeneratedCodeTest extends TestCase
         $basic = 'Text|Code|Identifier|Amount|Quantity|Measure|Numeric|BinaryObject';
 
         $this->assertNoFileMatches(
-            '/Ns::CAC, type: (?:' . $basic . ')::class\)\]/',
+            $version,
+            '/Ns::CAC, type: (?:' . $basic . ')::class(?:, required: true)?\)\]/',
             'has a list of cac: elements typed as a cbc: basic component'
         );
         $this->assertNoFileMatches(
-            '/Ns::CAC\)\]\n    private \?(?:' . $basic . ') \$/',
+            $version,
+            '/Ns::CAC(?:, required: true)?\)\]\n    private \??(?:' . $basic . ') \$/',
             'has a cac: element typed as a cbc: basic component'
         );
     }
 
     #[Test]
-    public function aCacElementNamedLikeACbcOneKeepsItsContentThroughXml(): void
+    #[DataProvider('versions')]
+    public function noListOfABuiltinTypeIsTypedAsAClass(string $version): void
     {
+        // `type: bool::class` is, in a namespace, a class that does not exist, and `instanceof
+        // bool` is never true: `ElectronicPaymentUsageIndicator` (2.2 onwards, a list of booleans)
+        // rejected every value. patch-oasis.php writes `type: 'bool'` and `is_bool()`.
+        $this->assertNoFileMatches(
+            $version,
+            '/type: (?:bool|int|float|string)::class|instanceof (?:bool|int|float|string)\b/',
+            'types a list of a built-in type as a class'
+        );
+    }
+
+    #[Test]
+    #[DataProvider('versions')]
+    public function aCacElementNamedLikeACbcOneKeepsItsContentThroughXml(string $version): void
+    {
+        // The 2.1 example, read by the model of every version (they are backward compatible).
         $xml = (string) file_get_contents(
-            dirname(__DIR__, 2) . '/fixtures/doc/xml/GoodsItemItinerary/GoodsItemItinerary_001_official_example.xml'
+            dirname(__DIR__, 2) . '/fixtures/2.1/doc/xml/GoodsItemItinerary/GoodsItemItinerary_001_official_example.xml'
         );
 
         $serializer = new Serializer();
-        $out = $serializer->serialize((new Deserializer())->deserialize($xml, 'xml'), 'xml');
+        $out = $serializer->serialize((new Deserializer())->deserialize($xml, 'xml', ['version' => $version]), 'xml');
 
         // The `<cac:Location>` of the transport events holds an address, not text.
         $this->assertStringNotContainsString('<cac:Location/>', $out);
@@ -139,9 +169,10 @@ final class GeneratedCodeTest extends TestCase
     }
 
     #[Test]
-    public function documentRegistryGuardsItsRegexMatch(): void
+    #[DataProvider('versions')]
+    public function documentRegistryGuardsItsRegexMatch(string $version): void
     {
-        $source = file_get_contents(self::oasisDir() . '/Xml/DocumentRegistry.php');
+        $source = file_get_contents(self::oasisDir($version) . '/Xml/DocumentRegistry.php');
         $this->assertNotFalse($source);
 
         $this->assertStringContainsString(
@@ -154,9 +185,9 @@ final class GeneratedCodeTest extends TestCase
     /**
      * @param list<string> $excludePaths Path substrings of files this does not apply to.
      */
-    private function assertNoFileMatches(string $pattern, string $message, array $excludePaths = []): void
+    private function assertNoFileMatches(string $version, string $pattern, string $message, array $excludePaths = []): void
     {
-        foreach (self::oasisFiles() as $file) {
+        foreach (self::oasisFiles($version) as $file) {
             $path = $file->getPathname();
             foreach ($excludePaths as $exclude) {
                 if (str_contains($path, $exclude)) {
@@ -174,10 +205,10 @@ final class GeneratedCodeTest extends TestCase
     /**
      * @return Generator<SplFileInfo>
      */
-    private static function oasisFiles(): Generator
+    private static function oasisFiles(string $version): Generator
     {
         $files = new RegexIterator(
-            new RecursiveIteratorIterator(new RecursiveDirectoryIterator(self::oasisDir())),
+            new RecursiveIteratorIterator(new RecursiveDirectoryIterator(self::oasisDir($version))),
             '/\.php$/'
         );
 
@@ -187,8 +218,21 @@ final class GeneratedCodeTest extends TestCase
         }
     }
 
-    private static function oasisDir(): string
+    private static function oasisDir(string $version): string
     {
-        return dirname(__DIR__, 3) . '/src/Oasis';
+        return dirname(__DIR__, 3) . '/src/V' . str_replace('.', '', $version) . '/Oasis';
+    }
+
+    /**
+     * @return array<string, array{0: string}>
+     */
+    public static function versions(): array
+    {
+        $cases = [];
+        foreach (VersionRegistry::SUPPORTED as $version) {
+            $cases[$version] = [$version];
+        }
+
+        return $cases;
     }
 }

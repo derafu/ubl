@@ -23,10 +23,11 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * The JSON (and YAML, which is the same thing) that this package writes is the model-based
- * representation of "UBL 2.1 JSON Alternative Representation" v2.0 (OASIS Committee Note 01),
+ * representation of the "UBL JSON Alternative Representation" (OASIS Committee Note 01, for UBL
+ * 2.1, 2.2 and 2.3: the versions it exists for),
  * and these are the tests of that: the official JSON schemas of the note (bundled in
  * resources/schemas/json/2.1/, what JsonSchemaValidator uses) and its official examples
- * (tests/fixtures/doc/json/), both fetched by tools/fetch-oasis-json.php.
+ * (tests/fixtures/<version>/doc/json/), both fetched by tools/fetch-oasis-json.php.
  *
  * What is written is checked against the schema of its document, and the official XML and JSON
  * examples (the same documents in two syntaxes) have to give the same data.
@@ -39,6 +40,7 @@ use PHPUnit\Framework\TestCase;
 final class OasisJsonTest extends TestCase
 {
     use CanonicalizesDataTrait;
+    use FixturesTrait;
 
     /**
      * Every document that the official JSON examples have, read and written again as JSON,
@@ -46,11 +48,11 @@ final class OasisJsonTest extends TestCase
      */
     #[Test]
     #[DataProvider('jsonFixtures')]
-    public function whatIsWrittenFromAnOfficialJsonExampleValidatesAgainstTheSchema(string $path): void
+    public function whatIsWrittenFromAnOfficialJsonExampleValidatesAgainstTheSchema(string $version, string $path): void
     {
-        $document = (new Deserializer())->deserialize((string) file_get_contents($path), 'json');
+        $document = (new Deserializer())->deserialize((string) file_get_contents($path), 'json', ['version' => $version]);
 
-        $this->assertValid((new Serializer())->serialize($document, 'json'), $path);
+        $this->assertValid((new Serializer())->serialize($document, 'json'), $version, $path);
     }
 
     /**
@@ -58,11 +60,11 @@ final class OasisJsonTest extends TestCase
      */
     #[Test]
     #[DataProvider('xmlFixtures')]
-    public function theJsonWrittenFromAnOfficialXmlExampleValidatesAgainstTheSchema(string $path): void
+    public function theJsonWrittenFromAnOfficialXmlExampleValidatesAgainstTheSchema(string $version, string $path): void
     {
-        $document = (new Deserializer())->deserialize((string) file_get_contents($path), 'xml');
+        $document = (new Deserializer())->deserialize((string) file_get_contents($path), 'xml', ['version' => $version]);
 
-        $this->assertValid((new Serializer())->serialize($document, 'json'), $path);
+        $this->assertValid((new Serializer())->serialize($document, 'json'), $version, $path);
     }
 
     /**
@@ -70,11 +72,11 @@ final class OasisJsonTest extends TestCase
      */
     #[Test]
     #[DataProvider('yamlFixtures')]
-    public function theJsonWrittenFromAYamlFixtureValidatesAgainstTheSchema(string $path): void
+    public function theJsonWrittenFromAYamlFixtureValidatesAgainstTheSchema(string $version, string $path): void
     {
-        $document = (new Deserializer())->deserialize((string) file_get_contents($path), 'yaml');
+        $document = (new Deserializer())->deserialize((string) file_get_contents($path), 'yaml', ['version' => $version]);
 
-        $this->assertValid((new Serializer())->serialize($document, 'json'), $path);
+        $this->assertValid((new Serializer())->serialize($document, 'json'), $version, $path);
     }
 
     /**
@@ -82,27 +84,51 @@ final class OasisJsonTest extends TestCase
      * the XML, written as JSON, is the JSON example.
      */
     #[Test]
-    #[DataProvider('xmlFixtures')]
-    public function anOfficialXmlExampleWrittenAsJsonIsTheOfficialJsonExample(string $path): void
+    #[DataProvider('xmlFixturesWithAnOfficialJson')]
+    public function anOfficialXmlExampleWrittenAsJsonIsTheOfficialJsonExample(string $version, string $path): void
     {
-        $jsonPath = str_replace(['/xml/', '.xml'], ['/json/', '.json'], $path);
-        $this->assertFileExists($jsonPath);
+        $jsonPath = self::jsonOf($path);
 
         $fromXml = json_decode(
-            (new Serializer())->serialize((new Deserializer())->deserialize((string) file_get_contents($path), 'xml'), 'json'),
+            (new Serializer())->serialize(
+                (new Deserializer())->deserialize((string) file_get_contents($path), 'xml', ['version' => $version]),
+                'json'
+            ),
             true
         );
         $official = json_decode((string) file_get_contents($jsonPath), true);
 
-        $this->assertSame($this->canonical($official), $this->canonical($fromXml), $path);
+        // `_E`, the namespace of the extensions, is in the apex of the note's tool whenever the
+        // XML declares it, extensions or not (2.3's ExportCustomsDeclaration): it is only
+        // documentary, and this package writes it when there are extensions.
+        if (is_array($official) && is_array($fromXml)) {
+            unset($official['_E'], $fromXml['_E']);
+        }
+
+        $this->assertSame($this->trimmed($this->canonical($official)), $this->trimmed($this->canonical($fromXml)), $path);
     }
 
-    private function assertValid(string $json, string $path): void
+    /**
+     * The XML reader (`xterr/php-ubl`) trims the text of every element, and the JSON examples
+     * keep what the note's tool took from the XML: the 2.2 `PriorInformationNotice` example has a
+     * URI with a trailing space in its XML (an `xs:anyURI` collapses whitespace, so nothing is
+     * lost there). The comparison between the two is by the text without the margins.
+     */
+    private function trimmed(mixed $data): mixed
+    {
+        if (is_array($data)) {
+            return array_map(fn (mixed $item): mixed => $this->trimmed($item), $data);
+        }
+
+        return is_string($data) ? trim($data) : $data;
+    }
+
+    private function assertValid(string $json, string $version, string $path): void
     {
         $data = json_decode($json, true);
 
         try {
-            (new JsonSchemaValidator())->validate(is_array($data) ? $data : []);
+            (new JsonSchemaValidator())->validate(is_array($data) ? $data : [], $version);
         } catch (ValidationException $e) {
             $this->fail($path . ': ' . $e->getMessage());
         }
@@ -111,40 +137,40 @@ final class OasisJsonTest extends TestCase
     }
 
     /**
-     * @return array<string, array{0: string}>
+     * @return array<string, array{0: string, 1: string}>
      */
     public static function jsonFixtures(): array
     {
-        return self::glob('json');
+        return self::fixtures('json');
     }
 
     /**
-     * @return array<string, array{0: string}>
+     * @return array<string, array{0: string, 1: string}>
      */
     public static function xmlFixtures(): array
     {
-        return self::glob('xml');
+        return self::fixturesWithJsonSchemas('xml');
     }
 
     /**
-     * @return array<string, array{0: string}>
+     * The XML examples that OASIS also has a JSON example of (it ships a few of the JSON ones as
+     * empty files).
+     *
+     * @return array<string, array{0: string, 1: string}>
+     */
+    public static function xmlFixturesWithAnOfficialJson(): array
+    {
+        return array_filter(
+            self::fixturesWithJsonSchemas('xml'),
+            static fn (array $case): bool => is_file(self::jsonOf($case[1]))
+        );
+    }
+
+    /**
+     * @return array<string, array{0: string, 1: string}>
      */
     public static function yamlFixtures(): array
     {
-        return self::glob('yaml');
-    }
-
-    /**
-     * @return array<string, array{0: string}>
-     */
-    private static function glob(string $format): array
-    {
-        $dir = dirname(__DIR__, 2) . "/fixtures/doc/$format";
-        $cases = [];
-        foreach (glob("$dir/*/*.$format") ?: [] as $file) {
-            $cases[basename(dirname($file)) . '/' . basename($file)] = [$file];
-        }
-
-        return $cases;
+        return self::fixturesWithJsonSchemas('yaml');
     }
 }

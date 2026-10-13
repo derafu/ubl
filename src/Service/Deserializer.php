@@ -25,7 +25,7 @@ final class Deserializer implements DeserializerInterface
 
     public function deserialize(string $content, string $format, array $options = []): object
     {
-        foreach (array_diff(array_keys($options), [self::VALIDATE, self::CLASS_NAME]) as $option) {
+        foreach (array_diff(array_keys($options), [self::VALIDATE, self::CLASS_NAME, self::VERSION]) as $option) {
             throw new DeserializationException([
                 'Unknown deserialization option "{option}".',
                 'option' => (string) $option,

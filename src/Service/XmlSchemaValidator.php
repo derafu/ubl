@@ -12,23 +12,31 @@ declare(strict_types=1);
 
 namespace Derafu\Ubl\Service;
 
+use Derafu\Ubl\Contract\VersionInterface;
+use Derafu\Ubl\Contract\VersionRegistryInterface;
 use Derafu\Ubl\Contract\XmlValidatorInterface;
 use Derafu\Ubl\Exception\ValidationException;
 use DOMDocument;
 use LibXMLError;
 
 /**
- * Validates a document's XML directly against the official OASIS XSD bundled in
- * `resources/schemas/xsd/2.1/`, with nothing but `DOMDocument::schemaValidate()` and libxml's own error
+ * Validates a document's XML directly against the official OASIS XSD of its UBL version, bundled in
+ * `resources/schemas/xsd/<version>/`, with nothing but `DOMDocument::schemaValidate()` and libxml's own error
  * reporting: no `derafu/xml` dependency, so this package does not inherit its non-translatable
  * `XmlException`. The document type (and so, which XSD file to use) is resolved the same way
  * `Format\XmlHandler` resolves it for deserializing, via the shared `RootElementResolver`.
  */
 final class XmlSchemaValidator implements XmlValidatorInterface
 {
-    public function validate(string $xml): void
+    public function __construct(
+        private readonly VersionRegistryInterface $versions = new VersionRegistry(),
+    ) {
+    }
+
+    public function validate(string $xml, ?string $version = null): void
     {
-        $class = RootElementResolver::resolve($xml);
+        $version = $this->versions->get($version);
+        $class = RootElementResolver::resolve($xml, $version);
 
         if ($class === null) {
             throw new ValidationException([
@@ -36,7 +44,7 @@ final class XmlSchemaValidator implements XmlValidatorInterface
             ]);
         }
 
-        $xsd = $this->xsdPathFor($class);
+        $xsd = $this->xsdPathFor($class, $version);
 
         $dom = new DOMDocument();
         $previous = libxml_use_internal_errors(true);
@@ -70,11 +78,10 @@ final class XmlSchemaValidator implements XmlValidatorInterface
     /**
      * @param class-string $class
      */
-    private function xsdPathFor(string $class): string
+    private function xsdPathFor(string $class, VersionInterface $version): string
     {
         $parts = explode('\\', $class);
-        $shortName = (string) end($parts);
-        $path = dirname(__DIR__, 2) . "/resources/schemas/xsd/2.1/maindoc/UBL-{$shortName}-2.1.xsd";
+        $path = $version->getXsdPath((string) end($parts));
 
         if (!is_file($path)) {
             throw new ValidationException([

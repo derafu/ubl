@@ -1,0 +1,30 @@
+# DeliveryNote
+#
+# UBL 2.5's own definition (UBL-DeliveryNote-2.5.xsd): "DeliveryNote"
+#
+# Only what `DeliveryNote` marks `required: true` (see src/V25/Oasis/Doc/DeliveryNote.php)
+# is here: the smallest document of the model, written by tools/generate-yaml-fixtures.php.
+#
+# The structure is the model-based JSON representation of OASIS's "UBL JSON Alternative
+# Representation" (Committee Note), carried as YAML: the keys are the UBL element names, a value
+# (a BBIE) is always an object with its content under `_` and its attributes next to it, and only
+# what UBL allows more than once is a list. `_D`, `_A` and `_B` are the namespaces of the apex.
+#
+# Each field's comment is UBL's own definition of it (the `ccts:Definition` of the XSD).
+_D: urn:oasis:names:specification:ubl:schema:xsd:DeliveryNote-2
+_A: urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2
+_B: urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2
+DeliveryNote:
+  ID: # An identifier for this document, assigned by the sender.
+    _: '1'
+  IssueDate: # The date, assigned by the sender, on which this document was issued.
+    _: '2026-01-15'
+  DespatchSupplierParty: {} # The Party that executed the delivery.
+  DeliveryCustomerParty: {} # The Party to whom the goods or services were delivered.
+  DespatchLine: # A Despatch Line associated with a kind of item delivered.
+    - ID: # An identifier for this despatch line.
+        _: '1'
+      OrderLineReference: # A reference to an order line associated with this despatch line.
+        - LineID: # An identifier for the referenced order line, assigned by the buyer.
+            _: '1'
+      Item: {} # The item associated with this despatch line.
