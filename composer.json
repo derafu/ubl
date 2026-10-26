@@ -39,7 +39,9 @@
         "nikic/php-parser": "^5.9",
         "symfony/yaml": "^8.1",
         "xterr/php-ubl-generator": "^1.4",
-        "opis/json-schema": "^2.6"
+        "opis/json-schema": "^2.6",
+        "symfony/dependency-injection": "^8.1",
+        "symfony/config": "^8.1"
     },
     "scripts": {
         "docs": "php tools/phpdocumentor run --config=phpdoc.xml",
