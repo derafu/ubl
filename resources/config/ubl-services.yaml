@@ -7,7 +7,7 @@
 parameters:
     # The UBL version that is used when a call does not ask for one (see VersionRegistry).
     # 2.1 is the version of Peppol BIS Billing 3.0. Override it in your own services.yaml.
-    derafu_ubl.version: '2.1'
+    derafu.ubl.version: '2.1'
 
 services:
 
@@ -25,7 +25,7 @@ services:
     Derafu\Ubl\Contract\VersionRegistryInterface:
         class: Derafu\Ubl\Service\VersionRegistry
         arguments:
-            $default: '%derafu_ubl.version%'
+            $default: '%derafu.ubl.version%'
 
     Derafu\Ubl\Contract\XmlValidatorInterface:
         class: Derafu\Ubl\Service\XmlSchemaValidator

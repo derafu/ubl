@@ -1,0 +1,6 @@
+imports:
+    - { resource: '../../../resources/config/ubl-services.yaml' }
+
+services:
+    Derafu\TestsUbl\Fixture\NoteExtensionCodec:
+        tags: ['derafu_ubl.extension_content_codec']

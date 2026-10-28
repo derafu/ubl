@@ -20,7 +20,7 @@ use Derafu\Ubl\Exception\UnsupportedVersionException;
  * The versions of UBL this package has a model for, and the one that is used by default.
  *
  * The default is `2.1`, the version of Peppol BIS Billing 3.0 and of most of the world's
- * e-invoicing. An application changes it in its own services (`derafu_ubl.version`), and any call
+ * e-invoicing. An application changes it in its own services (`derafu.ubl.version`), and any call
  * can ask for another one (`['version' => '2.2']`).
  *
  * The version is chosen, never detected: every 2.x version has the same XML namespaces and

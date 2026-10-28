@@ -52,12 +52,13 @@ final class ServicesTest extends TestCase
         $root = dirname(__DIR__, 2);
         $container = new ContainerBuilder();
         $loader = new YamlFileLoader($container, new FileLocator($root . '/resources/config'));
-        $loader->load('ubl-services.yaml');
+        $loader->load($codec
+            ? $root . '/tests/fixtures/config/codec-services.yaml'
+            : 'ubl-services.yaml');
         if ($version !== null) {
-            $container->setParameter('derafu_ubl.version', $version);
+            $container->setParameter('derafu.ubl.version', $version);
         }
         if ($codec) {
-            $container->register(NoteExtensionCodec::class)->addTag('derafu_ubl.extension_content_codec');
             $this->assertArrayHasKey(NoteExtensionCodec::class, $container->findTaggedServiceIds('derafu_ubl.extension_content_codec'));
         }
         $this->assertArrayHasKey(
