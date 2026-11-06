@@ -24,6 +24,8 @@ use Derafu\Ubl\Service\ExtensionContentCodecs;
 use Derafu\Ubl\Service\JsonSchemaValidator;
 use Derafu\Ubl\Service\Normalizer;
 use Derafu\Ubl\Service\VersionRegistry;
+use Derafu\Value\Exception\ValueException;
+use Derafu\Value\ValueType;
 
 /**
  * Shared by the format handlers whose wire format is a plain array (`json`, `yaml`): the
@@ -82,7 +84,15 @@ abstract class ArrayFormatHandler implements FormatHandlerInterface
 
         $payload = $this->extensions->decode($payload);
 
-        return $resolvedClass::fromArray($payload);
+        try {
+            return ValueType::instanceOf($resolvedClass)->parse($resolvedClass::fromArray($payload));
+        } catch (ValueException $e) {
+            throw new DeserializationException([
+                'The document built from the content is not an instance of {class}: {reason}',
+                'class' => $resolvedClass,
+                'reason' => $e,
+            ], previous: $e);
+        }
     }
 
     /**
@@ -115,7 +125,16 @@ abstract class ArrayFormatHandler implements FormatHandlerInterface
         }
 
         $root = $this->versions->forClass($document::class)->rootElementFor($document::class);
-        $data = $this->extensions->encode($document->toArray());
+        try {
+            $array = ValueType::map()->parse($document->toArray(), 'toArray()');
+        } catch (ValueException $e) {
+            throw new SerializationException([
+                'The toArray() of {class} did not return an array: {reason}',
+                'class' => $document::class,
+                'reason' => $e,
+            ], previous: $e);
+        }
+        $data = $this->extensions->encode($array);
 
         $apex = [];
         if ($root !== null) {

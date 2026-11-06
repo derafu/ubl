@@ -19,6 +19,10 @@ use Derafu\Ubl\Service\Deserializer;
 use Derafu\Ubl\Service\FormatHandlerFactory;
 use Derafu\Ubl\Service\Serializer;
 use Derafu\Ubl\Service\VersionRegistry;
+use Derafu\Ubl\V22\Oasis\Cac\PostAwardProcess as V22PostAwardProcess;
+use Derafu\Ubl\V23\Oasis\Cac\PostAwardProcess as V23PostAwardProcess;
+use Derafu\Ubl\V24\Oasis\Cac\PostAwardProcess as V24PostAwardProcess;
+use Derafu\Ubl\V25\Oasis\Cac\PostAwardProcess as V25PostAwardProcess;
 use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -298,6 +302,7 @@ final class MultiVersionTest extends TestCase
     #[DataProvider('versionsWithAListOfBooleans')]
     public function aListOfBooleansTakesBooleans(string $version): void
     {
+        /** @var class-string<V22PostAwardProcess>|class-string<V23PostAwardProcess>|class-string<V24PostAwardProcess>|class-string<V25PostAwardProcess> $class */
         $class = 'Derafu\\Ubl\\V' . str_replace('.', '', $version) . '\\Oasis\\Cac\\PostAwardProcess';
         $data = ['ElectronicPaymentUsageIndicator' => [['_' => true], ['_' => false]]];
 
@@ -320,7 +325,7 @@ final class MultiVersionTest extends TestCase
     }
 
     /**
-     * @param array<string, mixed> $data
+     * @param array<array-key, mixed> $data
      */
     private function at(array $data, string ...$keys): mixed
     {
@@ -335,12 +340,16 @@ final class MultiVersionTest extends TestCase
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array<array-key, mixed>
      */
     private function toArray(object $document): array
     {
         $this->assertTrue(method_exists($document, 'toArray'));
+        $data = $document->toArray();
+        if (!is_array($data)) {
+            $this->fail('toArray() did not return an array: ' . get_debug_type($data));
+        }
 
-        return $document->toArray();
+        return $data;
     }
 }

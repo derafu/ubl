@@ -52,11 +52,38 @@ use Exception;
 trait ArraySerializableTrait
 {
     /**
+     * The `ARRAY_METADATA` of the class, with its declared shape instead of the literal value.
+     *
+     * @return array{
+     *     isValueType: bool,
+     *     properties: list<array{
+     *         property: string,
+     *         name: null,
+     *         kind: 'value',
+     *         list: bool,
+     *         item: string|null,
+     *         format: string|null
+     *     }|array{
+     *         property: string,
+     *         name: string,
+     *         kind: 'element'|'attribute',
+     *         list: bool,
+     *         item: string|null,
+     *         format: string|null
+     *     }>
+     * }
+     */
+    private static function metadata(): array
+    {
+        return self::ARRAY_METADATA;
+    }
+
+    /**
      * @return array<string, mixed>
      */
     public function toArray(): array
     {
-        return self::ARRAY_METADATA['isValueType']
+        return self::metadata()['isValueType']
             ? $this->valueToArray()
             : $this->elementsToArray();
     }
@@ -69,7 +96,7 @@ trait ArraySerializableTrait
     {
         $instance = new static();
 
-        if (self::ARRAY_METADATA['isValueType']) {
+        if (self::metadata()['isValueType']) {
             self::hydrateValue($instance, $data);
         } else {
             self::hydrateElements($instance, $data);
@@ -94,7 +121,7 @@ trait ArraySerializableTrait
         $attributes = [];
         $value = null;
 
-        foreach (self::ARRAY_METADATA['properties'] as $property) {
+        foreach (self::metadata()['properties'] as $property) {
             if ($property['kind'] === 'value') {
                 $value = self::get($this, $property['property']);
             } elseif ($property['kind'] === 'attribute') {
@@ -124,7 +151,7 @@ trait ArraySerializableTrait
         $result = [];
         $scaffolding = self::isScaffolding(static::class);
 
-        foreach (self::ARRAY_METADATA['properties'] as $property) {
+        foreach (self::metadata()['properties'] as $property) {
             if ($property['name'] === null) {
                 continue;
             }
@@ -245,7 +272,7 @@ trait ArraySerializableTrait
             ]);
         }
 
-        foreach (self::ARRAY_METADATA['properties'] as $property) {
+        foreach (self::metadata()['properties'] as $property) {
             if ($property['kind'] === 'value') {
                 $value = $data['_'];
                 if (is_array($value)) {
@@ -275,7 +302,7 @@ trait ArraySerializableTrait
     {
         $scaffolding = self::isScaffolding(static::class);
 
-        foreach (self::ARRAY_METADATA['properties'] as $property) {
+        foreach (self::metadata()['properties'] as $property) {
             if ($property['name'] === null || !array_key_exists($property['name'], $data)) {
                 continue;
             }

@@ -14,6 +14,9 @@ namespace Derafu\Ubl\Service;
 
 use Derafu\Ubl\Contract\ExtensionContentCodecInterface;
 use Derafu\Ubl\Exception\DeserializationException;
+use Derafu\Ubl\Exception\SerializationException;
+use Derafu\Value\Exception\ValueException;
+use Derafu\Value\ValueType;
 
 /**
  * Applies the `ExtensionContentCodecInterface` of each extension of a document, in the
@@ -45,9 +48,20 @@ final class ExtensionContentCodecs
         return $this->apply($document, function (ExtensionContentCodecInterface $codec, array $content): array {
             $fragments = $content['any'] ?? null;
 
-            return is_array($fragments) && array_is_list($fragments)
-                ? $codec->encode($fragments)
-                : $content;
+            if (!is_array($fragments) || !array_is_list($fragments)) {
+                return $content;
+            }
+
+            try {
+                $fragments = ValueType::listOf(ValueType::string())->parse($fragments, 'any');
+            } catch (ValueException $e) {
+                throw new SerializationException([
+                    'The XML fragments of an extension are not a list of strings: {reason}',
+                    'reason' => $e,
+                ], previous: $e);
+            }
+
+            return $codec->encode($fragments);
         }, false);
     }
 
@@ -59,15 +73,29 @@ final class ExtensionContentCodecs
      */
     public function decode(array $document): array
     {
-        return $this->apply($document, fn (ExtensionContentCodecInterface $codec, array $content): array => isset($content['any'])
-                ? $content
-                : ['any' => $codec->decode($content)], true);
+        return $this->apply($document, function (ExtensionContentCodecInterface $codec, array $content): array {
+            if (isset($content['any'])) {
+                return $content;
+            }
+
+            try {
+                $content = ValueType::map()->parse($content, 'ExtensionContent');
+            } catch (ValueException $e) {
+                throw new DeserializationException([
+                    'The content of an extension is not an object: {reason}',
+                    'reason' => $e,
+                ], previous: $e);
+            }
+
+            return ['any' => $codec->decode($content)];
+        }, true);
     }
 
     /**
-     * @param array<array-key, mixed> $document
+     * @template K of array-key
+     * @param array<K, mixed> $document
      * @param callable(ExtensionContentCodecInterface, array<array-key, mixed>): array<array-key, mixed> $convert
-     * @return array<array-key, mixed>
+     * @return array<K, mixed>
      */
     private function apply(array $document, callable $convert, bool $strict): array
     {

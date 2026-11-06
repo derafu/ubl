@@ -40,6 +40,16 @@ return [
         '"{property}" de {class} debe tener una propiedad "_" con su contenido.',
     'The content of the extension "{uri}" is not XML fragments and no codec supports it.' =>
         'El contenido de la extensión "{uri}" no son fragmentos XML y ningún codec lo soporta.',
+    'The XML fragments of an extension are not a list of strings: {reason}' =>
+        'Los fragmentos XML de una extensión no son una lista de strings: {reason}',
+    'The content of an extension is not an object: {reason}' =>
+        'El contenido de una extensión no es un objeto: {reason}',
+    'The document built from the content is not an instance of {class}: {reason}' =>
+        'El documento construido desde el contenido no es una instancia de {class}: {reason}',
+    'The toArray() of {class} did not return an array: {reason}' =>
+        'El toArray() de {class} no devolvió un array: {reason}',
+    '{class} does not validate against its UBL schema and its errors cannot be read: {reason}' =>
+        '{class} no valida contra su esquema UBL y sus errores no se pueden leer: {reason}',
 
     // JSON.
     'Could not encode {class} as JSON: {message}' =>

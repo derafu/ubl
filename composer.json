@@ -26,7 +26,9 @@
     },
     "require": {
         "php": "^8.5",
+        "derafu/signature": "dev-main",
         "derafu/translation": "dev-main",
+        "derafu/value": "dev-main",
         "xterr/php-ubl": "1.2.0"
     },
     "require-dev": {

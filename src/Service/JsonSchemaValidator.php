@@ -17,6 +17,8 @@ use Derafu\Ubl\Contract\VersionInterface;
 use Derafu\Ubl\Contract\VersionRegistryInterface;
 use Derafu\Ubl\Exception\ValidationException;
 use Derafu\Ubl\Service\Format\EmptyObjects;
+use Derafu\Value\Exception\ValueException;
+use Derafu\Value\ValueType;
 use JsonException;
 use Opis\JsonSchema\Errors\ErrorFormatter;
 use Opis\JsonSchema\Validator;
@@ -87,9 +89,20 @@ final class JsonSchemaValidator implements JsonValidatorInterface
             return;
         }
 
-        $errors = $result->error() === null
-            ? []
-            : $this->flatten((new ErrorFormatter())->formatKeyed($result->error()));
+        $errors = [];
+        if ($result->error() !== null) {
+            try {
+                $byPointer = ValueType::mapOf(ValueType::listOf(ValueType::string()))
+                    ->parse((new ErrorFormatter())->formatKeyed($result->error()), 'errors');
+            } catch (ValueException $e) {
+                throw new ValidationException([
+                    '{class} does not validate against its UBL schema and its errors cannot be read: {reason}',
+                    'class' => $document,
+                    'reason' => $e,
+                ], previous: $e);
+            }
+            $errors = $this->flatten($byPointer);
+        }
 
         throw new ValidationException([
             '{class} does not validate against its UBL schema: {errors}',

@@ -132,10 +132,13 @@ final class SignedDocumentTest extends TestCase
         $data = $document->toArray();
 
         $fragments = [];
-        foreach ($data['UBLExtensions'] ?? [] as $extensions) {
-            foreach ($extensions['UBLExtension'] ?? [] as $extension) {
-                foreach ($extension['ExtensionContent'] ?? [] as $content) {
-                    foreach ($content['any'] ?? [] as $fragment) {
+        foreach ($this->children($data, 'UBLExtensions') as $extensions) {
+            foreach ($this->children($extensions, 'UBLExtension') as $extension) {
+                foreach ($this->children($extension, 'ExtensionContent') as $content) {
+                    foreach ($this->children($content, 'any') as $fragment) {
+                        if (!is_string($fragment)) {
+                            $this->fail('A fragment is not a string: ' . get_debug_type($fragment));
+                        }
                         $fragments[] = $fragment;
                     }
                 }
@@ -143,5 +146,24 @@ final class SignedDocumentTest extends TestCase
         }
 
         return $fragments;
+    }
+
+    /**
+     * The items under `$key` of `$node` (none when it is not there).
+     *
+     * @return array<array-key, mixed>
+     */
+    private function children(mixed $node, string $key): array
+    {
+        if (!is_array($node)) {
+            $this->fail('Expected an array to read "' . $key . '", got ' . get_debug_type($node));
+        }
+
+        $children = $node[$key] ?? [];
+        if (!is_array($children)) {
+            $this->fail('Expected "' . $key . '" to be an array, got ' . get_debug_type($children));
+        }
+
+        return $children;
     }
 }

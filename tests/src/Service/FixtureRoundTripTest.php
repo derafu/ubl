@@ -259,7 +259,7 @@ final class FixtureRoundTripTest extends TestCase
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array<array-key, mixed>
      */
     private function toArray(mixed $document): array
     {
@@ -267,7 +267,12 @@ final class FixtureRoundTripTest extends TestCase
             $this->fail('Deserialized value is not array-serializable: ' . get_debug_type($document));
         }
 
-        return $document->toArray();
+        $data = $document->toArray();
+        if (!is_array($data)) {
+            $this->fail('toArray() did not return an array: ' . get_debug_type($data));
+        }
+
+        return $data;
     }
 
     /**
