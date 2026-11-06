@@ -1,0 +1,23 @@
+# Optional wiring of the signature of the documents, for apps using symfony/dependency-injection.
+# Import it after `ubl-services.yaml`, from your own services.yaml:
+#
+#   imports:
+#       - { resource: '../vendor/derafu/ubl/resources/config/ubl-services.yaml' }
+#       - { resource: '../vendor/derafu/ubl/resources/config/ubl-signature-services.yaml' }
+#
+# The signer and the validator use the services of derafu/signature
+# (`Derafu\Signature\Contract\SignatureGeneratorInterface` and
+# `Derafu\Signature\Contract\SignatureValidatorInterface`), that the app has to have.
+
+services:
+
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Derafu\Ubl\Contract\SignerInterface:
+        class: Derafu\Ubl\Service\Signer
+
+    Derafu\Ubl\Contract\SignatureValidatorInterface:
+        class: Derafu\Ubl\Service\SignatureValidator

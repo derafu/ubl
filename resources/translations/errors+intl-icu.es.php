@@ -102,4 +102,36 @@ return [
         'El contenido es un {actual}, no el {expected} que se pidió.',
     'Unknown deserialization option "{option}".' =>
         'Opción de deserialización desconocida "{option}".',
+
+    // Signature of the documents (UBL Digital Signature Profile).
+    'The options of the signature are not valid: {detail}' =>
+        'Las opciones de la firma no son válidas: {detail}',
+    '{class} is not a UBL document of this package.' =>
+        '{class} no es un documento UBL de este paquete.',
+    'The document already has signatures inside: give its XML to add another one.' =>
+        'El documento ya tiene firmas en su interior: se debe dar su XML para agregar otra.',
+    'A document that has signatures inside can not get a detached one: its signatures would not be valid.' =>
+        'Un documento que tiene firmas en su interior no puede recibir una firma separada: sus firmas dejarían de ser válidas.',
+    'The document does not have a cac:Signature with the cbc:ID "{id}".' =>
+        'El documento no tiene un cac:Signature con el cbc:ID "{id}".',
+    'The document already has a cac:Signature with the cbc:ID "{id}".' =>
+        'El documento ya tiene un cac:Signature con el cbc:ID "{id}".',
+    'The document already has a sac:SignatureInformation with the cbc:ID "{id}".' =>
+        'El documento ya tiene un sac:SignatureInformation con el cbc:ID "{id}".',
+    'The resource "{uri}" can not be resolved.' =>
+        'No se puede obtener el recurso "{uri}".',
+
+    // Validation of the signatures of the documents.
+    'An extension with signatures does not have the ext:ExtensionURI that says so.' =>
+        'Una extensión con firmas no tiene el ext:ExtensionURI que lo indica.',
+    'The ext:ExtensionURI "{uri}" of an extension with signatures is not one of the profile.' =>
+        'El ext:ExtensionURI "{uri}" de una extensión con firmas no es uno de los del perfil.',
+    'The sbc:ReferencedSignatureID "{id}" is not the cbc:ID of a cac:Signature of the document.' =>
+        'El sbc:ReferencedSignatureID "{id}" no es el cbc:ID de un cac:Signature del documento.',
+    'The cbc:SignatureMethod "{method}" of the cac:Signature "{id}" is not one of the enveloped profile.' =>
+        'El cbc:SignatureMethod "{method}" del cac:Signature "{id}" no es uno del perfil enveloped.',
+    'The Id "{id}" of a signature or of its value is not unique in the document.' =>
+        'El Id "{id}" de una firma o de su valor no es único en el documento.',
+    'The cbc:SignatureMethod "{method}" of a cac:Signature with a signature outside of the document is not one of the detached profile.' =>
+        'El cbc:SignatureMethod "{method}" de un cac:Signature con una firma fuera del documento no es uno del perfil detached.',
 ];

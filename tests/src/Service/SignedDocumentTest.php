@@ -12,9 +12,16 @@ declare(strict_types=1);
 
 namespace Derafu\TestsUbl\Service;
 
+use Derafu\Signature\Service\SignatureGenerator;
+use Derafu\Signature\Service\SignatureValidator as XmlSignatureValidator;
 use Derafu\Ubl\Service\Deserializer;
 use Derafu\Ubl\Service\Serializer;
+use Derafu\Ubl\Service\SignatureValidator;
 use Derafu\Ubl\Service\VersionRegistry;
+use Derafu\Xml\Service\XmlDecoder;
+use Derafu\Xml\Service\XmlEncoder;
+use Derafu\Xml\Service\XmlService;
+use Derafu\Xml\Service\XmlValidator;
 use DOMDocument;
 use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -28,6 +35,11 @@ use PHPUnit\Framework\TestCase;
  * strings) has to be that text, and the parts of `xterr/php-ubl` that read and write it are
  * patched for that (`tools/patch-xterr-ubl.php`): a fragment stands on its own, and is written
  * as it was read.
+ *
+ * The signature itself is validated too: it is of the text of the whole document (the
+ * transform leaves out only the `sig:UBLDocumentSignatures`), so it is valid for the XML as it
+ * was signed, and not for the document that the model writes from it: a signed document is
+ * validated from its text, not from the model.
  */
 #[CoversNothing]
 final class SignedDocumentTest extends TestCase
@@ -98,6 +110,42 @@ final class SignedDocumentTest extends TestCase
         $this->addToAssertionCount(1);
     }
 
+    #[Test]
+    public function theSignatureOfTheExampleIsValid(): void
+    {
+        $results = $this->xmlSignatureValidator()->validateXml((string) file_get_contents(self::SIGNED));
+
+        $this->assertCount(1, $results);
+        $this->assertTrue($results[0]->isValid(), (string) $results[0]->getError()?->getMessage());
+    }
+
+    #[Test]
+    public function theSignatureOfTheExampleIsValidForTheProfileExceptForTheUriOfItsExtension(): void
+    {
+        $report = (new SignatureValidator($this->xmlSignatureValidator()))->validate((string) file_get_contents(self::SIGNED));
+
+        $this->assertTrue($report->areSignaturesValid());
+        // The example of OASIS does not have the `ext:ExtensionURI` that the profile requires.
+        $this->assertSame(
+            ['An extension with signatures does not have the ext:ExtensionURI that says so.'],
+            array_map(static fn ($issue): string => $issue->getMessage(), $report->getIssues())
+        );
+    }
+
+    #[Test]
+    #[DataProvider('versions')]
+    public function theSignatureIsOfTheTextThatWasSignedAndNotOfWhatTheModelWritesFromIt(string $version): void
+    {
+        $written = (new Serializer())->serialize($this->read($version), 'xml');
+
+        // The signature is written as it was read (see above), but the document around it is not
+        // the text that the signature covers.
+        $results = $this->xmlSignatureValidator()->validateXml($written);
+
+        $this->assertCount(1, $results);
+        $this->assertFalse($results[0]->isValid());
+    }
+
     private function read(string $version): object
     {
         return (new Deserializer())->deserialize(
@@ -165,5 +213,12 @@ final class SignedDocumentTest extends TestCase
         }
 
         return $children;
+    }
+
+    private function xmlSignatureValidator(): XmlSignatureValidator
+    {
+        $xmlService = new XmlService(new XmlEncoder(), new XmlDecoder(), new XmlValidator());
+
+        return new XmlSignatureValidator(new SignatureGenerator($xmlService), $xmlService);
     }
 }

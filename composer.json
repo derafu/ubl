@@ -26,9 +26,12 @@
     },
     "require": {
         "php": "^8.5",
+        "derafu/certificate": "dev-main",
+        "derafu/config": "dev-main",
         "derafu/signature": "dev-main",
         "derafu/translation": "dev-main",
         "derafu/value": "dev-main",
+        "symfony/options-resolver": "^8.1",
         "xterr/php-ubl": "1.2.0"
     },
     "require-dev": {
